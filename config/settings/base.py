@@ -36,7 +36,7 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +44,29 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+PROJECT_APPS = [
+    "apps.accounts",
+    "apps.academics",
+    "apps.admissions",
+    "apps.alumni",
+    "apps.attendance",
+    "apps.cafeteria",
+    "apps.core",
+    "apps.documents",
+    "apps.fees",
+    "apps.grades",
+    "apps.health",
+    "apps.library",
+    "apps.messaging",
+    "apps.schedule",
+    "apps.staff",
+    "apps.students",
+    "apps.tenants",
+    "apps.transport",
+]
+
+INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

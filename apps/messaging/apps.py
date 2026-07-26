@@ -3,5 +3,5 @@ from django.apps import AppConfig
 
 default_auto_field = "django.db.models.BigAutoField"
 
-class AccountsConfig(AppConfig):
-    name = "apps.accounts"
+class MessagingConfig(AppConfig):
+    name = "apps.messaging"
