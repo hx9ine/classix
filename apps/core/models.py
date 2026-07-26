@@ -34,3 +34,12 @@ class TimeStampedModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class BaseModel(UUIDModel, TimeStampedModel):
+    """
+    Base model providing a UUID primary key and timestamp fields.
+    """
+
+    class Meta:
+        abstract = True
