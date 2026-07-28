@@ -80,6 +80,16 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'config.urls'
 
+AUTH_USER_MODEL = "accounts.User"
+
+AUTHENTICATION_BACKENDS = [
+    "apps.accounts.backends.TenantAuthenticationBackend",
+]
+
+LOGIN_URL = "accounts:login"
+LOGIN_REDIRECT_URL = "dashboard:index"
+LOGOUT_REDIRECT_URL = "accounts:login"
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -87,9 +97,11 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "apps.core.context_processors.navigation",
             ],
         },
     },
@@ -147,4 +159,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "/static/"
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]

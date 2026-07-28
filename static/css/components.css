@@ -1,0 +1,270 @@
+/* ---------- Card ---------- */
+
+.cx-card{
+
+    background:var(--color-white);
+
+    border:1px solid var(--color-border);
+
+    border-radius:var(--radius-lg);
+
+    box-shadow:var(--shadow-sm);
+
+    padding:var(--space-5);
+}
+
+/* ---------- Alert ---------- */
+
+.cx-alert{
+
+    padding:var(--space-3);
+
+    border-radius:var(--radius-md);
+
+    margin-bottom:var(--space-3);
+
+    border:1px solid transparent;
+}
+
+.cx-alert-success{
+
+    background:#ecfdf5;
+
+    border-color:#a7f3d0;
+}
+
+.cx-alert-error{
+
+    background:#fef2f2;
+
+    border-color:#fecaca;
+}
+
+.cx-alert-warning{
+
+    background:#fffbeb;
+
+    border-color:#fde68a;
+}
+
+.cx-alert-info{
+
+    background:#eff6ff;
+
+    border-color:#bfdbfe;
+}
+
+
+/* ---------- Button ---------- */
+
+.cx-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:var(--space-2);
+
+    padding:12px 20px;
+
+    border:none;
+
+    border-radius:var(--radius-md);
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.2s ease;
+}
+
+.cx-btn:hover{
+
+    opacity:.92;
+}
+
+.cx-btn--primary{
+
+    background:var(--color-accent);
+
+    color:var(--color-white);
+}
+
+.cx-btn--secondary{
+
+    background:var(--color-white);
+
+    color:var(--color-ink);
+
+    border:1px solid var(--color-border);
+}
+
+.cx-btn--success{
+
+    background:var(--color-moss);
+
+    color:white;
+}
+
+.cx-btn--danger{
+
+    background:#dc2626;
+
+    color:white;
+}
+
+
+/* ---------- Form ---------- */
+
+.cx-form-group{
+
+    margin-bottom:var(--space-4);
+}
+
+.cx-label{
+
+    display:block;
+
+    margin-bottom:var(--space-2);
+
+    font-weight:600;
+}
+
+.cx-help{
+
+    display:block;
+
+    margin-top:4px;
+
+    color:var(--color-slate);
+
+    font-size:.875rem;
+}
+
+.cx-error{
+
+    margin-top:4px;
+
+    color:#dc2626;
+
+    font-size:.875rem;
+}
+
+.cx-form-group input,
+.cx-form-group select,
+.cx-form-group textarea{
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid var(--color-border);
+
+    border-radius:var(--radius-md);
+
+    background:var(--color-white);
+}
+
+.cx-form-group input:focus,
+.cx-form-group select:focus,
+.cx-form-group textarea:focus{
+
+    outline:none;
+
+    border-color:var(--color-accent);
+}
+
+
+/* ---------- Badge ---------- */
+
+.cx-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    padding:4px 10px;
+
+    border-radius:999px;
+
+    font-size:.75rem;
+
+    font-weight:600;
+}
+
+.cx-badge--default{
+
+    background:#F3F4F6;
+
+    color:var(--color-ink);
+}
+
+.cx-badge--success{
+
+    background:#DCFCE7;
+
+    color:#166534;
+}
+
+.cx-badge--warning{
+
+    background:#FEF3C7;
+
+    color:#92400E;
+}
+
+.cx-badge--danger{
+
+    background:#FEE2E2;
+
+    color:#991B1B;
+}
+
+
+/* ---------- License Chip ---------- */
+
+.cx-license-chip{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-width:72px;
+
+    padding:4px 10px;
+
+    border-radius:999px;
+
+    background:#EEF2FF;
+
+    color:var(--color-accent);
+
+    font-size:.75rem;
+
+    font-weight:600;
+}
+
+
+/* ---------- Top Bar ---------- */
+
+.cx-topbar{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:var(--space-5);
+}
+
+.cx-topbar__title{
+
+    margin:0;
+
+    font-size:1.5rem;
+}

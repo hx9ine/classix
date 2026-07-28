@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load components %}
+
+{% block title %}
+Login | ClassiX
+{% endblock %}
+
+{% block content %}
+
+<div class="page">
+    <div class="container">
+
+        {% component "card" %}
+
+            <h1>ClassiX Login</h1>
+
+            {% include "components/alert.html" %}
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                {% include "components/form_field.html" with field=form.email %}
+
+                {% include "components/form_field.html" with field=form.password %}
+
+                {% include "components/button.html" with type="submit" label="Sign In" variant="primary" %}
+
+                <!-- <button type="submit">
+                    Sign In
+                </button> -->
+
+            </form>
+
+        {% endcomponent %}
+
+    </div>
+</div>
+
+{% endblock %}

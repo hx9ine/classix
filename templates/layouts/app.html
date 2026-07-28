@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block body %}
+<div class="cx-app">
+
+    {% include "sidebar/sidebar.html" %}
+
+    <main class="cx-app__main">
+
+        {% block topbar %}
+        {% endblock %}
+
+        <section class="cx-app__content">
+            {% block content %}
+            {% endblock %}
+        </section>
+
+    </main>
+
+</div>
+
+<script src="{% static 'js/sidebar.js' %}"></script>
+
+{% endblock %}

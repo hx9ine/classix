@@ -2,6 +2,8 @@ import uuid
 
 from django.db import models
 
+from apps.tenants.managers import TenantManager
+
 
 class UUIDModel(models.Model):
     """
@@ -40,6 +42,20 @@ class BaseModel(UUIDModel, TimeStampedModel):
     """
     Base model providing a UUID primary key and timestamp fields.
     """
+
+    class Meta:
+        abstract = True
+
+
+class TenantModel(BaseModel):
+    tenant = models.ForeignKey(
+        "tenants.Tenant",
+        on_delete=models.CASCADE,
+        related_name="%(app_label)s_%(class)ss",
+    )
+
+    objects = TenantManager()
+    all_objects = models.Manager()
 
     class Meta:
         abstract = True

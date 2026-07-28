@@ -1,0 +1,52 @@
+{% if item.children %}
+
+<div class="cx-sidebar__menu">
+
+    <button
+        type="button"
+        class="cx-sidebar__item"
+        aria-expanded="false">
+
+        <span class="cx-sidebar__item-icon">
+            {{ item.icon|safe }}
+        </span>
+
+        <span class="cx-sidebar__item-label">
+            {{ item.label }}
+        </span>
+
+        <span class="cx-sidebar__item-toggle">
+
+            <span class="cx-sidebar__toggle-icon">
+
+                <span class="cx-sidebar__toggle-icon-line cx-sidebar__toggle-icon-horizontal"></span>
+
+                <span class="cx-sidebar__toggle-icon-line cx-sidebar__toggle-icon-vertical"></span>
+
+            </span>
+
+        </span>
+
+    </button>
+
+    {% include "sidebar/submenu.html" with children=item.children %}
+
+</div>
+
+{% else %}
+
+<a
+    href="{{ item.url }}"
+    class="cx-sidebar__item">
+
+    <span class="cx-sidebar__item-icon">
+        {{ item.icon|safe }}
+    </span>
+
+    <span class="cx-sidebar__item-label">
+        {{ item.label }}
+    </span>
+
+</a>
+
+{% endif %}

@@ -1,0 +1,13 @@
+{% if group.title %}
+    <section class="cx-sidebar__group">
+
+        <h2 class="cx-sidebar__group-title">
+            {{ group.title }}
+        </h2>
+
+        {% for item in group.items %}
+            {% include "sidebar/item.html" with item=item %}
+        {% endfor %}
+
+    </section>
+{% endif %}

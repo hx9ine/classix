@@ -1,0 +1,9 @@
+<div class="cx-sidebar__submenu">
+
+    {% for child in children %}
+        <a href="{{ child.url }}">
+            {{ child.label }}
+        </a>
+    {% endfor %}
+
+</div>

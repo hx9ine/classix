@@ -1,0 +1,15 @@
+<aside class="cx-sidebar">
+
+    {% include "sidebar/branding.html" %}
+
+    <nav class="cx-sidebar__nav">
+
+        {% for group in navigation %}
+            {% include "sidebar/group.html" with group=group %}
+        {% endfor %}
+
+    </nav>
+
+    {% include "sidebar/footer.html" %}
+
+</aside>
