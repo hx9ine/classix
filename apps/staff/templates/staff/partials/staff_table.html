@@ -1,0 +1,89 @@
+<table class="cx-table">
+
+    <thead>
+
+        <tr>
+
+            <th>Name</th>
+            <th>Role</th>
+            <th>Phone</th>
+            <th>Joining Date</th>
+            <th>Status</th>
+            <th class="cx-actions-column">Actions</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% for staff_member in staff %}
+
+        <tr>
+
+            <td>
+
+                <a href="{% url 'staff:staff_detail' staff_member.pk %}">
+                    {{ staff_member.first_name }} {{ staff_member.last_name }}
+                </a>
+
+            </td>
+
+            <td>
+                {{ staff_member.role.name }}
+            </td>
+
+            <td>
+                {{ staff_member.phone|default:"—" }}
+            </td>
+
+            <td>
+                {{ staff_member.joining_date }}
+            </td>
+
+            <td>
+
+                {% if staff_member.employment_status == "active" %}
+
+                    <span class="cx-badge cx-badge-success">
+                        Active
+                    </span>
+
+                {% else %}
+
+                    <span class="cx-badge cx-badge-secondary">
+                        Inactive
+                    </span>
+
+                {% endif %}
+
+            </td>
+
+            <td class="cx-actions">
+
+                {% url "staff:staff_update" staff_member.pk as edit_url %}
+                {% url "staff:staff_delete" staff_member.pk as delete_url %}
+
+                {% include "components/actions/button.html" with label="Edit" variant="secondary" size="sm" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                {% include "components/actions/button.html" with label="Delete" variant="danger" size="sm" hx_get=delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+            </td>
+
+        </tr>
+
+        {% empty %}
+
+        <tr>
+
+            <td colspan="6" class="cx-empty-state">
+                No staff members found.
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>

@@ -1,7 +1,9 @@
+from django.http import HttpResponse
+
 from apps.core.htmx import htmx_success
 
 
-def crud_success(
+def render_success(
     *,
     request,
     template: str,
@@ -21,3 +23,21 @@ def crud_success(
         context=context,
         event=event,
     )
+
+
+def redirect_success(
+    *,
+    url: str,
+    event: str = "modal:close",
+):
+    """
+    HTMX success response that closes the modal
+    and redirects the browser.
+    """
+
+    response = HttpResponse()
+
+    response["HX-Redirect"] = url
+    response["HX-Trigger"] = event
+
+    return response

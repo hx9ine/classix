@@ -1,0 +1,38 @@
+{% extends "layouts/app.html" %}
+
+{% load components %}
+
+{% block title %}
+Roles
+{% endblock %}
+
+{% block content %}
+
+{% component "navigation/page_header" title="Roles" subtitle="Manage staff roles and permissions." %}
+{% endcomponent %}
+
+<div class="cx-page-actions">
+
+    {% url "rbac:role_create" as create_url %}
+
+    {% include "components/actions/button.html" with label="New Role" variant="primary" hx_get=create_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+</div>
+
+<div
+    id="role-table"
+    hx-get="{% url 'rbac:role_list' %}"
+    hx-trigger="load"
+    hx-target="this"
+    hx-swap="innerHTML"
+>
+
+    <div class="cx-loading">
+        Loading roles...
+    </div>
+
+</div>
+
+<div id="modal-container"></div>
+
+{% endblock %}

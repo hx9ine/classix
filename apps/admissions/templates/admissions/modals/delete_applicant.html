@@ -1,0 +1,35 @@
+{% load components %}
+
+{% component "layout/modal" title="Delete Applicant" subtitle="This action cannot be undone." %}
+
+<form
+    method="post"
+    hx-post="{{ request.path }}"
+    hx-target="#applicant-table"
+    hx-swap="innerHTML"
+>
+
+    {% csrf_token %}
+
+    <p class="cx-delete-message">
+        Are you sure you want to delete
+        <strong>{{ applicant.full_name }}</strong>?
+    </p>
+
+    <div class="cx-form-actions">
+
+        <button
+            type="button"
+            class="cx-btn cx-btn--secondary"
+            data-modal-close
+        >
+            Cancel
+        </button>
+
+        {% include "components/actions/button.html" with label="Delete" variant="danger" type="submit" %}
+
+    </div>
+
+</form>
+
+{% endcomponent %}

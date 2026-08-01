@@ -1,0 +1,74 @@
+{% load components %}
+
+{% component "layout/modal" title=title subtitle="Create or update an applicant." %}
+
+<form
+    method="post"
+    hx-post="{{ request.path }}"
+    hx-target="#applicant-table"
+    hx-swap="innerHTML"
+>
+
+    {% csrf_token %}
+
+    {% component "forms/section" title="Applicant Information" description="Provide the applicant's details below." %}
+
+        <div class="cx-form-row">
+
+            {% include "components/forms/field.html" with field=form.first_name %}
+
+            {% include "components/forms/field.html" with field=form.last_name %}
+
+        </div>
+
+        <div class="cx-form-row">
+
+            {% include "components/forms/field.html" with field=form.dob %}
+
+            {% include "components/forms/field.html" with field=form.gender %}
+
+        </div>
+
+        <div class="cx-form-row">
+
+            {% include "components/forms/field.html" with field=form.applying_for_class_level %}
+
+        </div>
+
+    {% endcomponent %}
+
+    {% component "forms/section" title="Guardian Information" description="Provide the guardian's contact details." %}
+
+        <div class="cx-form-row">
+
+            {% include "components/forms/field.html" with field=form.guardian_name %}
+
+            {% include "components/forms/field.html" with field=form.guardian_phone %}
+
+        </div>
+
+        <div class="cx-form-row">
+
+            {% include "components/forms/field.html" with field=form.guardian_email %}
+
+        </div>
+
+    {% endcomponent %}
+
+    {% component "forms/section" title="Admission" description="Admission status and entrance assessment." %}
+
+        <div class="cx-form-row">
+
+            {% include "components/forms/field.html" with field=form.status %}
+
+            {% include "components/forms/field.html" with field=form.entrance_score %}
+
+        </div>
+
+    {% endcomponent %}
+
+    {% include "components/forms/actions.html" with submit_label=submit_label cancel_label="Cancel" %}
+
+</form>
+
+{% endcomponent %}

@@ -9,7 +9,7 @@ from ..services import (
     update_academic_session,
 )
 
-from apps.core.crud import crud_success
+from apps.core.crud import render_success
 
 from apps.core.htmx import (
     htmx_modal,
@@ -61,7 +61,7 @@ def academic_session_create(request):
                 tenant=request.tenant,
             )
 
-            return crud_success(
+            return render_success(
                 request=request,
                 template="academic_structure/partials/session_table.html",
                 context={
@@ -113,7 +113,7 @@ def academic_session_update(request, pk):
                 tenant=request.tenant,
             )
 
-            return crud_success(
+            return render_success(
                 request=request,
                 template="academic_structure/partials/session_table.html",
                 context={
@@ -159,7 +159,7 @@ def academic_session_delete(request, pk):
             tenant=request.tenant,
         )
 
-        return crud_success(
+        return render_success(
             request=request,
             template="academic_structure/partials/session_table.html",
             context={

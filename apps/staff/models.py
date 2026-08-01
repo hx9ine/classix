@@ -18,10 +18,9 @@ class Staff(TenantModel):
     Phase 1:
         - Profile information
         - Role assignment
-        - License consumption
 
-    Phase 4 extends this with:
-        - Leave
+    Phase 4:
+        - Leave management
         - Payroll
         - Teacher assignments
     """
@@ -42,22 +41,16 @@ class Staff(TenantModel):
         max_length=100,
     )
 
-    photo = models.ImageField(
+    photo_url = models.ImageField(
         upload_to="staff/photos/",
         null=True,
         blank=True,
     )
 
-    staff_role_label = models.CharField(
-        max_length=100,
-        editable=False,
-        help_text="Denormalized display label. Source of truth is role.",
-    )
-
     role = models.ForeignKey(
         Role,
         on_delete=models.PROTECT,
-        related_name="staff_members",
+        related_name="staff",
     )
 
     employment_status = models.CharField(
@@ -94,4 +87,7 @@ class Staff(TenantModel):
 
     @property
     def is_active(self):
-        return self.employment_status == EmploymentStatus.ACTIVE
+        return (
+            self.employment_status
+            == EmploymentStatus.ACTIVE
+        )

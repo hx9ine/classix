@@ -1,0 +1,40 @@
+{% load components %}
+
+{% component "layout/modal" title=title %}
+
+<form
+    method="post"
+    hx-post="{{ post_url }}"
+    {% if target %}
+    hx-target="{{ target }}"
+    hx-swap="innerHTML"
+    {% endif %}
+>
+
+    {% csrf_token %}
+
+    <div class="cx-form-grid">
+
+        {% include "components/forms/field.html" with field=form.first_name %}
+        {% include "components/forms/field.html" with field=form.last_name %}
+
+        {% include "components/forms/field.html" with field=form.dob %}
+        {% include "components/forms/field.html" with field=form.gender %}
+
+        {% include "components/forms/field.html" with field=form.academic_session %}
+        {% include "components/forms/field.html" with field=form.section %}
+
+        {% include "components/forms/field.html" with field=form.roll_number %}
+        {% include "components/forms/field.html" with field=form.blood_group %}
+
+        {% include "components/forms/field.html" with field=form.previous_school %}
+
+        {% include "components/forms/field.html" with field=form.address %}
+
+    </div>
+
+    {% include "components/forms/actions.html" with submit_label=submit_label cancel_label="Cancel" %}
+
+</form>
+
+{% endcomponent %}

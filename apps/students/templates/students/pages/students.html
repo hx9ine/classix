@@ -1,0 +1,30 @@
+{% extends "layouts/app.html" %}
+
+{% load components %}
+
+{% block title %}
+Students
+{% endblock %}
+
+{% block content %}
+
+{% component "navigation/page_header" title="Students" subtitle="Manage enrolled students." %}
+{% endcomponent %}
+
+<div
+    id="student-table"
+    hx-get="{% url 'students:student_list' %}"
+    hx-trigger="load"
+    hx-target="this"
+    hx-swap="innerHTML"
+>
+
+    <div class="cx-loading">
+        Loading students...
+    </div>
+
+</div>
+
+<div id="modal-container"></div>
+
+{% endblock %}

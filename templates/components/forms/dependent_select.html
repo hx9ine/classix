@@ -1,0 +1,33 @@
+<div class="cx-field">
+
+    {{ field.label_tag }}
+
+    <div class="cx-dependent-select">
+
+        {{ field }}
+
+        <button
+            type="button"
+            class="cx-link-button"
+            hx-get="{{ create_url }}"
+            hx-target="#nested-modal-container"
+            hx-swap="innerHTML"
+        >
+            + {{ create_label }}
+        </button>
+
+    </div>
+
+    {% if field.help_text %}
+        <div class="cx-help-text">
+            {{ field.help_text }}
+        </div>
+    {% endif %}
+
+    {% for error in field.errors %}
+        <div class="cx-field-error">
+            {{ error }}
+        </div>
+    {% endfor %}
+
+</div>

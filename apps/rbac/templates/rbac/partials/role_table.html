@@ -1,0 +1,101 @@
+{% load components %}
+
+<table class="cx-table">
+
+    <thead>
+
+        <tr>
+
+            <th>Role</th>
+            <th>License Category</th>
+            <th>Type</th>
+            <th>Editable</th>
+            <th class="cx-actions-column">Actions</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% for role in roles %}
+
+        <tr>
+
+            <td>
+
+                <a href="#">
+                    {{ role.name }}
+                </a>
+
+            </td>
+
+            <td>
+                {{ role.get_license_category_display }}
+            </td>
+
+            <td>
+
+                {% if role.tenant %}
+
+                    Tenant
+
+                {% else %}
+
+                    System
+
+                {% endif %}
+
+            </td>
+
+            <td>
+
+                {% if role.is_editable %}
+
+                    Yes
+
+                {% else %}
+
+                    No
+
+                {% endif %}
+
+            </td>
+
+            <td class="cx-actions">
+
+                {% if role.is_editable %}
+
+                    {% url "rbac:role_update" role.pk as edit_url %}
+
+                    {% include "components/actions/button.html" with label="Edit" variant="secondary" size="sm" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                {% else %}
+
+                    <span class="cx-text-muted">—</span>
+
+                {% endif %}
+
+            </td>
+
+        </tr>
+
+        {% empty %}
+
+        <tr>
+
+            <td colspan="5">
+
+                <div class="cx-empty-state">
+                    No roles found.
+                </div>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>

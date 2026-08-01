@@ -9,7 +9,7 @@ from ..services import (
     update_class_level,
 )
 
-from apps.core.crud import crud_success
+from apps.core.crud import render_success
 
 from apps.core.htmx import (
     htmx_modal,
@@ -61,7 +61,7 @@ def class_level_create(request):
                 form=form,
             )
 
-            return crud_success(
+            return render_success(
                 request=request,
                 template="academic_structure/partials/class_level_table.html",
                 context={
@@ -109,7 +109,7 @@ def class_level_update(request, pk):
                 form=form,
             )
 
-            return crud_success(
+            return render_success(
                 request=request,
                 template="academic_structure/partials/class_level_table.html",
                 context={
@@ -153,7 +153,7 @@ def class_level_delete(request, pk):
             instance=class_level,
         )
 
-        return crud_success(
+        return render_success(
             request=request,
             template="academic_structure/partials/class_level_table.html",
             context={

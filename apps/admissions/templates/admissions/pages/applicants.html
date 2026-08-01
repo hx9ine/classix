@@ -1,0 +1,38 @@
+{% extends "layouts/app.html" %}
+
+{% load components %}
+
+{% block title %}
+Applicants
+{% endblock %}
+
+{% block content %}
+
+{% component "navigation/page_header" title="Applicants" subtitle="Manage student applications and admissions." %}
+{% endcomponent %}
+
+<div class="cx-page-actions">
+
+    {% url "admissions:applicant_create" as create_url %}
+
+    {% include "components/actions/button.html" with label="New Applicant" variant="primary" hx_get=create_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+</div>
+
+<div
+    id="applicant-table"
+    hx-get="{% url 'admissions:applicant_list' %}"
+    hx-trigger="load"
+    hx-target="this"
+    hx-swap="innerHTML"
+>
+
+    <div class="cx-loading">
+        Loading applicants...
+    </div>
+
+</div>
+
+<div id="modal-container"></div>
+
+{% endblock %}

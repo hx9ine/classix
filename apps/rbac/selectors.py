@@ -1,41 +1,85 @@
-from __future__ import annotations
+from django.shortcuts import get_object_or_404
 
-from uuid import UUID
-
-from django.db.models import QuerySet
-
-from apps.tenants.models import Tenant
-
-from .models import Role, RolePermission
+from .models import (
+    Role,
+    RolePermission,
+)
 
 
-def get_role(
-    *,
-    tenant: Tenant,
-    role_id: UUID,
-) -> Role | None:
+# ============================================================================
+# Role Selectors
+# ============================================================================
+
+def get_roles(tenant):
     """
-    Retrieve a tenant-specific role by ID.
+    Return all roles available to a tenant.
+
+    Includes:
+    - System role templates
+    - Tenant-specific roles
     """
+
     return (
-        Role.objects.filter(
-            tenant=tenant,
-            id=role_id,
+        Role.objects
+        .filter(
+            tenant__in=[tenant, None],
         )
-        .first()
+        .order_by("name")
+    )
+
+
+def get_tenant_roles(tenant):
+    """
+    Return only tenant-owned roles.
+    """
+
+    return (
+        Role.objects
+        .filter(
+            tenant=tenant,
+        )
+        .order_by("name")
+    )
+
+
+def get_system_roles():
+    """
+    Return all system role templates.
+    """
+
+    return (
+        Role.objects
+        .filter(
+            tenant__isnull=True,
+        )
+        .order_by("name")
+    )
+
+
+def get_role(tenant, pk):
+    """
+    Return a single role available to the tenant.
+    """
+
+    return get_object_or_404(
+        Role,
+        pk=pk,
+        tenant__in=[tenant, None],
     )
 
 
 def get_role_by_name(
     *,
-    tenant: Tenant,
-    name: str,
-) -> Role | None:
+    tenant,
+    name,
+):
     """
-    Retrieve a tenant-specific role by name.
+    Return a tenant-owned role by name.
     """
+
     return (
-        Role.objects.filter(
+        Role.objects
+        .filter(
             tenant=tenant,
             name=name,
         )
@@ -43,15 +87,14 @@ def get_role_by_name(
     )
 
 
-def get_system_role_by_name(
-    *,
-    name: str,
-) -> Role | None:
+def get_system_role_by_name(name):
     """
-    Retrieve a system role template by name.
+    Return a system role template by name.
     """
+
     return (
-        Role.objects.filter(
+        Role.objects
+        .filter(
             tenant__isnull=True,
             name=name,
         )
@@ -59,45 +102,20 @@ def get_system_role_by_name(
     )
 
 
-def get_system_roles() -> QuerySet[Role]:
+# ============================================================================
+# Permission Selectors
+# ============================================================================
+
+def get_role_permissions(role):
     """
-    Return all system role templates.
+    Return permissions assigned to a role.
     """
+
     return (
-        Role.objects.filter(
-            tenant__isnull=True,
-        )
-        .order_by("name")
-    )
-
-
-def get_tenant_roles(
-    *,
-    tenant: Tenant,
-) -> QuerySet[Role]:
-    """
-    Return all roles belonging to a tenant.
-    """
-    return (
-        Role.objects.filter(
-            tenant=tenant,
-        )
-        .order_by("name")
-    )
-
-
-def get_role_permissions(
-    *,
-    role: Role,
-) -> QuerySet[RolePermission]:
-    """
-    Return all permissions assigned to a role.
-    """
-    return (
-        RolePermission.objects.filter(
+        RolePermission.objects
+        .filter(
             role=role,
         )
-        .select_related("role")
         .order_by(
             "module",
             "action",
@@ -107,21 +125,26 @@ def get_role_permissions(
 
 def has_permission(
     *,
-    role: Role,
-    module: RolePermission.Module,
-    action: RolePermission.Action,
-) -> bool:
+    role,
+    module,
+    action,
+):
     """
-    Check whether a role has permission to perform an action.
+    Check whether a role has a permission.
 
     Admin roles bypass permission checks.
     """
+
     if role.is_admin_role:
         return True
 
-    return RolePermission.objects.filter(
-        role=role,
-        module=module,
-        action=action,
-        allowed=True,
-    ).exists()
+    return (
+        RolePermission.objects
+        .filter(
+            role=role,
+            module=module,
+            action=action,
+            allowed=True,
+        )
+        .exists()
+    )

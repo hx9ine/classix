@@ -1,0 +1,66 @@
+{% load components %}
+
+{% component "layout/modal" title=title subtitle="Complete the enrollment details." %}
+
+<form
+    method="post"
+    hx-post="{{ request.path }}"
+    hx-target="#applicant-table"
+    hx-swap="innerHTML"
+>
+
+    {% csrf_token %}
+
+    {% component "forms/section" title="Applicant" description="Review the applicant before enrollment." %}
+
+        <div class="cx-form-row">
+
+            <div class="cx-form-field">
+
+                <label>Name</label>
+
+                <div class="cx-static-field">
+                    {{ applicant.full_name }}
+                </div>
+
+            </div>
+
+            <div class="cx-form-field">
+
+                <label>Applying For</label>
+
+                <div class="cx-static-field">
+                    {{ applicant.applying_for_class_level.name }}
+                </div>
+
+            </div>
+
+        </div>
+
+    {% endcomponent %}
+
+    {% component "forms/section" title="Enrollment" description="Assign the student to an academic session and section." %}
+
+        <div class="cx-form-row">
+
+            {% include "components/forms/field.html" with field=form.academic_session %}
+
+            {% include "components/forms/field.html" with field=form.section %}
+
+        </div>
+
+        <div class="cx-form-row">
+
+            {% include "components/forms/field.html" with field=form.roll_number %}
+
+            {% include "components/forms/field.html" with field=form.enrollment_date %}
+
+        </div>
+
+    {% endcomponent %}
+
+    {% include "components/forms/actions.html" with submit_label=submit_label cancel_label="Cancel" %}
+
+</form>
+
+{% endcomponent %}

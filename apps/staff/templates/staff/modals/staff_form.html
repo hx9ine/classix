@@ -1,0 +1,39 @@
+{% load components %}
+
+{% component "layout/modal" title=title %}
+
+<form
+    method="post"
+    enctype="multipart/form-data"
+    hx-post="{{ post_url }}"
+    {% if target %}
+    hx-target="{{ target }}"
+    hx-swap="innerHTML"
+    {% endif %}
+>
+
+    {% csrf_token %}
+
+    <div class="cx-form-grid">
+
+        {% include "components/forms/field.html" with field=form.first_name %}
+        {% include "components/forms/field.html" with field=form.last_name %}
+
+        {% url "rbac:role_create_inline" as create_role_url %}
+
+        {% include "components/forms/dependent_select.html" with field=form.role create_url=create_role_url create_label="Create Role" %}
+
+        {% include "components/forms/field.html" with field=form.joining_date %}
+
+        {% include "components/forms/field.html" with field=form.phone %}
+        {% include "components/forms/field.html" with field=form.photo_url %}
+
+    </div>
+
+    {% include "components/forms/actions.html" with submit_label=submit_label cancel_label="Cancel" %}
+
+</form>
+
+<div id="nested-modal-container"></div>
+
+{% endcomponent %}

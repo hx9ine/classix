@@ -1,0 +1,89 @@
+{% extends "layouts/app.html" %}
+
+{% load components %}
+
+{% block title %}
+{{ staff.full_name }}
+{% endblock %}
+
+{% block content %}
+
+{% component "navigation/page_header" title=staff.full_name subtitle=staff.role.name %}
+{% endcomponent %}
+
+<div class="cx-grid">
+
+    <div class="cx-card">
+
+        <h3>Staff Information</h3>
+
+        <table class="cx-table">
+
+            <tbody>
+
+                <tr>
+                    <th>First Name</th>
+                    <td>{{ staff.first_name }}</td>
+                </tr>
+
+                <tr>
+                    <th>Last Name</th>
+                    <td>{{ staff.last_name }}</td>
+                </tr>
+
+                <tr>
+                    <th>Role</th>
+                    <td>{{ staff.role.name }}</td>
+                </tr>
+
+                <tr>
+                    <th>Status</th>
+                    <td>{{ staff.get_employment_status_display }}</td>
+                </tr>
+
+                <tr>
+                    <th>Phone</th>
+                    <td>{{ staff.phone|default:"—" }}</td>
+                </tr>
+
+                <tr>
+                    <th>Joining Date</th>
+                    <td>{{ staff.joining_date }}</td>
+                </tr>
+
+                <tr>
+                    <th>Portal User</th>
+                    <td>
+
+                        {% if staff.user %}
+
+                            {{ staff.user.email }}
+
+                        {% else %}
+
+                            —
+
+                        {% endif %}
+
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<div class="cx-page-actions">
+
+    {% url "staff:staff_profile_update" staff.pk as edit_url %}
+
+    {% include "components/actions/button.html" with label="Edit Staff" variant="primary" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+</div>
+
+<div id="modal-container"></div>
+
+{% endblock %}

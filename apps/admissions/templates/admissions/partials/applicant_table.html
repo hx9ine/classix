@@ -1,0 +1,145 @@
+{% load components %}
+
+{% if applicants %}
+
+<div class="cx-table-wrapper">
+
+    <table class="cx-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Applicant</th>
+
+                <th>Gender</th>
+
+                <th>Date of Birth</th>
+
+                <th>Applying For</th>
+
+                <th>Guardian</th>
+
+                <th>Status</th>
+
+                <th class="cx-text-center">Actions</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for applicant in applicants %}
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+
+                            {{ applicant.full_name }}
+
+                        </strong>
+
+                    </td>
+
+                    <td>{{ applicant.get_gender_display }}</td>
+
+                    <td>
+
+                        {{ applicant.dob|date:"M d, Y" }}
+
+                    </td>
+
+                    <td>
+
+                        {{ applicant.applying_for_class_level.name }}
+
+                    </td>
+
+                    <td>
+
+                        <div>
+
+                            <strong>{{ applicant.guardian_name }}</strong>
+
+                        </div>
+
+                        <div class="cx-text-muted">
+
+                            {{ applicant.guardian_phone }}
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        {% if applicant.status == "inquiry" %}
+
+                            {% include "components/data/badge.html" with label="Inquiry" variant="secondary" %}
+
+                        {% elif applicant.status == "applied" %}
+
+                            {% include "components/data/badge.html" with label="Applied" variant="primary" %}
+
+                        {% elif applicant.status == "interview" %}
+
+                            {% include "components/data/badge.html" with label="Interview" variant="warning" %}
+
+                        {% elif applicant.status == "accepted" %}
+
+                            {% include "components/data/badge.html" with label="Accepted" variant="success" %}
+
+                        {% elif applicant.status == "rejected" %}
+
+                            {% include "components/data/badge.html" with label="Rejected" variant="danger" %}
+
+                        {% elif applicant.status == "enrolled" %}
+
+                            {% include "components/data/badge.html" with label="Enrolled" variant="success" %}
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <div class="cx-table-actions">
+
+                            {% if applicant.status == "accepted" %}
+
+                                {% url "admissions:applicant_enroll" applicant.pk as enroll_url %}
+
+                                {% include "components/actions/button.html" with label="Enroll" variant="primary" hx_get=enroll_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                            {% endif %}
+
+                            {% url "admissions:applicant_update" applicant.pk as edit_url %}
+
+                            {% include "components/actions/button.html" with label="Edit" variant="secondary" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                            {% url "admissions:applicant_delete" applicant.pk as delete_url %}
+
+                            {% include "components/actions/button.html" with label="Delete" variant="danger" hx_get=delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% else %}
+
+    {% include "components/data/empty_state.html" with title="No Applicants" message="Create your first applicant to get started." %}
+
+{% endif %}

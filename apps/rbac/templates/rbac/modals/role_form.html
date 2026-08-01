@@ -1,0 +1,26 @@
+{% load components %}
+
+{% component "layout/modal" title=title %}
+
+<form
+    method="post"
+    hx-post="{{ post_url }}"
+    {% if target %}
+    hx-target="{{ target }}"
+    hx-swap="innerHTML"
+    {% endif %}
+>
+
+    {% csrf_token %}
+
+    <div class="cx-form-grid">
+
+        {% include "components/forms/field.html" with field=form.name %}
+
+    </div>
+
+    {% include "components/forms/actions.html" with submit_label=submit_label cancel_label="Cancel" %}
+
+</form>
+
+{% endcomponent %}
