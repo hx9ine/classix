@@ -1,0 +1,22 @@
+<button
+    type="{{ type|default:'button' }}"
+    class="cx-btn cx-btn--{{ variant|default:'primary' }}{% if class_name %} {{ class_name }}{% endif %}"
+
+    {% if id %}id="{{ id }}"{% endif %}
+    {% if name %}name="{{ name }}"{% endif %}
+    {% if value %}value="{{ value }}"{% endif %}
+
+    {% if hx_get %}hx-get="{{ hx_get }}"{% endif %}
+    {% if hx_post %}hx-post="{{ hx_post }}"{% endif %}
+    {% if hx_target %}hx-target="{{ hx_target }}"{% endif %}
+    {% if hx_swap %}hx-swap="{{ hx_swap }}"{% endif %}
+    {% if hx_trigger %}hx-trigger="{{ hx_trigger }}"{% endif %}
+    {% if hx_confirm %}hx-confirm="{{ hx_confirm }}"{% endif %}
+    {% if hx_on_click %}hx-on:click="{{ hx_on_click }}"{% endif %}
+
+    {% if disabled %}disabled{% endif %}
+>
+
+    {{ label }}
+
+</button>

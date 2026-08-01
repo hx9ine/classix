@@ -1,0 +1,99 @@
+{% load components %}
+
+{% if sessions %}
+
+<div class="cx-table-wrapper">
+
+    <table class="cx-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Name</th>
+
+                <th>Start Date</th>
+
+                <th>End Date</th>
+
+                <th>Current</th>
+
+                <th class="cx-text-center">Actions</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for session in sessions %}
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+
+                            {{ session.name }}
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        {{ session.start_date|date:"M d, Y" }}
+
+                    </td>
+
+                    <td>
+
+                        {{ session.end_date|date:"M d, Y" }}
+
+                    </td>
+
+                    <td>
+
+                        {% if session.is_current %}
+
+                            {% include "components/data/badge.html" with label="Current" variant="success" %}
+
+                        {% else %}
+
+                            {% include "components/data/badge.html" with label="Inactive" variant="default" %}
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <div class="cx-table-actions">
+
+                            {% url "academic_structure:academic_session_update" session.pk as edit_url %}
+
+                            {% include "components/actions/button.html" with label="Edit" variant="secondary" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                            {% url "academic_structure:academic_session_delete" session.pk as delete_url %}
+
+                            {% include "components/actions/button.html" with label="Delete" variant="danger" hx_get=delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% else %}
+
+    {% include "components/data/empty_state.html" with title="No Academic Sessions" message="Create your first academic session to get started." %}
+
+{% endif %}

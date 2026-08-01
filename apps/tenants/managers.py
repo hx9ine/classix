@@ -23,7 +23,7 @@ class TenantManager(models.Manager):
     """
 
     def get_queryset(self):
-        return TenantQuerySet(
-            self.model,
-            using=self._db,
-        ).for_current_tenant()
+        return (
+            TenantQuerySet(self.model, using=self._db)
+            .for_current_tenant()
+        )

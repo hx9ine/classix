@@ -6,18 +6,24 @@ Login | ClassiX
 {% endblock %}
 
 {% block content %}
-
 <div class="page">
     <div class="container">
 
         {% component "card" %}
 
-            <h1>ClassiX Login</h1>
+            <h1>Welcome back</h1>
+
+            <p class="text-muted">
+                Sign in to continue to ClassiX.
+            </p>
 
             {% include "components/alert.html" %}
 
-            <form method="post">
-
+            <form
+                method="post"
+                action="{% url 'accounts:login' %}"
+                autocomplete="on"
+            >
                 {% csrf_token %}
 
                 {% include "components/form_field.html" with field=form.email %}
@@ -26,15 +32,10 @@ Login | ClassiX
 
                 {% include "components/button.html" with type="submit" label="Sign In" variant="primary" %}
 
-                <!-- <button type="submit">
-                    Sign In
-                </button> -->
-
             </form>
 
         {% endcomponent %}
 
     </div>
 </div>
-
 {% endblock %}

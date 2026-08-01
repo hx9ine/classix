@@ -1,0 +1,75 @@
+{% load components %}
+
+{% if class_levels %}
+
+<div class="cx-table-wrapper">
+
+    <table class="cx-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Class Level</th>
+
+                <th>Sort Order</th>
+
+                <th class="cx-text-center">Actions</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for class_level in class_levels %}
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+
+                            {{ class_level.name }}
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        {{ class_level.sort_order }}
+
+                    </td>
+
+                    <td>
+
+                        <div class="cx-table-actions">
+
+                            {% url "academic_structure:class_level_update" class_level.pk as edit_url %}
+
+                            {% include "components/actions/button.html" with label="Edit" variant="secondary" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                            {% url "academic_structure:class_level_delete" class_level.pk as delete_url %}
+
+                            {% include "components/actions/button.html" with label="Delete" variant="danger" hx_get=delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% else %}
+
+    {% include "components/data/empty_state.html" with title="No Class Levels" message="Create your first class level to get started." %}
+
+{% endif %}

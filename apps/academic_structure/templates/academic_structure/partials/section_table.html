@@ -1,0 +1,83 @@
+{% load components %}
+
+{% if sections %}
+
+<div class="cx-table-wrapper">
+
+    <table class="cx-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Academic Session</th>
+
+                <th>Class Level</th>
+
+                <th>Section</th>
+
+                <th class="cx-text-center">Actions</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for section in sections %}
+
+                <tr>
+
+                    <td>
+
+                        {{ section.academic_session.name }}
+
+                    </td>
+
+                    <td>
+
+                        {{ section.class_level.name }}
+
+                    </td>
+
+                    <td>
+
+                        <strong>
+
+                            {{ section.name }}
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        <div class="cx-table-actions">
+
+                            {% url "academic_structure:section_update" section.pk as edit_url %}
+
+                            {% include "components/actions/button.html" with label="Edit" variant="secondary" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                            {% url "academic_structure:section_delete" section.pk as delete_url %}
+
+                            {% include "components/actions/button.html" with label="Delete" variant="danger" hx_get=delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% else %}
+
+    {% include "components/data/empty_state.html" with title="No Sections" message="Create your first section to get started." %}
+
+{% endif %}

@@ -1,26 +1,46 @@
 <div class="cx-form-group">
 
     {% if field.label %}
+
         <label
-            class="cx-label"
             for="{{ field.id_for_label }}"
+            class="cx-label"
         >
+
             {{ field.label }}
+
+            {% if field.field.required %}
+                <span class="cx-required">*</span>
+            {% endif %}
+
         </label>
+
     {% endif %}
 
     {{ field }}
 
     {% if field.help_text %}
+
         <small class="cx-help">
+
             {{ field.help_text }}
+
         </small>
+
     {% endif %}
 
-    {% for error in field.errors %}
+    {% if field.errors %}
+
         <div class="cx-error">
-            {{ error }}
+
+            {% for error in field.errors %}
+
+                <div>{{ error }}</div>
+
+            {% endfor %}
+
         </div>
-    {% endfor %}
+
+    {% endif %}
 
 </div>

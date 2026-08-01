@@ -1,0 +1,72 @@
+<div class="cx-modal">
+
+    <div
+        class="cx-modal__overlay"
+        hx-on:click="this.closest('.cx-modal').remove()"
+    ></div>
+
+    <div
+        class="cx-modal__dialog {{ variant|default:'' }}"
+        role="dialog"
+        aria-modal="true"
+    >
+
+        <header class="cx-modal__header">
+
+            <div class="cx-modal__title">
+
+                {% if title %}
+                    <h2>{{ title }}</h2>
+                {% endif %}
+
+                {% if subtitle %}
+                    <p>{{ subtitle }}</p>
+                {% endif %}
+
+            </div>
+
+            <button
+                type="button"
+                class="cx-modal__close"
+                aria-label="Close"
+                hx-on:click="this.closest('.cx-modal').remove()"
+            >
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path d="M18 6 6 18"/>
+                    <path d="m6 6 12 12"/>
+                </svg>
+
+            </button>
+
+        </header>
+
+        <div class="cx-modal__body">
+
+            {{ slot|safe }}
+
+        </div>
+
+        {% if footer %}
+
+        <footer class="cx-modal__footer">
+
+            {{ footer|safe }}
+
+        </footer>
+
+        {% endif %}
+
+    </div>
+
+</div>

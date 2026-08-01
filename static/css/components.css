@@ -268,3 +268,846 @@
 
     font-size:1.5rem;
 }
+
+/* ---------- Empty State ---------- */
+
+.cx-empty-state{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    padding:4rem 2rem;
+
+    background:var(--color-white);
+
+    border:1px dashed var(--color-border);
+
+    border-radius:var(--radius-lg);
+}
+
+.cx-empty-state__title{
+
+    margin:0 0 var(--space-2);
+
+    font-size:1.25rem;
+
+    font-weight:600;
+
+    color:var(--color-ink);
+}
+
+.cx-empty-state__message{
+
+    margin:0;
+
+    max-width:32rem;
+
+    color:var(--color-slate);
+
+    line-height:1.6;
+}
+
+.cx-empty-state__action{
+
+    margin-top:var(--space-5);
+}
+
+/* ---------- Table ---------- */
+
+.cx-table-wrapper{
+
+    width:100%;
+
+    overflow-x:auto;
+
+    background:var(--color-white);
+
+    border:1px solid var(--color-border);
+
+    border-radius:var(--radius-lg);
+
+    box-shadow:var(--shadow-sm);
+}
+
+.cx-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+}
+
+.cx-table thead{
+
+    background:#F9FAFB;
+}
+
+.cx-table th{
+
+    padding:14px 18px;
+
+    text-align:left;
+
+    font-size:.875rem;
+
+    font-weight:600;
+
+    color:var(--color-slate);
+
+    border-bottom:1px solid var(--color-border);
+
+    white-space:nowrap;
+}
+
+.cx-table td{
+
+    padding:16px 18px;
+
+    border-bottom:1px solid var(--color-border);
+
+    vertical-align:middle;
+}
+
+.cx-table tbody tr:last-child td{
+
+    border-bottom:none;
+}
+
+.cx-table tbody tr:hover{
+
+    background:#FAFAFA;
+}
+
+/* ---------- Modal ---------- */
+
+.cx-modal{
+
+    position:fixed;
+
+    inset:0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    z-index:1000;
+}
+
+.cx-modal[hidden]{
+
+    display:none;
+}
+
+.cx-modal__overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(15,23,42,.45);
+}
+
+.cx-modal__dialog{
+
+    position:relative;
+
+    width:min(480px,90vw);
+
+    background:var(--color-white);
+
+    border-radius:var(--radius-lg);
+
+    box-shadow:var(--shadow-lg);
+
+    padding:var(--space-6);
+
+    z-index:1;
+}
+
+.cx-modal__dialog h3{
+
+    margin:0 0 var(--space-3);
+
+    font-size:1.25rem;
+
+    color:var(--color-ink);
+}
+
+.cx-modal__dialog p{
+
+    margin:0;
+
+    color:var(--color-slate);
+
+    line-height:1.6;
+}
+
+.cx-modal__actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:var(--space-3);
+
+    margin-top:var(--space-6);
+}
+
+/* ==========================================================
+   Modal
+========================================================== */
+
+.cx-modal{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:1000;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:2rem;
+}
+
+/* ---------------------------------------------------------- */
+
+.cx-modal__overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(15,23,42,.30);
+
+    backdrop-filter:blur(6px);
+}
+
+/* ---------------------------------------------------------- */
+
+.cx-modal__dialog{
+
+    position:relative;
+
+    width:min(720px,92vw);
+
+    max-height:90vh;
+
+    display:grid;
+
+    grid-template-rows:
+
+        auto
+        1fr
+        auto;
+
+    overflow:hidden;
+
+    background:var(--color-white);
+
+    border-radius:28px;
+
+    box-shadow:
+
+        0 24px 64px rgba(15,23,42,.14);
+
+    animation:cx-modal-enter .18s ease;
+}
+
+/* ---------------------------------------------------------- */
+
+.cx-modal--sm{
+
+    width:min(420px,92vw);
+}
+
+.cx-modal--md{
+
+    width:min(640px,92vw);
+}
+
+.cx-modal--lg{
+
+    width:min(900px,92vw);
+}
+
+/* ---------------------------------------------------------- */
+
+.cx-modal__header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:var(--space-4);
+
+    padding:2rem 2rem 1.25rem;
+}
+
+/* ---------------------------------------------------------- */
+
+.cx-modal__title h2{
+
+    margin:0;
+
+    font-size:1.4rem;
+
+    font-weight:700;
+}
+
+.cx-modal__title p{
+
+    margin-top:.45rem;
+
+    color:var(--color-slate);
+
+    line-height:1.5;
+}
+
+/* ---------------------------------------------------------- */
+
+.cx-modal__close{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    width:40px;
+
+    height:40px;
+
+    border:none;
+
+    border-radius:999px;
+
+    background:#F8FAFC;
+
+    cursor:pointer;
+
+    transition:.18s;
+}
+
+.cx-modal__close:hover{
+
+    background:#EEF2F7;
+}
+
+/* ---------------------------------------------------------- */
+
+.cx-modal__body{
+
+    overflow:auto;
+
+    padding:
+
+        0
+        2rem
+        2rem;
+}
+
+/* ---------------------------------------------------------- */
+
+.cx-modal__footer{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:var(--space-3);
+
+    padding:
+
+        1.25rem
+        2rem
+        2rem;
+}
+
+/* ---------------------------------------------------------- */
+
+@keyframes cx-modal-enter{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(10px) scale(.97);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:none;
+    }
+
+}
+
+/* ---------------------------------------------------------- */
+
+@media (max-width:768px){
+
+    .cx-modal{
+
+        padding:1rem;
+    }
+
+    .cx-modal__dialog{
+
+        width:100%;
+
+        max-height:95vh;
+
+        border-radius:22px;
+    }
+
+}
+
+
+/* ==========================================================
+   Form Field
+========================================================== */
+
+.cx-form-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:.55rem;
+
+    margin-bottom:1.5rem;
+}
+
+/* ---------------------------------------------------------- */
+
+.cx-label{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:.35rem;
+
+    font-size:.95rem;
+
+    font-weight:600;
+
+    color:var(--color-ink);
+}
+
+/* ---------------------------------------------------------- */
+
+.cx-required{
+
+    color:#DC2626;
+}
+
+/* ---------------------------------------------------------- */
+
+.cx-help{
+
+    color:var(--color-slate);
+
+    font-size:.82rem;
+
+    line-height:1.5;
+}
+
+/* ---------------------------------------------------------- */
+
+.cx-error{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:.3rem;
+
+    color:#DC2626;
+
+    font-size:.82rem;
+}
+
+/* ---------------------------------------------------------- */
+
+.cx-form-group input,
+
+.cx-form-group select,
+
+.cx-form-group textarea{
+
+    width:100%;
+
+    padding:14px 16px;
+
+    border:1px solid var(--color-border);
+
+    border-radius:16px;
+
+    background:var(--color-white);
+
+    transition:.18s;
+}
+
+/* ---------------------------------------------------------- */
+
+.cx-form-group input:focus,
+
+.cx-form-group select:focus,
+
+.cx-form-group textarea:focus{
+
+    outline:none;
+
+    border-color:var(--color-accent);
+
+    box-shadow:
+
+        0 0 0 4px rgba(37,99,235,.08);
+}
+
+/* ---------------------------------------------------------- */
+
+.cx-form-group textarea{
+
+    min-height:140px;
+
+    resize:vertical;
+}
+
+/* ---------------------------------------------------------- */
+
+.cx-form-group input[type="checkbox"],
+
+.cx-form-group input[type="radio"]{
+
+    width:auto;
+}
+
+.cx-form-row{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,minmax(0,1fr));
+
+    gap:var(--space-5);
+
+    margin-bottom:var(--space-4);
+}
+
+@media (max-width:768px){
+
+    .cx-form-row{
+
+        grid-template-columns:1fr;
+    }
+
+}
+
+.cx-form-section{
+
+    margin-bottom:2.5rem;
+}
+
+.cx-form-section h3{
+
+    margin-bottom:1.25rem;
+
+    font-size:1rem;
+
+    font-weight:700;
+}
+
+
+/* ---------- Responsive ---------- */
+
+@media (max-width:768px){
+    .cx-modal__dialog{
+
+        width:calc(100vw - 2rem);
+    }
+
+}
+
+/* ==========================================================
+   Form Actions
+========================================================== */
+
+.cx-form-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    align-items:center;
+
+    gap:var(--space-3);
+
+    margin-top:var(--space-6);
+}
+
+@media (max-width:768px){
+
+    .cx-form-actions{
+
+        flex-direction:column-reverse;
+
+    }
+
+    .cx-form-actions .cx-btn{
+
+        width:100%;
+    }
+
+}
+
+/* ==========================================================
+   Form Row
+========================================================== */
+
+.cx-form-row{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,minmax(0,1fr));
+
+    gap:var(--space-5);
+
+    margin-bottom:var(--space-4);
+}
+
+.cx-form-row--3{
+
+    grid-template-columns:repeat(3,minmax(0,1fr));
+
+}
+
+.cx-form-row--4{
+
+    grid-template-columns:repeat(4,minmax(0,1fr));
+
+}
+
+@media (max-width:992px){
+
+    .cx-form-row,
+
+    .cx-form-row--3,
+
+    .cx-form-row--4{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+/* ==========================================================
+   Form Section
+========================================================== */
+
+.cx-form-section{
+
+    margin-bottom:2.5rem;
+}
+
+.cx-form-section:last-child{
+
+    margin-bottom:0;
+}
+
+.cx-form-section__header{
+
+    margin-bottom:var(--space-5);
+}
+
+.cx-form-section__header h3{
+
+    margin:0;
+
+    font-size:1.1rem;
+
+    font-weight:700;
+
+    color:var(--color-ink);
+}
+
+.cx-form-section__header p{
+
+    margin-top:.4rem;
+
+    color:var(--color-slate);
+
+    line-height:1.5;
+}
+
+.cx-form-section__body{
+
+    display:flex;
+
+    flex-direction:column;
+}
+
+/* ==========================================================
+   Select
+========================================================== */
+
+.cx-select{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:.55rem;
+
+}
+
+.cx-select__wrapper{
+
+    display:flex;
+
+    gap:.75rem;
+
+    align-items:center;
+
+}
+
+.cx-select__wrapper select{
+
+    flex:1;
+
+}
+
+.cx-select__create{
+
+    width:44px;
+
+    height:44px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:var(--color-accent);
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:1.2rem;
+
+    font-weight:700;
+
+    transition:.18s;
+}
+
+.cx-select__create:hover{
+
+    opacity:.92;
+
+}
+
+
+/* ==========================================================
+   Table
+========================================================== */
+
+.cx-table-wrapper{
+
+    overflow:hidden;
+
+    background:var(--color-white);
+
+    border:1px solid var(--color-border);
+
+    border-radius:var(--radius-lg);
+
+    box-shadow:var(--shadow-sm);
+
+}
+
+.cx-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.cx-table thead{
+
+    background:#F8FAFC;
+
+}
+
+.cx-table th{
+
+    padding:16px 20px;
+
+    text-align:left;
+
+    font-size:.85rem;
+
+    font-weight:600;
+
+    color:var(--color-slate);
+
+    border-bottom:1px solid var(--color-border);
+
+}
+
+.cx-table td{
+
+    padding:18px 20px;
+
+    border-bottom:1px solid var(--color-border);
+
+    vertical-align:middle;
+
+}
+
+.cx-table tbody tr:hover{
+
+    background:#FAFBFC;
+
+}
+
+.cx-table tbody tr:last-child td{
+
+    border-bottom:none;
+
+}
+
+.cx-table-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:var(--space-2);
+
+}
+
+.cx-text-center{
+
+    text-align:center;
+
+}

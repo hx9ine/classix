@@ -1,0 +1,22 @@
+<div class="cx-form-actions">
+
+    {% if show_cancel|default:True %}
+
+        <button
+            type="button"
+            class="cx-btn cx-btn--secondary"
+            hx-on:click="this.closest('.cx-modal').remove()"
+        >
+            {{ cancel_label|default:"Cancel" }}
+        </button>
+
+    {% endif %}
+
+    <button
+        type="submit"
+        class="cx-btn cx-btn--primary"
+    >
+        {{ submit_label|default:"Save" }}
+    </button>
+
+</div>

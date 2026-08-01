@@ -1,0 +1,63 @@
+<div class="cx-select">
+
+    {% if field.label %}
+
+        <label
+            for="{{ field.id_for_label }}"
+            class="cx-label"
+        >
+            {{ field.label }}
+
+            {% if field.field.required %}
+                <span class="cx-required">*</span>
+            {% endif %}
+        </label>
+
+    {% endif %}
+
+    <div class="cx-select__wrapper">
+
+        {{ field }}
+
+        {% if create_url %}
+
+            <button
+                type="button"
+                class="cx-select__create"
+                title="Create new"
+                hx-get="{{ create_url }}"
+                hx-target="#modal-container"
+                hx-swap="innerHTML"
+            >
+                +
+            </button>
+
+        {% endif %}
+
+    </div>
+
+    {% if field.help_text %}
+
+        <small class="cx-help">
+
+            {{ field.help_text }}
+
+        </small>
+
+    {% endif %}
+
+    {% if field.errors %}
+
+        <div class="cx-error">
+
+            {% for error in field.errors %}
+
+                <div>{{ error }}</div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+</div>

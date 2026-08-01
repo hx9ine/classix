@@ -1,0 +1,3 @@
+"""
+Module-specific permission helpers.
+"""

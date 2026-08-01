@@ -1,0 +1,41 @@
+<div class="cx-table-wrapper">
+
+    {% if toolbar %}
+
+        <div class="cx-table__toolbar">
+
+            {{ toolbar|safe }}
+
+        </div>
+
+    {% endif %}
+
+    {% if has_data %}
+
+        <div class="cx-table__container">
+
+            <table class="cx-table">
+
+                {{ slot|safe }}
+
+            </table>
+
+        </div>
+
+        {% if pagination %}
+
+            <div class="cx-table__footer">
+
+                {{ pagination|safe }}
+
+            </div>
+
+        {% endif %}
+
+    {% else %}
+
+        {{ empty_state|safe }}
+
+    {% endif %}
+
+</div>

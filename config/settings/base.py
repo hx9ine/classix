@@ -43,14 +43,18 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "django_htmx",
 ]
 
 PROJECT_APPS = [
-    "apps.accounts",
+    "apps.academic_structure",
     "apps.academics",
+    "apps.accounts",
     "apps.admissions",
     "apps.alumni",
     "apps.attendance",
+    "apps.audit",
+    "apps.billing",
     "apps.cafeteria",
     "apps.core",
     "apps.documents",
@@ -59,6 +63,7 @@ PROJECT_APPS = [
     "apps.health",
     "apps.library",
     "apps.messaging",
+    "apps.rbac",
     "apps.schedule",
     "apps.staff",
     "apps.students",
@@ -71,11 +76,16 @@ INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    
+    # Resolve tenant before authentication and views.
+    "apps.core.middleware.TenantMiddleware",
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = 'config.urls'

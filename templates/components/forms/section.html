@@ -1,0 +1,33 @@
+<section class="cx-form-section">
+
+    {% if title %}
+
+        <div class="cx-form-section__header">
+
+            <h3>
+
+                {{ title }}
+
+            </h3>
+
+            {% if description %}
+
+                <p>
+
+                    {{ description }}
+
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    {% endif %}
+
+    <div class="cx-form-section__body">
+
+        {{ slot|safe }}
+
+    </div>
+
+</section>

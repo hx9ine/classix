@@ -1,0 +1,36 @@
+{% load components %}
+
+{% component "layout/modal" title=title subtitle="Create or update a section." %}
+
+<form
+    method="post"
+    hx-post="{{ request.path }}"
+    hx-target="#section-table"
+    hx-swap="innerHTML"
+>
+
+    {% csrf_token %}
+
+    {% component "forms/section" title="Section" description="Provide the details below." %}
+
+        <div class="cx-form-row">
+
+            {% include "components/forms/field.html" with field=form.academic_session %}
+
+            {% include "components/forms/field.html" with field=form.class_level %}
+
+        </div>
+
+        <div class="cx-form-row">
+
+            {% include "components/forms/field.html" with field=form.name %}
+
+        </div>
+
+    {% endcomponent %}
+
+    {% include "components/forms/actions.html" with submit_label=submit_label cancel_label="Cancel" %}
+
+</form>
+
+{% endcomponent %}

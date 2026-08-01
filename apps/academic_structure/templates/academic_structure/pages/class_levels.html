@@ -1,0 +1,38 @@
+{% extends "layouts/app.html" %}
+
+{% load components %}
+
+{% block title %}
+Class Levels
+{% endblock %}
+
+{% block content %}
+
+{% component "navigation/page_header" title="Class Levels" subtitle="Manage the class levels for your school." %}
+{% endcomponent %}
+
+<div class="cx-page-actions">
+
+    {% url "academic_structure:class_level_create" as create_url %}
+
+    {% include "components/actions/button.html" with label="New Class Level" variant="primary" hx_get=create_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+</div>
+
+<div
+    id="class-level-table"
+    hx-get="{% url 'academic_structure:class_level_list' %}"
+    hx-trigger="load"
+    hx-target="this"
+    hx-swap="innerHTML"
+>
+
+    <div class="cx-loading">
+        Loading class levels...
+    </div>
+
+</div>
+
+<div id="modal-container"></div>
+
+{% endblock %}

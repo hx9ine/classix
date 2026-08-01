@@ -1,0 +1,23 @@
+<div class="cx-page-header">
+
+    <div class="cx-page-header__content">
+
+        <h1 class="cx-page-header__title">
+            {{ title }}
+        </h1>
+
+        {% if subtitle %}
+            <p class="cx-page-header__subtitle">
+                {{ subtitle }}
+            </p>
+        {% endif %}
+
+    </div>
+
+    {% if action %}
+        <div class="cx-page-header__action">
+            {{ action|safe }}
+        </div>
+    {% endif %}
+
+</div>

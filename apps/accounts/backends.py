@@ -1,10 +1,10 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.backends import BaseBackend
+from django.contrib.auth.backends import ModelBackend
 
 User = get_user_model()
 
 
-class TenantAuthenticationBackend(BaseBackend):
+class TenantAuthenticationBackend(ModelBackend):
     """
     Authenticates a user within the current tenant.
     """
@@ -30,21 +30,19 @@ class TenantAuthenticationBackend(BaseBackend):
         if not email or not password:
             return None
 
-        user = User.objects.filter(
-            tenant=tenant,
-            email__iexact=email,
-        ).first()
-
-        if user is None:
+        try:
+            email = User.objects.normalize_email(email)
+            user = User.objects.get(
+                tenant=tenant,
+                email=email,
+            )
+        except User.DoesNotExist:
             return None
 
         if not user.check_password(password):
             return None
 
-        if not user.is_active:
-            return None
-
-        if not user.is_email_verified:
+        if not self.user_can_authenticate(user):
             return None
 
         return user

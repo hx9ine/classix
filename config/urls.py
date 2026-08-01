@@ -22,6 +22,7 @@ urlpatterns = [
 
     # ...
 
+    path("academic-structure/", include("apps.academic_structure.urls")),
     path("accounts/", include("apps.accounts.urls")),
 
     # ...

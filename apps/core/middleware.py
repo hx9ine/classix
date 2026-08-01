@@ -2,7 +2,7 @@ from django.conf import settings
 from django.http import Http404
 
 from apps.core.constants import RESERVED_SUBDOMAINS
-from apps.tenants.models import Tenant
+from apps.tenants.selectors import get_tenant_by_subdomain
 
 from apps.core.utils import (
     set_current_tenant,
@@ -32,27 +32,30 @@ class TenantMiddleware:
         return response
 
     def get_tenant(self, request):
-        host = request.get_host().split(":")[0]
+        host = request.get_host().split(":", 1)[0].lower()
 
-        # Local development
+        # Local development without tenant
         if host in ("localhost", "127.0.0.1"):
             return None
 
         parts = host.split(".")
 
-        # No subdomain
-        if len(parts) < 3:
+        # Expect:
+        # demo.localhost
+        # school.classix.com
+        if len(parts) < 2:
             return None
 
-        subdomain = parts[0].lower()
+        subdomain = parts[0]
 
         if subdomain in RESERVED_SUBDOMAINS:
             raise Http404("Reserved subdomain")
 
-        try:
-            return Tenant.objects.get(
-                subdomain_slug=subdomain,
-                status=Tenant.Status.ACTIVE,
-            )
-        except Tenant.DoesNotExist:
+        tenant = get_tenant_by_subdomain(
+            subdomain_slug=subdomain,
+        )
+
+        if tenant is None:
             raise Http404("School not found")
+
+        return tenant

@@ -48,10 +48,14 @@ class BaseModel(UUIDModel, TimeStampedModel):
 
 
 class TenantModel(BaseModel):
+    """
+    Base model for all tenant-owned records.
+    """
     tenant = models.ForeignKey(
         "tenants.Tenant",
         on_delete=models.CASCADE,
         related_name="%(app_label)s_%(class)ss",
+        db_index=True,
     )
 
     objects = TenantManager()
