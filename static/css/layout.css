@@ -1,11 +1,149 @@
-.container{
+/* ==========================================================================
+   Containers
+   ========================================================================== */
 
-    width:min(1200px,92%);
+.container {
 
-    margin-inline:auto;
+    width: min(1200px, 92%);
+    margin-inline: auto;
+
 }
 
-.page{
 
-    padding-block:var(--space-5);
+/* ==========================================================================
+   Application Layout
+   ========================================================================== */
+
+.cx-app {
+
+    display: grid;
+    grid-template-columns: auto 1fr;
+
+    height: 100vh;
+
+    overflow: hidden;
+
+}
+
+
+.cx-app__sidebar {
+
+    height: 100vh;
+
+    overflow: hidden;
+
+}
+
+
+.cx-app__main {
+
+    display: grid;
+
+    grid-template-rows: auto 1fr;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
+
+}
+
+
+.cx-app__header {
+
+    z-index: 100;
+
+    background: var(--color-surface, #fff);
+
+    border-bottom: 1px solid var(--color-border, #e5e7eb);
+
+}
+
+
+.cx-app__page {
+
+    min-height: 0;
+
+    overflow: hidden;
+
+}
+
+
+/* ==========================================================================
+   Page Layout
+   ========================================================================== */
+
+.cx-page {
+
+    display: grid;
+
+    grid-template-rows: auto 1fr;
+
+    height: 100%;
+
+    min-height: 0;
+
+}
+
+
+.cx-page__body {
+
+    display: grid;
+
+    grid-template-rows:
+        auto
+        auto
+        1fr;
+
+    min-height: 0;
+
+}
+
+
+.cx-page__content {
+
+    overflow-y: auto;
+
+    padding: var(--space-6);
+
+}
+
+
+/* ==========================================================================
+   Legacy
+   ========================================================================== */
+
+.page {
+
+    padding-block: var(--space-5);
+
+}
+
+
+/* ==========================================================================
+   Authentication Layout
+   ========================================================================== */
+
+.cx-auth {
+
+    display: flex;
+
+    min-height: 100vh;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: var(--space-6);
+
+    background: var(--color-background);
+
+}
+
+.cx-auth__main {
+
+    width: 100%;
+
+    max-width: 420px;
+
 }

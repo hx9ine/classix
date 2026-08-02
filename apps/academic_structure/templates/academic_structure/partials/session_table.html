@@ -2,9 +2,7 @@
 
 {% if sessions %}
 
-<div class="cx-table-wrapper">
-
-    <table class="cx-table">
+    {% component "tables/table" has_data=True %}
 
         <thead>
 
@@ -18,7 +16,9 @@
 
                 <th>Current</th>
 
-                <th class="cx-text-center">Actions</th>
+                <th width="140">
+                    Actions
+                </th>
 
             </tr>
 
@@ -31,25 +31,15 @@
                 <tr>
 
                     <td>
-
-                        <strong>
-
-                            {{ session.name }}
-
-                        </strong>
-
+                        {{ session.name }}
                     </td>
 
                     <td>
-
                         {{ session.start_date|date:"M d, Y" }}
-
                     </td>
 
                     <td>
-
                         {{ session.end_date|date:"M d, Y" }}
-
                     </td>
 
                     <td>
@@ -68,15 +58,11 @@
 
                     <td>
 
-                        <div class="cx-table-actions">
+                        <div class="cx-table__actions">
 
-                            {% url "academic_structure:academic_session_update" session.pk as edit_url %}
+                            {% include "components/actions/button.html" with label="Edit" variant="secondary" hx_get=session.update_url hx_target="#modal-container" hx_swap="innerHTML" %}
 
-                            {% include "components/actions/button.html" with label="Edit" variant="secondary" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
-
-                            {% url "academic_structure:academic_session_delete" session.pk as delete_url %}
-
-                            {% include "components/actions/button.html" with label="Delete" variant="danger" hx_get=delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
+                            {% include "components/actions/button.html" with label="Delete" variant="danger" hx_get=session.delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
 
                         </div>
 
@@ -88,12 +74,10 @@
 
         </tbody>
 
-    </table>
-
-</div>
+    {% endcomponent %}
 
 {% else %}
 
-    {% include "components/data/empty_state.html" with title="No Academic Sessions" message="Create your first academic session to get started." %}
+    {% include "components/data/empty_state.html" with title="No academic sessions found" description="Create your first academic session to begin organizing your school year." %}
 
 {% endif %}

@@ -1,0 +1,27 @@
+{% extends "layouts/page.html" %}
+
+{% load components %}
+
+{% block title %}
+Subjects
+{% endblock %}
+
+
+{% block page_header %}
+
+    {% component "navigation/page_header" title="Subjects" subtitle="Manage all academic subjects." %}
+        {% include "components/actions/button.html" with label="New Subject" variant="primary" hx_get=request.path|add:"create/" hx_target="#modal-container" %}
+    {% endcomponent %}
+
+{% endblock %}
+
+
+{% block page_content %}
+
+<div id="subject-table">
+
+    {% include "academics/partials/subject_table.html" %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+<div class="cx-page-section">
+
+    {% if title or action %}
+
+    <div class="cx-page-section__header">
+
+        <div class="cx-page-section__title">
+
+            {% if title %}
+                <h2>{{ title }}</h2>
+            {% endif %}
+
+            {% if subtitle %}
+                <p>{{ subtitle }}</p>
+            {% endif %}
+
+        </div>
+
+        {% if action %}
+
+        <div class="cx-page-section__action">
+
+            {{ action|safe }}
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
+    <div class="cx-page-section__body">
+
+        {{ content|safe }}
+
+    </div>
+
+</div>

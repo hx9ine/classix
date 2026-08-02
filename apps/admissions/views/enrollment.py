@@ -1,7 +1,7 @@
 from django.http import Http404
 
 from apps.core.crud import render_success
-from apps.core.htmx import htmx_modal
+from apps.core.htmx import render_modal
 
 from ..forms import EnrollmentForm
 from ..selectors import (
@@ -61,7 +61,7 @@ def applicant_enroll(request, pk):
             applicant=applicant,
         )
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="admissions/modals/enroll_applicant.html",
         context={

@@ -1,22 +1,75 @@
 <button
     type="{{ type|default:'button' }}"
-    class="cx-btn cx-btn--{{ variant|default:'primary' }}{% if class_name %} {{ class_name }}{% endif %}"
+    class="
+        cx-button
+        {% if variant %}
+            cx-button--{{ variant }}
+        {% else %}
+            cx-button--primary
+        {% endif %}
+        {% if size %}
+            cx-button--{{ size }}
+        {% endif %}
+        {% if class %}
+            {{ class }}
+        {% endif %}
+    "
 
-    {% if id %}id="{{ id }}"{% endif %}
-    {% if name %}name="{{ name }}"{% endif %}
-    {% if value %}value="{{ value }}"{% endif %}
+    {% if id %}
+        id="{{ id }}"
+    {% endif %}
 
-    {% if hx_get %}hx-get="{{ hx_get }}"{% endif %}
-    {% if hx_post %}hx-post="{{ hx_post }}"{% endif %}
-    {% if hx_target %}hx-target="{{ hx_target }}"{% endif %}
-    {% if hx_swap %}hx-swap="{{ hx_swap }}"{% endif %}
-    {% if hx_trigger %}hx-trigger="{{ hx_trigger }}"{% endif %}
-    {% if hx_confirm %}hx-confirm="{{ hx_confirm }}"{% endif %}
-    {% if hx_on_click %}hx-on:click="{{ hx_on_click }}"{% endif %}
+    {% if name %}
+        name="{{ name }}"
+    {% endif %}
 
-    {% if disabled %}disabled{% endif %}
+    {% if value %}
+        value="{{ value }}"
+    {% endif %}
+
+    {% if title %}
+        title="{{ title }}"
+    {% endif %}
+
+    {% if hx_get %}
+        hx-get="{{ hx_get }}"
+    {% endif %}
+
+    {% if hx_post %}
+        hx-post="{{ hx_post }}"
+    {% endif %}
+
+    {% if hx_target %}
+        hx-target="{{ hx_target }}"
+    {% endif %}
+
+    {% if hx_swap %}
+        hx-swap="{{ hx_swap }}"
+    {% endif %}
+
+    {% if hx_on_click %}
+        hx-on:click="{{ hx_on_click }}"
+    {% endif %}
+
+    {% if hx_confirm %}
+        hx-confirm="{{ hx_confirm }}"
+    {% endif %}
+
+    {% if disabled %}
+        disabled
+    {% endif %}
 >
 
-    {{ label }}
+    {% if icon %}
+        <span class="cx-button__icon">
+            {{ icon|safe }}
+        </span>
+    {% endif %}
+
+    {% if label %}
+        <span class="cx-button__label">
+            {{ label }}
+        </span>
+    {% endif %}
 
 </button>

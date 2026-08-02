@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "layouts/auth.html" %}
 {% load components %}
 
 {% block title %}
@@ -9,7 +9,7 @@ Login | ClassiX
 <div class="page">
     <div class="container">
 
-        {% component "card" %}
+        {% component "layout/card" %}
 
             <h1>Welcome back</h1>
 
@@ -17,7 +17,7 @@ Login | ClassiX
                 Sign in to continue to ClassiX.
             </p>
 
-            {% include "components/alert.html" %}
+            {% include "components/feedback/alert.html" %}
 
             <form
                 method="post"
@@ -26,11 +26,11 @@ Login | ClassiX
             >
                 {% csrf_token %}
 
-                {% include "components/form_field.html" with field=form.email %}
+                {% include "components/forms/field.html" with field=form.email %}
 
-                {% include "components/form_field.html" with field=form.password %}
+                {% include "components/forms/field.html" with field=form.password %}
 
-                {% include "components/button.html" with type="submit" label="Sign In" variant="primary" %}
+                {% include "components/actions/button.html" with type="submit" label="Sign In" variant="primary" %}
 
             </form>
 

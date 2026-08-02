@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 
-from apps.core.htmx import htmx_success
+from apps.core.htmx import render_htmx
 
 
 def render_success(
@@ -8,16 +8,16 @@ def render_success(
     request,
     template: str,
     context: dict,
-    event: str = "modal:close",
+    event: str | None = None,
 ):
     """
     Standard CRUD success response.
 
-    Used after successful create, update,
-    and delete operations.
+    Renders an HTMX partial and optionally triggers
+    a client-side event.
     """
 
-    return htmx_success(
+    return render_htmx(
         request=request,
         template=template,
         context=context,
@@ -25,19 +25,23 @@ def render_success(
     )
 
 
-def redirect_success(
+def render_redirect(
     *,
     url: str,
-    event: str = "modal:close",
+    event: str | None = "modal:close",
 ):
     """
-    HTMX success response that closes the modal
-    and redirects the browser.
+    HTMX redirect response.
+
+    Optionally triggers a client-side event before
+    redirecting.
     """
 
     response = HttpResponse()
 
     response["HX-Redirect"] = url
-    response["HX-Trigger"] = event
+
+    if event:
+        response["HX-Trigger"] = event
 
     return response

@@ -1,0 +1,61 @@
+{% load components %}
+
+{% if subjects %}
+
+    {% component "tables/table" has_data=True %}
+
+        <thead>
+
+            <tr>
+
+                <th>Name</th>
+
+                <th>Code</th>
+
+                <th width="140">
+                    Actions
+                </th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for subject in subjects %}
+
+                <tr>
+
+                    <td>
+                        {{ subject.name }}
+                    </td>
+
+                    <td>
+                        {{ subject.code }}
+                    </td>
+
+                    <td>
+
+                        <div class="cx-table__actions">
+
+                            {% include "components/actions/button.html" with label="Edit" variant="secondary" hx_get=subject.update_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                            {% include "components/actions/button.html" with label="Delete" variant="danger" hx_get=subject.delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    {% endcomponent %}
+
+{% else %}
+
+    {% include "components/data/empty_state.html" with title="No subjects found" description="Create your first subject to start organizing your curriculum." %}
+
+{% endif %}

@@ -1,4 +1,15 @@
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
+
+from apps.core.crud import render_success
+from apps.core.htmx import (
+    render_modal,
+    render_partial,
+)
+from apps.rbac.decorators import permission_required
+
 from ..forms import ClassLevelForm
+from ..permissions import class_level as permissions
 from ..selectors import (
     get_class_level,
     get_class_levels,
@@ -9,21 +20,16 @@ from ..services import (
     update_class_level,
 )
 
-from apps.core.crud import render_success
-
-from apps.core.htmx import (
-    htmx_modal,
-    render_partial,
-)
-
 
 # ============================================================================
 # Class Level Views
 # ============================================================================
 
+@login_required
+@permission_required(**permissions.VIEW)
 def class_level_list(request):
     """
-    Class Level listing.
+    Display all class levels.
     """
 
     class_levels = get_class_levels(
@@ -45,9 +51,11 @@ def class_level_list(request):
     )
 
 
+@login_required
+@permission_required(**permissions.CREATE)
 def class_level_create(request):
     """
-    Create Class Level.
+    Create a class level.
     """
 
     if request.method == "POST":
@@ -56,39 +64,55 @@ def class_level_create(request):
 
         if form.is_valid():
 
-            create_class_level(
-                tenant=request.tenant,
-                form=form,
-            )
+            try:
 
-            return render_success(
-                request=request,
-                template="academic_structure/partials/class_level_table.html",
-                context={
-                    "class_levels": get_class_levels(
-                        tenant=request.tenant,
-                    ),
-                },
-            )
+                create_class_level(
+                    tenant=request.tenant,
+                    name=form.cleaned_data["name"],
+                    sort_order=form.cleaned_data["sort_order"],
+                )
+
+            except ValidationError as e:
+
+                form.add_error(
+                    None,
+                    e.message,
+                )
+
+            else:
+
+                return render_success(
+                    request=request,
+                    template="academic_structure/partials/class_level_table.html",
+                    context={
+                        "class_levels": get_class_levels(
+                            tenant=request.tenant,
+                        ),
+                    },
+                    event="modal:close",
+                )
 
     else:
 
         form = ClassLevelForm()
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="academic_structure/modals/class_level_form.html",
         context={
             "form": form,
             "title": "New Class Level",
             "submit_label": "Create Class Level",
+            "target": "#class-level-table",
         },
     )
 
 
+@login_required
+@permission_required(**permissions.EDIT)
 def class_level_update(request, pk):
     """
-    Update Class Level.
+    Update a class level.
     """
 
     class_level = get_class_level(
@@ -105,19 +129,33 @@ def class_level_update(request, pk):
 
         if form.is_valid():
 
-            update_class_level(
-                form=form,
-            )
+            try:
 
-            return render_success(
-                request=request,
-                template="academic_structure/partials/class_level_table.html",
-                context={
-                    "class_levels": get_class_levels(
-                        tenant=request.tenant,
-                    ),
-                },
-            )
+                update_class_level(
+                    class_level=class_level,
+                    name=form.cleaned_data["name"],
+                    sort_order=form.cleaned_data["sort_order"],
+                )
+
+            except ValidationError as e:
+
+                form.add_error(
+                    None,
+                    e.message,
+                )
+
+            else:
+
+                return render_success(
+                    request=request,
+                    template="academic_structure/partials/class_level_table.html",
+                    context={
+                        "class_levels": get_class_levels(
+                            tenant=request.tenant,
+                        ),
+                    },
+                    event="modal:close",
+                )
 
     else:
 
@@ -125,21 +163,23 @@ def class_level_update(request, pk):
             instance=class_level,
         )
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="academic_structure/modals/class_level_form.html",
         context={
             "form": form,
             "title": "Edit Class Level",
             "submit_label": "Save Changes",
-            "class_level": class_level,
+            "target": "#class-level-table",
         },
     )
 
 
+@login_required
+@permission_required(**permissions.DELETE)
 def class_level_delete(request, pk):
     """
-    Delete Class Level.
+    Delete a class level.
     """
 
     class_level = get_class_level(
@@ -150,7 +190,7 @@ def class_level_delete(request, pk):
     if request.method == "POST":
 
         delete_class_level(
-            instance=class_level,
+            class_level=class_level,
         )
 
         return render_success(
@@ -161,12 +201,15 @@ def class_level_delete(request, pk):
                     tenant=request.tenant,
                 ),
             },
+            event="modal:close",
         )
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="academic_structure/modals/delete_class_level.html",
         context={
             "class_level": class_level,
+            "post_url": request.path,
+            "target": "#class-level-table",
         },
     )

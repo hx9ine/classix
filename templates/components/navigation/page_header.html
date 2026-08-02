@@ -2,6 +2,12 @@
 
     <div class="cx-page-header__content">
 
+        {% if breadcrumb %}
+            <div class="cx-page-header__breadcrumb">
+                {{ breadcrumb|safe }}
+            </div>
+        {% endif %}
+
         <h1 class="cx-page-header__title">
             {{ title }}
         </h1>
@@ -12,12 +18,22 @@
             </p>
         {% endif %}
 
+        {% if description %}
+            <p class="cx-page-header__description">
+                {{ description }}
+            </p>
+        {% endif %}
+
     </div>
 
-    {% if action %}
-        <div class="cx-page-header__action">
-            {{ action|safe }}
+    {% if slot %}
+
+        <div class="cx-page-header__actions">
+
+            {{ slot|safe }}
+
         </div>
+
     {% endif %}
 
 </div>

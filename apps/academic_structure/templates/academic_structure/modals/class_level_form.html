@@ -1,27 +1,25 @@
 {% load components %}
 
-{% component "layout/modal" title=title subtitle="Create or update a class level." %}
+{% component "layout/modal" title=title %}
 
 <form
     method="post"
-    hx-post="{{ request.path }}"
-    hx-target="#class-level-table"
+    hx-post="{{ post_url|default:request.path }}"
+    {% if target %}
+    hx-target="{{ target }}"
     hx-swap="innerHTML"
+    {% endif %}
 >
 
     {% csrf_token %}
 
-    {% component "forms/section" title="Class Level" description="Provide the details below." %}
+    <div class="cx-form-grid">
 
-        <div class="cx-form-row">
+        {% include "components/forms/field.html" with field=form.name %}
 
-            {% include "components/forms/field.html" with field=form.name %}
+        {% include "components/forms/field.html" with field=form.sort_order %}
 
-            {% include "components/forms/field.html" with field=form.sort_order %}
-
-        </div>
-
-    {% endcomponent %}
+    </div>
 
     {% include "components/forms/actions.html" with submit_label=submit_label cancel_label="Cancel" %}
 

@@ -2,9 +2,7 @@
 
 {% if sections %}
 
-<div class="cx-table-wrapper">
-
-    <table class="cx-table">
+    {% component "tables/table" has_data=True %}
 
         <thead>
 
@@ -16,7 +14,9 @@
 
                 <th>Section</th>
 
-                <th class="cx-text-center">Actions</th>
+                <th width="140">
+                    Actions
+                </th>
 
             </tr>
 
@@ -29,38 +29,24 @@
                 <tr>
 
                     <td>
-
                         {{ section.academic_session.name }}
-
                     </td>
 
                     <td>
-
                         {{ section.class_level.name }}
+                    </td>
 
+                    <td>
+                        {{ section.name }}
                     </td>
 
                     <td>
 
-                        <strong>
+                        <div class="cx-table__actions">
 
-                            {{ section.name }}
+                            {% include "components/actions/button.html" with label="Edit" variant="secondary" hx_get=section.update_url hx_target="#modal-container" hx_swap="innerHTML" %}
 
-                        </strong>
-
-                    </td>
-
-                    <td>
-
-                        <div class="cx-table-actions">
-
-                            {% url "academic_structure:section_update" section.pk as edit_url %}
-
-                            {% include "components/actions/button.html" with label="Edit" variant="secondary" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
-
-                            {% url "academic_structure:section_delete" section.pk as delete_url %}
-
-                            {% include "components/actions/button.html" with label="Delete" variant="danger" hx_get=delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
+                            {% include "components/actions/button.html" with label="Delete" variant="danger" hx_get=section.delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
 
                         </div>
 
@@ -72,12 +58,10 @@
 
         </tbody>
 
-    </table>
-
-</div>
+    {% endcomponent %}
 
 {% else %}
 
-    {% include "components/data/empty_state.html" with title="No Sections" message="Create your first section to get started." %}
+    {% include "components/data/empty_state.html" with title="No sections found" description="Create your first section to begin organizing your classes." %}
 
 {% endif %}

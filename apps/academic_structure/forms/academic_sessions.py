@@ -4,31 +4,29 @@ from ..models import AcademicSession
 
 
 class AcademicSessionForm(forms.ModelForm):
+    """
+    Form for creating and updating academic sessions.
+    """
+
     class Meta:
         model = AcademicSession
+
         fields = [
             "name",
             "start_date",
             "end_date",
             "is_current",
         ]
+
         widgets = {
-            "start_date": forms.DateInput(attrs={"type": "date"}),
-            "end_date": forms.DateInput(attrs={"type": "date"}),
+            "start_date": forms.DateInput(
+                attrs={
+                    "type": "date",
+                },
+            ),
+            "end_date": forms.DateInput(
+                attrs={
+                    "type": "date",
+                },
+            ),
         }
-
-    def clean(self):
-        cleaned_data = super().clean()
-
-        start_date = cleaned_data.get("start_date")
-        end_date = cleaned_data.get("end_date")
-
-        if start_date and end_date and start_date >= end_date:
-            raise forms.ValidationError(
-                "End date must be later than the start date."
-            )
-
-        return cleaned_data
-
-
-

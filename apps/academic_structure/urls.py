@@ -5,24 +5,24 @@ from .views import (
     academic_session_delete,
     academic_session_list,
     academic_session_update,
-
     class_level_create,
     class_level_delete,
     class_level_list,
     class_level_update,
-
-    section_list,
     section_create,
-    section_update,
     section_delete,
+    section_list,
+    section_update,
 )
 
 app_name = "academic_structure"
 
 urlpatterns = [
+
     # =========================================================================
     # Academic Sessions
     # =========================================================================
+
     path(
         "sessions/",
         academic_session_list,
@@ -34,7 +34,7 @@ urlpatterns = [
         name="academic_session_create",
     ),
     path(
-        "sessions/<uuid:pk>/edit/",
+        "sessions/<uuid:pk>/update/",
         academic_session_update,
         name="academic_session_update",
     ),
@@ -44,9 +44,9 @@ urlpatterns = [
         name="academic_session_delete",
     ),
 
-    # ============================================================================
+    # =========================================================================
     # Class Levels
-    # ============================================================================
+    # =========================================================================
 
     path(
         "class-levels/",
@@ -59,7 +59,7 @@ urlpatterns = [
         name="class_level_create",
     ),
     path(
-        "class-levels/<uuid:pk>/edit/",
+        "class-levels/<uuid:pk>/update/",
         class_level_update,
         name="class_level_update",
     ),
@@ -69,9 +69,9 @@ urlpatterns = [
         name="class_level_delete",
     ),
 
-    # ============================================================================
+    # =========================================================================
     # Sections
-    # ============================================================================
+    # =========================================================================
 
     path(
         "sections/",
@@ -84,7 +84,7 @@ urlpatterns = [
         name="section_create",
     ),
     path(
-        "sections/<uuid:pk>/edit/",
+        "sections/<uuid:pk>/update/",
         section_update,
         name="section_update",
     ),

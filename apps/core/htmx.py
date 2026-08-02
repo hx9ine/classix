@@ -8,6 +8,7 @@ def is_htmx(request) -> bool:
     """
     Returns True if the request originated from HTMX.
     """
+
     return request.headers.get("HX-Request") == "true"
 
 
@@ -18,8 +19,9 @@ def render_partial(
     context: dict | None = None,
 ):
     """
-    Render a partial template.
+    Render a template partial.
     """
+
     return render(
         request,
         template,
@@ -27,34 +29,37 @@ def render_partial(
     )
 
 
-def trigger_client_event(
+def trigger_event(
+    *,
     response: HttpResponse,
-    event_name: str,
+    event: str,
     payload: dict | None = None,
-) -> HttpResponse:
+):
     """
-    Attach an HX-Trigger header to the response.
+    Attach an HX-Trigger header.
     """
 
     response["HX-Trigger"] = json.dumps(
         {
-            event_name: payload if payload is not None else True,
+            event: payload if payload is not None else True,
         }
     )
 
     return response
 
 
-def htmx_success(
+def render_htmx(
     *,
     request,
     template: str,
     context: dict | None = None,
-    event: str = "modal:close",
+    event: str | None = None,
     payload: dict | None = None,
 ):
     """
-    Render a successful HTMX response.
+    Render an HTMX response.
+
+    Optionally triggers a client-side event.
     """
 
     response = render_partial(
@@ -63,31 +68,18 @@ def htmx_success(
         context=context,
     )
 
-    return trigger_client_event(
-        response=response,
-        event_name=event,
-        payload=payload,
-    )
+    if event:
+
+        response = trigger_event(
+            response=response,
+            event=event,
+            payload=payload,
+        )
+
+    return response
 
 
-def htmx_refresh(
-    *,
-    request,
-    template: str,
-    context: dict | None = None,
-):
-    """
-    Render a refreshed partial.
-    """
-
-    return render_partial(
-        request=request,
-        template=template,
-        context=context,
-    )
-
-
-def htmx_modal(
+def render_modal(
     *,
     request,
     template: str,

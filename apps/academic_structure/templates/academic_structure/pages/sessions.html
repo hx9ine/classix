@@ -1,4 +1,4 @@
-{% extends "layouts/app.html" %}
+{% extends "layouts/page.html" %}
 
 {% load components %}
 
@@ -6,31 +6,26 @@
 Academic Sessions
 {% endblock %}
 
-{% block content %}
 
-{% component "navigation/page_header" title="Academic Sessions" subtitle="Manage academic sessions." %}
-{% endcomponent %}
-
-<div class="cx-page-actions">
+{% block page_header %}
 
     {% url "academic_structure:academic_session_create" as create_url %}
 
-    {% include "components/actions/button.html" with label="New Academic Session" variant="primary" hx_get=create_url hx_target="#modal-container" hx_swap="innerHTML" %}
+    {% component "navigation/page_header" title="Academic Sessions" subtitle="Manage academic sessions." %}
+
+        {% include "components/actions/button.html" with label="New Academic Session" variant="primary" hx_get=create_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+    {% endcomponent %}
+
+{% endblock %}
+
+
+{% block page_content %}
+
+<div id="session-table">
+
+    {% include "academic_structure/partials/session_table.html" %}
 
 </div>
-
-<div
-    id="session-table"
-    hx-get="{% url 'academic_structure:academic_session_list' %}"
-    hx-trigger="load"
-    hx-target="this"
-    hx-swap="innerHTML"
->
-    <div class="cx-loading">
-        Loading academic sessions...
-    </div>
-</div>
-
-<div id="modal-container"></div>
 
 {% endblock %}

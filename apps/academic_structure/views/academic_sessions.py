@@ -1,4 +1,15 @@
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
+
+from apps.core.crud import render_success
+from apps.core.htmx import (
+    render_modal,
+    render_partial,
+)
+from apps.rbac.decorators import permission_required
+
 from ..forms import AcademicSessionForm
+from ..permissions import academic_session as permissions
 from ..selectors import (
     get_academic_session,
     get_academic_sessions,
@@ -9,17 +20,16 @@ from ..services import (
     update_academic_session,
 )
 
-from apps.core.crud import render_success
 
-from apps.core.htmx import (
-    htmx_modal,
-    render_partial,
-)
+# ============================================================================
+# Academic Session Views
+# ============================================================================
 
-
+@login_required
+@permission_required(**permissions.VIEW)
 def academic_session_list(request):
     """
-    Academic Session listing.
+    Display all academic sessions.
     """
 
     sessions = get_academic_sessions(
@@ -41,9 +51,11 @@ def academic_session_list(request):
     )
 
 
+@login_required
+@permission_required(**permissions.CREATE)
 def academic_session_create(request):
     """
-    Create Academic Session.
+    Create an academic session.
     """
 
     if request.method == "POST":
@@ -52,41 +64,57 @@ def academic_session_create(request):
 
         if form.is_valid():
 
-            create_academic_session(
-                tenant=request.tenant,
-                form=form,
-            )
+            try:
 
-            sessions = get_academic_sessions(
-                tenant=request.tenant,
-            )
+                create_academic_session(
+                    tenant=request.tenant,
+                    name=form.cleaned_data["name"],
+                    start_date=form.cleaned_data["start_date"],
+                    end_date=form.cleaned_data["end_date"],
+                    is_current=form.cleaned_data["is_current"],
+                )
 
-            return render_success(
-                request=request,
-                template="academic_structure/partials/session_table.html",
-                context={
-                    "sessions": sessions,
-                },
-            )
+            except ValidationError as e:
+
+                form.add_error(
+                    None,
+                    e.message,
+                )
+
+            else:
+
+                return render_success(
+                    request=request,
+                    template="academic_structure/partials/session_table.html",
+                    context={
+                        "sessions": get_academic_sessions(
+                            tenant=request.tenant,
+                        ),
+                    },
+                    event="modal:close",
+                )
 
     else:
 
         form = AcademicSessionForm()
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="academic_structure/modals/session_form.html",
         context={
             "form": form,
             "title": "New Academic Session",
             "submit_label": "Create Session",
+            "target": "#session-table",
         },
     )
 
 
+@login_required
+@permission_required(**permissions.EDIT)
 def academic_session_update(request, pk):
     """
-    Update Academic Session.
+    Update an academic session.
     """
 
     session = get_academic_session(
@@ -103,23 +131,35 @@ def academic_session_update(request, pk):
 
         if form.is_valid():
 
-            update_academic_session(
-                tenant=request.tenant,
-                instance=session,
-                form=form,
-            )
+            try:
 
-            sessions = get_academic_sessions(
-                tenant=request.tenant,
-            )
+                update_academic_session(
+                    academic_session=session,
+                    name=form.cleaned_data["name"],
+                    start_date=form.cleaned_data["start_date"],
+                    end_date=form.cleaned_data["end_date"],
+                    is_current=form.cleaned_data["is_current"],
+                )
 
-            return render_success(
-                request=request,
-                template="academic_structure/partials/session_table.html",
-                context={
-                    "sessions": sessions,
-                },
-            )
+            except ValidationError as e:
+
+                form.add_error(
+                    None,
+                    e.message,
+                )
+
+            else:
+
+                return render_success(
+                    request=request,
+                    template="academic_structure/partials/session_table.html",
+                    context={
+                        "sessions": get_academic_sessions(
+                            tenant=request.tenant,
+                        ),
+                    },
+                    event="modal:close",
+                )
 
     else:
 
@@ -127,21 +167,23 @@ def academic_session_update(request, pk):
             instance=session,
         )
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="academic_structure/modals/session_form.html",
         context={
             "form": form,
             "title": "Edit Academic Session",
             "submit_label": "Save Changes",
-            "session": session,
+            "target": "#session-table",
         },
     )
 
 
+@login_required
+@permission_required(**permissions.DELETE)
 def academic_session_delete(request, pk):
     """
-    Delete Academic Session.
+    Delete an academic session.
     """
 
     session = get_academic_session(
@@ -152,25 +194,26 @@ def academic_session_delete(request, pk):
     if request.method == "POST":
 
         delete_academic_session(
-            instance=session,
-        )
-
-        sessions = get_academic_sessions(
-            tenant=request.tenant,
+            academic_session=session,
         )
 
         return render_success(
             request=request,
             template="academic_structure/partials/session_table.html",
             context={
-                "sessions": sessions,
+                "sessions": get_academic_sessions(
+                    tenant=request.tenant,
+                ),
             },
+            event="modal:close",
         )
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="academic_structure/modals/delete_session.html",
         context={
             "session": session,
+            "post_url": request.path,
+            "target": "#session-table",
         },
     )

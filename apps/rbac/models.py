@@ -84,6 +84,7 @@ class RolePermission(BaseModel):
         DELETE = "delete", "Delete"
 
     class Module(models.TextChoices):
+        ACADEMIC_STRUCTURE = "academic_structure", "Academic Structure"
         STUDENTS = "students", "Students"
         ATTENDANCE = "attendance", "Attendance"
         ACADEMICS = "academics", "Academics"

@@ -5,16 +5,22 @@ from ..models import Section
 
 
 # ============================================================================
-# Section Selectors
+# List
 # ============================================================================
 
-def get_sections(*, tenant) -> QuerySet[Section]:
+def get_sections(
+    *,
+    tenant,
+) -> QuerySet[Section]:
     """
-    Return all sections with related objects.
+    Return all sections.
     """
+
     return (
         Section.objects
-        .filter(tenant=tenant)
+        .filter(
+            tenant=tenant,
+        )
         .select_related(
             "academic_session",
             "class_level",
@@ -32,8 +38,9 @@ def get_sections_by_class(
     class_level,
 ) -> QuerySet[Section]:
     """
-    Return sections belonging to a class level.
+    Return all sections for a class level.
     """
+
     return (
         Section.objects
         .filter(
@@ -44,16 +51,61 @@ def get_sections_by_class(
             "academic_session",
             "class_level",
         )
-        .order_by("name")
+        .order_by(
+            "name",
+        )
     )
 
 
-def get_section(*, tenant, pk) -> Section:
+# ============================================================================
+# Retrieve
+# ============================================================================
+
+def get_section(
+    *,
+    tenant,
+    pk,
+) -> Section:
     """
     Return a single section.
     """
+
     return get_object_or_404(
         Section,
         tenant=tenant,
         pk=pk,
     )
+
+
+# ============================================================================
+# Exists
+# ============================================================================
+
+def section_exists(
+    *,
+    tenant,
+    academic_session,
+    class_level,
+    name,
+    exclude_pk=None,
+) -> bool:
+    """
+    Return True if a section with the given name
+    already exists for the academic session and
+    class level.
+    """
+
+    queryset = Section.objects.filter(
+        tenant=tenant,
+        academic_session=academic_session,
+        class_level=class_level,
+        name=name,
+    )
+
+    if exclude_pk:
+
+        queryset = queryset.exclude(
+            pk=exclude_pk,
+        )
+
+    return queryset.exists()

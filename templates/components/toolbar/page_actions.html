@@ -1,0 +1,30 @@
+{% load components %}
+
+{% component_block "layout/card" %}
+
+<div class="cx-page-toolbar">
+
+    <div class="cx-page-toolbar__start">
+
+        {% slot "start" %}
+        {% endslot %}
+
+    </div>
+
+    <div class="cx-page-toolbar__center">
+
+        {% slot "center" %}
+        {% endslot %}
+
+    </div>
+
+    <div class="cx-page-toolbar__end">
+
+        {% slot "end" %}
+        {% endslot %}
+
+    </div>
+
+</div>
+
+{% endcomponent_block %}

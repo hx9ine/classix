@@ -1,11 +1,11 @@
 from django.urls import reverse
 
 from apps.core.crud import (
-    redirect_success,
+    render_redirect,
     render_success,
 )
 from apps.core.htmx import (
-    htmx_modal,
+    render_modal,
     render_partial,
 )
 
@@ -86,7 +86,7 @@ def student_update(request, pk):
             tenant=request.tenant,
         )
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="students/modals/student_form.html",
         context={
@@ -127,7 +127,7 @@ def student_profile_update(request, pk):
                 form=form,
             )
 
-            return redirect_success(
+            return render_redirect(
                 url=reverse(
                     "students:student_detail",
                     args=[student.pk],
@@ -141,7 +141,7 @@ def student_profile_update(request, pk):
             tenant=request.tenant,
         )
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="students/modals/student_form.html",
         context={

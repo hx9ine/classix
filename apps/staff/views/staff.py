@@ -1,8 +1,8 @@
 from django.urls import reverse
 
-from apps.core.crud import render_success, redirect_success
+from apps.core.crud import render_success, render_redirect
 from apps.core.htmx import (
-    htmx_modal,
+    render_modal,
     render_partial,
 )
 
@@ -82,7 +82,7 @@ def staff_create(request):
             tenant=request.tenant,
         )
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="staff/modals/staff_form.html",
         context={
@@ -139,7 +139,7 @@ def staff_update(request, pk):
             tenant=request.tenant,
         )
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="staff/modals/staff_form.html",
         context={
@@ -182,7 +182,7 @@ def staff_delete(request, pk):
             },
         )
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="staff/modals/delete_staff.html",
         context={
@@ -223,7 +223,7 @@ def staff_profile_update(request, pk):
                 form=form,
             )
 
-            return redirect_success(
+            return render_redirect(
                 url=reverse(
                     "staff:staff_detail",
                     args=[staff.pk],
@@ -237,7 +237,7 @@ def staff_profile_update(request, pk):
             tenant=request.tenant,
         )
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="staff/modals/staff_form.html",
         context={

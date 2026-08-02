@@ -1,0 +1,25 @@
+{% load components %}
+
+{% component "layout/modal" title="Delete Subject" subtitle="This action cannot be undone." %}
+
+<form
+    method="post"
+    hx-post="{{ request.path }}"
+    hx-target="#subject-table"
+    hx-swap="innerHTML"
+>
+
+    {% csrf_token %}
+
+    <p class="cx-delete-message">
+
+        Are you sure you want to delete
+        <strong>{{ subject.name }}</strong>?
+
+    </p>
+
+    {% include "components/forms/actions.html" with submit_label="Delete" submit_variant="danger" %}
+
+</form>
+
+{% endcomponent %}

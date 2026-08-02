@@ -1,12 +1,14 @@
 {% load components %}
 
-{% component "layout/modal" title="Delete Class Level" subtitle="This action cannot be undone." %}
+{% component "layout/modal" title="Delete Class Level" %}
 
 <form
     method="post"
-    hx-post="{{ request.path }}"
-    hx-target="#class-level-table"
+    hx-post="{{ post_url|default:request.path }}"
+    {% if target %}
+    hx-target="{{ target }}"
     hx-swap="innerHTML"
+    {% endif %}
 >
 
     {% csrf_token %}
@@ -16,19 +18,7 @@
         <strong>{{ class_level.name }}</strong>?
     </p>
 
-    <div class="cx-form-actions">
-
-        <button
-            type="button"
-            class="cx-btn cx-btn--secondary"
-            data-modal-close
-        >
-            Cancel
-        </button>
-
-        {% include "components/actions/button.html" with label="Delete" variant="danger" type="submit" %}
-
-    </div>
+    {% include "components/forms/actions.html" with submit_label="Delete" submit_variant="danger" %}
 
 </form>
 

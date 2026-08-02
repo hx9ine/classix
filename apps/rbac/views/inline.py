@@ -1,6 +1,6 @@
 from django.urls import reverse
 
-from apps.core.htmx import htmx_modal
+from apps.core.htmx import render_modal
 from apps.core.oob import render_select_oob
 
 from ..forms import RoleForm
@@ -47,7 +47,7 @@ def role_create_inline(request):
             tenant=request.tenant,
         )
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="rbac/modals/role_form.html",
         context={

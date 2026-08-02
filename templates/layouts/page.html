@@ -1,0 +1,29 @@
+{% extends "layouts/app.html" %}
+
+{% block content %}
+
+<div class="cx-page">
+
+    {% block page_header %}
+    {% endblock %}
+
+    <div class="cx-page__body">
+
+        {% block page_toolbar %}
+        {% endblock %}
+
+        {% block page_filters %}
+        {% endblock %}
+
+        <div class="cx-page__content">
+
+            {% block page_content %}
+            {% endblock %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

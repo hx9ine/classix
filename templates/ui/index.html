@@ -1,0 +1,43 @@
+{% extends "layouts/page.html" %}
+
+{% load components %}
+
+{% block title %}
+ClassiX UI Style Guide
+{% endblock %}
+
+
+{% block page_header %}
+
+{% include "components/navigation/page_header.html" with
+    title="ClassiX UI Style Guide"
+    subtitle="Design System"
+    description="Reference page for all reusable UI components used throughout ClassiX."
+%}
+
+{% endblock %}
+
+
+{% block page_content %}
+
+<div class="cx-ui">
+
+    {% include "ui/sections/buttons.html" %}
+
+    {% include "ui/sections/badges.html" %}
+
+    {% include "ui/sections/alerts.html" %}
+
+    {% include "ui/sections/forms.html" %}
+
+    {% include "ui/sections/search.html" %}
+
+    {% include "ui/sections/toolbars.html" %}
+
+    {% include "ui/sections/tables.html" %}
+
+    {% include "ui/sections/cards.html" %}
+
+</div>
+
+{% endblock %}

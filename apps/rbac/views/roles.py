@@ -1,11 +1,11 @@
 from django.urls import reverse
 
 from apps.core.crud import (
-    redirect_success,
+    render_redirect,
     render_success,
 )
 from apps.core.htmx import (
-    htmx_modal,
+    render_modal,
     render_partial,
 )
 
@@ -83,7 +83,7 @@ def role_create(request):
             tenant=request.tenant,
         )
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="rbac/modals/role_form.html",
         context={
@@ -122,7 +122,7 @@ def role_update(request, pk):
                 form=form,
             )
 
-            return redirect_success(
+            return render_redirect(
                 url=reverse(
                     "rbac:role_list",
                 ),
@@ -135,7 +135,7 @@ def role_update(request, pk):
             tenant=request.tenant,
         )
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="rbac/modals/role_form.html",
         context={

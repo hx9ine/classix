@@ -1,4 +1,4 @@
-{% extends "layouts/app.html" %}
+{% extends "layouts/page.html" %}
 
 {% load components %}
 
@@ -6,33 +6,26 @@
 Sections
 {% endblock %}
 
-{% block content %}
 
-{% component "navigation/page_header" title="Sections" subtitle="Manage sections for each academic session and class level." %}
-{% endcomponent %}
-
-<div class="cx-page-actions">
+{% block page_header %}
 
     {% url "academic_structure:section_create" as create_url %}
 
-    {% include "components/actions/button.html" with label="New Section" variant="primary" hx_get=create_url hx_target="#modal-container" hx_swap="innerHTML" %}
+    {% component "navigation/page_header" title="Sections" subtitle="Manage sections for each academic session and class level." %}
+
+        {% include "components/actions/button.html" with label="New Section" variant="primary" hx_get=create_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+    {% endcomponent %}
+
+{% endblock %}
+
+
+{% block page_content %}
+
+<div id="section-table">
+
+    {% include "academic_structure/partials/section_table.html" %}
 
 </div>
-
-<div
-    id="section-table"
-    hx-get="{% url 'academic_structure:section_list' %}"
-    hx-trigger="load"
-    hx-target="this"
-    hx-swap="innerHTML"
->
-
-    <div class="cx-loading">
-        Loading sections...
-    </div>
-
-</div>
-
-<div id="modal-container"></div>
 
 {% endblock %}

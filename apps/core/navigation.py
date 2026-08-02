@@ -21,8 +21,13 @@ NAVIGATION = [
         "title": "Academics",
         "items": [
             {
+                "label": "Subjects",
+                "url_name": "academics:subject_list",
+                "icon": "subject",
+            },
+            {
                 "label": "Students",
-                "url_name": None,
+                "url_name": "students:student_list",
                 "icon": "students",
             },
             {

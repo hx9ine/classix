@@ -3,23 +3,38 @@
 {% load static %}
 
 {% block body %}
+
 <div class="cx-app">
 
-    {% include "sidebar/sidebar.html" %}
+    <aside class="cx-app__sidebar">
 
-    <main class="cx-app__main">
+        {% include "sidebar/sidebar.html" %}
 
-        {% block topbar %}
-        {% endblock %}
+    </aside>
 
-        <section class="cx-app__content">
+    <div class="cx-app__main">
+
+        <header class="cx-app__header">
+
+            {% include "components/navigation/topbar.html" %}
+
+        </header>
+
+        <main class="cx-app__page">
+
             {% block content %}
             {% endblock %}
-        </section>
 
-    </main>
+        </main>
+
+    </div>
 
 </div>
+
+
+<div id="modal-container"></div>
+
+<div id="nested-modal-container"></div>
 
 <script src="{% static 'js/sidebar.js' %}"></script>
 

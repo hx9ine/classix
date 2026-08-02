@@ -11,7 +11,7 @@ class LoginView(View):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect("dashboard:index")
+            return redirect("academic_structure:academic_session_list")
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -37,7 +37,7 @@ class LoginView(View):
             )
 
             if user:
-                return redirect("dashboard:index")
+                return redirect("academic_structure:academic_session_list")
 
             messages.error(
                 request,

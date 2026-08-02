@@ -1,6 +1,6 @@
 from apps.core.crud import render_success
 from apps.core.htmx import (
-    htmx_modal,
+    render_modal,
     render_partial,
 )
 
@@ -79,7 +79,7 @@ def applicant_create(request):
             tenant=request.tenant,
         )
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="admissions/modals/applicant_form.html",
         context={
@@ -131,7 +131,7 @@ def applicant_update(request, pk):
             tenant=request.tenant,
         )
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="admissions/modals/applicant_form.html",
         context={
@@ -169,7 +169,7 @@ def applicant_delete(request, pk):
             },
         )
 
-    return htmx_modal(
+    return render_modal(
         request=request,
         template="admissions/modals/delete_applicant.html",
         context={
