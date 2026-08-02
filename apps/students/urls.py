@@ -1,10 +1,10 @@
 from django.urls import path
 
 from .views import (
-    student_list,
-    student_update,
     student_detail,
-    student_profile_update
+    student_list,
+    student_profile_update,
+    student_update,
 )
 
 app_name = "students"

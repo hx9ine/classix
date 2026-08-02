@@ -11,21 +11,13 @@
             <tr>
 
                 <th>Student Code</th>
-
                 <th>Name</th>
-
                 <th>Gender</th>
-
                 <th>Academic Session</th>
-
                 <th>Class</th>
-
                 <th>Section</th>
-
                 <th>Roll No.</th>
-
                 <th>Status</th>
-
                 <th class="cx-text-center">Actions</th>
 
             </tr>
@@ -39,33 +31,57 @@
                 <tr>
 
                     <td>
-                        <strong>{{ student.student_code }}</strong>
+
+                        <strong>
+
+                            {{ student.student_code }}
+
+                        </strong>
+
                     </td>
 
                     <td>
-                        <a href="{% url 'students:student_detail' student.pk %}">
-                            {{ student.first_name }} {{ student.last_name }}
-                        </a>
+
+                        <strong>
+
+                            <a href="{% url 'students:student_detail' student.pk %}">
+
+                                {{ student.first_name }} {{ student.last_name }}
+
+                            </a>
+
+                        </strong>
+
                     </td>
 
                     <td>
+
                         {{ student.get_gender_display }}
+
                     </td>
 
                     <td>
+
                         {{ student.academic_session.name }}
+
                     </td>
 
                     <td>
+
                         {{ student.section.class_level.name }}
+
                     </td>
 
                     <td>
+
                         {{ student.section.name }}
+
                     </td>
 
                     <td>
+
                         {{ student.roll_number|default:"—" }}
+
                     </td>
 
                     <td>

@@ -1,4 +1,4 @@
-{% extends "layouts/app.html" %}
+{% extends "layouts/page.html" %}
 
 {% load components %}
 
@@ -6,10 +6,20 @@
 Students
 {% endblock %}
 
-{% block content %}
+{% block page_content %}
 
 {% component "navigation/page_header" title="Students" subtitle="Manage enrolled students." %}
 {% endcomponent %}
+
+<div class="cx-page-actions">
+
+    {# Reserved for future actions:
+       - Enroll Student
+       - Export
+       - Filters
+    #}
+
+</div>
 
 <div
     id="student-table"

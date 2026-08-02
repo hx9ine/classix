@@ -1,6 +1,6 @@
 {% load components %}
 
-{% component "layout/modal" title=title %}
+{% component "layout/modal" title=title subtitle="Update student information." %}
 
 <form
     method="post"
@@ -13,25 +13,53 @@
 
     {% csrf_token %}
 
-    <div class="cx-form-grid">
+    {% component "forms/section" title="Student Information" description="Update the student's academic and personal details." %}
 
-        {% include "components/forms/field.html" with field=form.first_name %}
-        {% include "components/forms/field.html" with field=form.last_name %}
+        <div class="cx-form-row">
 
-        {% include "components/forms/field.html" with field=form.dob %}
-        {% include "components/forms/field.html" with field=form.gender %}
+            {% include "components/forms/field.html" with field=form.first_name %}
 
-        {% include "components/forms/field.html" with field=form.academic_session %}
-        {% include "components/forms/field.html" with field=form.section %}
+            {% include "components/forms/field.html" with field=form.last_name %}
 
-        {% include "components/forms/field.html" with field=form.roll_number %}
-        {% include "components/forms/field.html" with field=form.blood_group %}
+        </div>
 
-        {% include "components/forms/field.html" with field=form.previous_school %}
+        <div class="cx-form-row">
 
-        {% include "components/forms/field.html" with field=form.address %}
+            {% include "components/forms/field.html" with field=form.dob %}
 
-    </div>
+            {% include "components/forms/field.html" with field=form.gender %}
+
+        </div>
+
+        <div class="cx-form-row">
+
+            {% include "components/forms/field.html" with field=form.academic_session %}
+
+            {% include "components/forms/field.html" with field=form.section %}
+
+        </div>
+
+        <div class="cx-form-row">
+
+            {% include "components/forms/field.html" with field=form.roll_number %}
+
+            {% include "components/forms/field.html" with field=form.blood_group %}
+
+        </div>
+
+        <div class="cx-form-row">
+
+            {% include "components/forms/field.html" with field=form.previous_school %}
+
+        </div>
+
+        <div class="cx-form-row">
+
+            {% include "components/forms/field.html" with field=form.address %}
+
+        </div>
+
+    {% endcomponent %}
 
     {% include "components/forms/actions.html" with submit_label=submit_label cancel_label="Cancel" %}
 

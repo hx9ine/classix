@@ -1,4 +1,4 @@
-{% extends "layouts/app.html" %}
+{% extends "layouts/page.html" %}
 
 {% load components %}
 
@@ -6,7 +6,7 @@
 {{ student.first_name }} {{ student.last_name }}
 {% endblock %}
 
-{% block content %}
+{% block page_content %}
 
 {% component "navigation/page_header" title=student.first_name|add:" "|add:student.last_name subtitle=student.student_code %}
 {% endcomponent %}
@@ -28,7 +28,31 @@
 
                 <tr>
                     <th>Status</th>
-                    <td>{{ student.get_status_display }}</td>
+                    <td>
+
+                        {% if student.status == "active" %}
+
+                            {% include "components/data/badge.html" with label="Active" variant="success" %}
+
+                        {% elif student.status == "inactive" %}
+
+                            {% include "components/data/badge.html" with label="Inactive" variant="default" %}
+
+                        {% elif student.status == "alumni" %}
+
+                            {% include "components/data/badge.html" with label="Alumni" variant="secondary" %}
+
+                        {% elif student.status == "transferred" %}
+
+                            {% include "components/data/badge.html" with label="Transferred" variant="warning" %}
+
+                        {% else %}
+
+                            {% include "components/data/badge.html" with label=student.get_status_display variant="default" %}
+
+                        {% endif %}
+
+                    </td>
                 </tr>
 
                 <tr>
