@@ -1,0 +1,450 @@
+{% load components %}
+
+<div class="cx-card">
+
+    <div class="cx-table-responsive">
+
+        <table class="cx-table">
+
+            <thead>
+                <tr>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                    <th>Sunday</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    {# Monday #}
+                    <td class="cx-timetable-day">
+
+                        {% for period in timetable_periods %}
+
+                            {% if period.day_of_week == 0 %}
+
+                                <div class="cx-timetable-period">
+
+                                    <div class="cx-timetable-period__time">
+                                        {{ period.start_time|time:"H:i" }}
+                                        –
+                                        {{ period.end_time|time:"H:i" }}
+                                    </div>
+
+                                    <div class="cx-timetable-period__subject">
+                                        <strong>
+                                            {{ period.subject.name }}
+                                        </strong>
+                                    </div>
+
+                                    <div class="cx-timetable-period__details">
+                                        {{ period.section }}
+                                    </div>
+
+                                    <div class="cx-timetable-period__details">
+                                        {{ period.staff.full_name }}
+                                    </div>
+
+                                    {% if period.room %}
+                                        <div class="cx-timetable-period__details">
+                                            Room {{ period.room }}
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="cx-table-actions">
+
+                                        {% url "academics:timetable_update" period.pk as edit_url %}
+
+                                        {% include "components/actions/button.html" with label="Edit" variant="secondary" size="sm" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                                        {% url "academics:timetable_delete" period.pk as delete_url %}
+
+                                        {% include "components/actions/button.html" with label="Delete" variant="danger" size="sm" hx_get=delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+                        {% empty %}
+
+                            <span class="cx-text-muted">No periods</span>
+
+                        {% endfor %}
+
+                    </td>
+
+
+                    {# Tuesday #}
+                    <td class="cx-timetable-day">
+
+                        {% for period in timetable_periods %}
+
+                            {% if period.day_of_week == 1 %}
+
+                                <div class="cx-timetable-period">
+
+                                    <div class="cx-timetable-period__time">
+                                        {{ period.start_time|time:"H:i" }}
+                                        –
+                                        {{ period.end_time|time:"H:i" }}
+                                    </div>
+
+                                    <div class="cx-timetable-period__subject">
+                                        <strong>
+                                            {{ period.subject.name }}
+                                        </strong>
+                                    </div>
+
+                                    <div class="cx-timetable-period__details">
+                                        {{ period.section }}
+                                    </div>
+
+                                    <div class="cx-timetable-period__details">
+                                        {{ period.staff.full_name }}
+                                    </div>
+
+                                    {% if period.room %}
+                                        <div class="cx-timetable-period__details">
+                                            Room {{ period.room }}
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="cx-table-actions">
+
+                                        {% url "academics:timetable_update" period.pk as edit_url %}
+
+                                        {% include "components/actions/button.html" with label="Edit" variant="secondary" size="sm" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                                        {% url "academics:timetable_delete" period.pk as delete_url %}
+
+                                        {% include "components/actions/button.html" with label="Delete" variant="danger" size="sm" hx_get=delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+                        {% empty %}
+
+                            <span class="cx-text-muted">No periods</span>
+
+                        {% endfor %}
+
+                    </td>
+
+
+                    {# Wednesday #}
+                    <td class="cx-timetable-day">
+
+                        {% for period in timetable_periods %}
+
+                            {% if period.day_of_week == 2 %}
+
+                                <div class="cx-timetable-period">
+
+                                    <div class="cx-timetable-period__time">
+                                        {{ period.start_time|time:"H:i" }}
+                                        –
+                                        {{ period.end_time|time:"H:i" }}
+                                    </div>
+
+                                    <div class="cx-timetable-period__subject">
+                                        <strong>
+                                            {{ period.subject.name }}
+                                        </strong>
+                                    </div>
+
+                                    <div class="cx-timetable-period__details">
+                                        {{ period.section }}
+                                    </div>
+
+                                    <div class="cx-timetable-period__details">
+                                        {{ period.staff.full_name }}
+                                    </div>
+
+                                    {% if period.room %}
+                                        <div class="cx-timetable-period__details">
+                                            Room {{ period.room }}
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="cx-table-actions">
+
+                                        {% url "academics:timetable_update" period.pk as edit_url %}
+
+                                        {% include "components/actions/button.html" with label="Edit" variant="secondary" size="sm" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                                        {% url "academics:timetable_delete" period.pk as delete_url %}
+
+                                        {% include "components/actions/button.html" with label="Delete" variant="danger" size="sm" hx_get=delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+                        {% empty %}
+
+                            <span class="cx-text-muted">No periods</span>
+
+                        {% endfor %}
+
+                    </td>
+
+
+                    {# Thursday #}
+                    <td class="cx-timetable-day">
+
+                        {% for period in timetable_periods %}
+
+                            {% if period.day_of_week == 3 %}
+
+                                <div class="cx-timetable-period">
+
+                                    <div class="cx-timetable-period__time">
+                                        {{ period.start_time|time:"H:i" }}
+                                        –
+                                        {{ period.end_time|time:"H:i" }}
+                                    </div>
+
+                                    <div class="cx-timetable-period__subject">
+                                        <strong>
+                                            {{ period.subject.name }}
+                                        </strong>
+                                    </div>
+
+                                    <div class="cx-timetable-period__details">
+                                        {{ period.section }}
+                                    </div>
+
+                                    <div class="cx-timetable-period__details">
+                                        {{ period.staff.full_name }}
+                                    </div>
+
+                                    {% if period.room %}
+                                        <div class="cx-timetable-period__details">
+                                            Room {{ period.room }}
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="cx-table-actions">
+
+                                        {% url "academics:timetable_update" period.pk as edit_url %}
+
+                                        {% include "components/actions/button.html" with label="Edit" variant="secondary" size="sm" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                                        {% url "academics:timetable_delete" period.pk as delete_url %}
+
+                                        {% include "components/actions/button.html" with label="Delete" variant="danger" size="sm" hx_get=delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+                        {% empty %}
+
+                            <span class="cx-text-muted">No periods</span>
+
+                        {% endfor %}
+
+                    </td>
+
+
+                    {# Friday #}
+                    <td class="cx-timetable-day">
+
+                        {% for period in timetable_periods %}
+
+                            {% if period.day_of_week == 4 %}
+
+                                <div class="cx-timetable-period">
+
+                                    <div class="cx-timetable-period__time">
+                                        {{ period.start_time|time:"H:i" }}
+                                        –
+                                        {{ period.end_time|time:"H:i" }}
+                                    </div>
+
+                                    <div class="cx-timetable-period__subject">
+                                        <strong>
+                                            {{ period.subject.name }}
+                                        </strong>
+                                    </div>
+
+                                    <div class="cx-timetable-period__details">
+                                        {{ period.section }}
+                                    </div>
+
+                                    <div class="cx-timetable-period__details">
+                                        {{ period.staff.full_name }}
+                                    </div>
+
+                                    {% if period.room %}
+                                        <div class="cx-timetable-period__details">
+                                            Room {{ period.room }}
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="cx-table-actions">
+
+                                        {% url "academics:timetable_update" period.pk as edit_url %}
+
+                                        {% include "components/actions/button.html" with label="Edit" variant="secondary" size="sm" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                                        {% url "academics:timetable_delete" period.pk as delete_url %}
+
+                                        {% include "components/actions/button.html" with label="Delete" variant="danger" size="sm" hx_get=delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+                        {% empty %}
+
+                            <span class="cx-text-muted">No periods</span>
+
+                        {% endfor %}
+
+                    </td>
+
+
+                    {# Saturday #}
+                    <td class="cx-timetable-day">
+
+                        {% for period in timetable_periods %}
+
+                            {% if period.day_of_week == 5 %}
+
+                                <div class="cx-timetable-period">
+
+                                    <div class="cx-timetable-period__time">
+                                        {{ period.start_time|time:"H:i" }}
+                                        –
+                                        {{ period.end_time|time:"H:i" }}
+                                    </div>
+
+                                    <div class="cx-timetable-period__subject">
+                                        <strong>
+                                            {{ period.subject.name }}
+                                        </strong>
+                                    </div>
+
+                                    <div class="cx-timetable-period__details">
+                                        {{ period.section }}
+                                    </div>
+
+                                    <div class="cx-timetable-period__details">
+                                        {{ period.staff.full_name }}
+                                    </div>
+
+                                    {% if period.room %}
+                                        <div class="cx-timetable-period__details">
+                                            Room {{ period.room }}
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="cx-table-actions">
+
+                                        {% url "academics:timetable_update" period.pk as edit_url %}
+
+                                        {% include "components/actions/button.html" with label="Edit" variant="secondary" size="sm" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                                        {% url "academics:timetable_delete" period.pk as delete_url %}
+
+                                        {% include "components/actions/button.html" with label="Delete" variant="danger" size="sm" hx_get=delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+                        {% empty %}
+
+                            <span class="cx-text-muted">No periods</span>
+
+                        {% endfor %}
+
+                    </td>
+
+
+                    {# Sunday #}
+                    <td class="cx-timetable-day">
+
+                        {% for period in timetable_periods %}
+
+                            {% if period.day_of_week == 6 %}
+
+                                <div class="cx-timetable-period">
+
+                                    <div class="cx-timetable-period__time">
+                                        {{ period.start_time|time:"H:i" }}
+                                        –
+                                        {{ period.end_time|time:"H:i" }}
+                                    </div>
+
+                                    <div class="cx-timetable-period__subject">
+                                        <strong>
+                                            {{ period.subject.name }}
+                                        </strong>
+                                    </div>
+
+                                    <div class="cx-timetable-period__details">
+                                        {{ period.section }}
+                                    </div>
+
+                                    <div class="cx-timetable-period__details">
+                                        {{ period.staff.full_name }}
+                                    </div>
+
+                                    {% if period.room %}
+                                        Room {{ period.room }}
+                                    {% endif %}
+
+                                    <div class="cx-table-actions">
+
+                                        {% url "academics:timetable_update" period.pk as edit_url %}
+
+                                        {% include "components/actions/button.html" with label="Edit" variant="secondary" size="sm" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                                        {% url "academics:timetable_delete" period.pk as delete_url %}
+
+                                        {% include "components/actions/button.html" with label="Delete" variant="danger" size="sm" hx_get=delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+                        {% empty %}
+
+                            <span class="cx-text-muted">No periods</span>
+
+                        {% endfor %}
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

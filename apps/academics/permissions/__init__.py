@@ -1,3 +1,4 @@
+from . import timetable
 from .subject import (
     CREATE,
     DELETE,
@@ -6,10 +7,12 @@ from .subject import (
     VIEW,
 )
 
+
 __all__ = [
     "MODULE",
     "VIEW",
     "CREATE",
     "EDIT",
     "DELETE",
+    "timetable",
 ]

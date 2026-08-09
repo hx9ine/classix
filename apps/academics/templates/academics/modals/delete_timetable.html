@@ -1,0 +1,31 @@
+{% load components %}
+
+{% component "layout/modal" title=title %}
+
+    <form
+        hx-post="{{ post_url }}"
+        hx-target="{{ target|default:'#timetable-table' }}"
+        hx-swap="innerHTML"
+    >
+
+        {% csrf_token %}
+
+        <p>
+            Are you sure you want to delete this timetable period?
+        </p>
+
+        <p class="cx-text-muted">
+            <strong>{{ timetable_period.subject.name }}</strong>
+            —
+            {{ timetable_period.section }}
+            —
+            {{ timetable_period.start_time|time:"H:i" }}
+            to
+            {{ timetable_period.end_time|time:"H:i" }}
+        </p>
+
+        {% include "components/forms/actions.html" with submit_label=submit_label submit_variant="danger" cancel_label="Cancel" %}
+
+    </form>
+
+{% endcomponent %}

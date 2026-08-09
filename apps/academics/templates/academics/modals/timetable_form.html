@@ -1,0 +1,44 @@
+{% load components %}
+
+{% component "layout/modal" title=title subtitle="Set the class schedule for this timetable period." %}
+
+    <form
+        hx-post="{{ post_url }}"
+        hx-target="{{ target|default:'#timetable-table' }}"
+        hx-swap="innerHTML"
+    >
+
+        {% csrf_token %}
+
+        <div class="cx-form-grid">
+
+            {% url "academic_structure:section_create" as create_section_url %}
+
+            {% include "components/forms/dependent_select.html" with field=form.section create_url=create_section_url create_label="Create Section" %}
+
+
+            {% url "academics:subject_create" as create_subject_url %}
+
+            {% include "components/forms/dependent_select.html" with field=form.subject create_url=create_subject_url create_label="Create Subject" %}
+
+
+            {% url "staff:staff_create" as create_staff_url %}
+
+            {% include "components/forms/dependent_select.html" with field=form.staff create_url=create_staff_url create_label="Create Staff" %}
+
+
+            {% include "components/forms/field.html" with field=form.day_of_week %}
+
+            {% include "components/forms/field.html" with field=form.start_time %}
+
+            {% include "components/forms/field.html" with field=form.end_time %}
+
+            {% include "components/forms/field.html" with field=form.room %}
+
+        </div>
+
+        {% include "components/forms/actions.html" with submit_label=submit_label cancel_label="Cancel" %}
+
+    </form>
+
+{% endcomponent %}
