@@ -44,7 +44,11 @@
 
                     </td>
 
-                    <td>{{ applicant.get_gender_display }}</td>
+                    <td>
+
+                        {{ applicant.get_gender_display }}
+
+                    </td>
 
                     <td>
 
@@ -62,7 +66,9 @@
 
                         <div>
 
-                            <strong>{{ applicant.guardian_name }}</strong>
+                            <strong>
+                                {{ applicant.guardian_name }}
+                            </strong>
 
                         </div>
 
@@ -99,6 +105,10 @@
                         {% elif applicant.status == "enrolled" %}
 
                             {% include "components/data/badge.html" with label="Enrolled" variant="success" %}
+
+                        {% else %}
+
+                            {% include "components/data/badge.html" with label=applicant.get_status_display variant="default" %}
 
                         {% endif %}
 

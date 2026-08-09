@@ -25,7 +25,7 @@ class ApplicantForm(forms.ModelForm):
             "dob": forms.DateInput(
                 attrs={
                     "type": "date",
-                }
+                },
             ),
         }
 
@@ -33,9 +33,11 @@ class ApplicantForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         self.fields["applying_for_class_level"].queryset = (
-            ClassLevel.objects.filter(
+            ClassLevel.objects
+            .filter(
                 tenant=tenant,
-            ).order_by(
+            )
+            .order_by(
                 "sort_order",
                 "name",
             )

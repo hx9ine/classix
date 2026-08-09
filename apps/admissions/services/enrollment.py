@@ -49,7 +49,7 @@ def enroll_applicant(
         update_fields=[
             "status",
             "linked_student",
-        ]
+        ],
     )
 
     return student

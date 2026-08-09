@@ -8,7 +8,9 @@ from .views import (
     applicant_update,
 )
 
+
 app_name = "admissions"
+
 
 urlpatterns = [
     # =========================================================================

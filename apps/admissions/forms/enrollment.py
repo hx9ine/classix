@@ -25,8 +25,8 @@ class EnrollmentForm(forms.Form):
         widget=forms.DateInput(
             attrs={
                 "type": "date",
-            }
-        )
+            },
+        ),
     )
 
     def __init__(
@@ -36,12 +36,19 @@ class EnrollmentForm(forms.Form):
         applicant,
         **kwargs,
     ):
-        super().__init__(*args, **kwargs)
+        super().__init__(
+            *args,
+            **kwargs,
+        )
 
         self.fields["academic_session"].queryset = (
-            AcademicSession.objects.filter(
+            AcademicSession.objects
+            .filter(
                 tenant=tenant,
-            ).order_by("-start_date")
+            )
+            .order_by(
+                "-start_date",
+            )
         )
 
         self.fields["section"].queryset = (
@@ -54,7 +61,9 @@ class EnrollmentForm(forms.Form):
         current_session = (
             self.fields["academic_session"]
             .queryset
-            .filter(is_current=True)
+            .filter(
+                is_current=True,
+            )
             .first()
         )
 

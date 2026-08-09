@@ -8,11 +8,19 @@ from ..models import Applicant
 # ============================================================================
 
 @transaction.atomic
-def create_applicant(*, tenant, form) -> Applicant:
+def create_applicant(
+    *,
+    tenant,
+    form,
+) -> Applicant:
     """
     Create a new applicant.
     """
-    applicant = form.save(commit=False)
+
+    applicant = form.save(
+        commit=False,
+    )
+
     applicant.tenant = tenant
     applicant.save()
 
@@ -20,16 +28,24 @@ def create_applicant(*, tenant, form) -> Applicant:
 
 
 @transaction.atomic
-def update_applicant(*, form) -> Applicant:
+def update_applicant(
+    *,
+    form,
+) -> Applicant:
     """
     Update an existing applicant.
     """
+
     return form.save()
 
 
 @transaction.atomic
-def delete_applicant(*, instance) -> None:
+def delete_applicant(
+    *,
+    instance,
+) -> None:
     """
     Delete an applicant.
     """
+
     instance.delete()

@@ -1,9 +1,14 @@
-from django.db.models import Max
-
 from ..models import Student
 
 
-def generate_student_code(*, tenant) -> str:
+# ============================================================================
+# Student Code Services
+# ============================================================================
+
+def generate_student_code(
+    *,
+    tenant,
+) -> str:
     """
     Generate the next student code for a tenant.
 
@@ -14,19 +19,28 @@ def generate_student_code(*, tenant) -> str:
     """
 
     latest = (
-        Student.objects.filter(
+        Student.objects
+        .filter(
             tenant=tenant,
             student_code__startswith="STU-",
         )
-        .order_by("-student_code")
+        .order_by(
+            "-student_code",
+        )
         .first()
     )
 
     if latest is None:
         next_number = 1
     else:
-        next_number = int(
-            latest.student_code.replace("STU-", "")
-        ) + 1
+        next_number = (
+            int(
+                latest.student_code.replace(
+                    "STU-",
+                    "",
+                )
+            )
+            + 1
+        )
 
     return f"STU-{next_number:06d}"

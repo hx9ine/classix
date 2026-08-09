@@ -8,14 +8,22 @@ from ..models import Applicant
 # Applicant Selectors
 # ============================================================================
 
-def get_applicants(*, tenant) -> QuerySet[Applicant]:
+def get_applicants(
+    *,
+    tenant,
+) -> QuerySet[Applicant]:
     """
     Return all applicants for the current tenant.
     """
+
     return (
         Applicant.objects
-        .filter(tenant=tenant)
-        .select_related("applying_for_class_level")
+        .filter(
+            tenant=tenant,
+        )
+        .select_related(
+            "applying_for_class_level",
+        )
         .order_by(
             "first_name",
             "last_name",
@@ -23,12 +31,19 @@ def get_applicants(*, tenant) -> QuerySet[Applicant]:
     )
 
 
-def get_applicant(*, tenant, pk) -> Applicant:
+def get_applicant(
+    *,
+    tenant,
+    pk,
+) -> Applicant:
     """
     Return a single applicant.
     """
+
     return get_object_or_404(
-        Applicant,
+        Applicant.objects.select_related(
+            "applying_for_class_level",
+        ),
         tenant=tenant,
         pk=pk,
     )
@@ -42,13 +57,16 @@ def get_applicants_by_status(
     """
     Return applicants by status.
     """
+
     return (
         Applicant.objects
         .filter(
             tenant=tenant,
             status=status,
         )
-        .select_related("applying_for_class_level")
+        .select_related(
+            "applying_for_class_level",
+        )
         .order_by(
             "first_name",
             "last_name",

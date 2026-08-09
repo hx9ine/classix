@@ -1,10 +1,15 @@
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
+
 from apps.core.crud import render_success
 from apps.core.htmx import (
     render_modal,
     render_partial,
 )
+from apps.rbac.decorators import permission_required
 
 from ..forms import ApplicantForm
+from ..permissions import applicant as permissions
 from ..selectors import (
     get_applicant,
     get_applicants,
@@ -20,6 +25,8 @@ from ..services import (
 # Applicant Views
 # ============================================================================
 
+@login_required
+@permission_required(**permissions.VIEW)
 def applicant_list(request):
     """
     Applicant listing.
@@ -44,6 +51,8 @@ def applicant_list(request):
     )
 
 
+@login_required
+@permission_required(**permissions.CREATE)
 def applicant_create(request):
     """
     Create Applicant.
@@ -58,20 +67,32 @@ def applicant_create(request):
 
         if form.is_valid():
 
-            create_applicant(
-                tenant=request.tenant,
-                form=form,
-            )
+            try:
 
-            return render_success(
-                request=request,
-                template="admissions/partials/applicant_table.html",
-                context={
-                    "applicants": get_applicants(
-                        tenant=request.tenant,
-                    ),
-                },
-            )
+                create_applicant(
+                    tenant=request.tenant,
+                    form=form,
+                )
+
+            except ValidationError as e:
+
+                form.add_error(
+                    None,
+                    e.message,
+                )
+
+            else:
+
+                return render_success(
+                    request=request,
+                    template="admissions/partials/applicant_table.html",
+                    context={
+                        "applicants": get_applicants(
+                            tenant=request.tenant,
+                        ),
+                    },
+                    event="modal:close",
+                )
 
     else:
 
@@ -86,10 +107,13 @@ def applicant_create(request):
             "form": form,
             "title": "New Applicant",
             "submit_label": "Create Applicant",
+            "target": "#applicant-table",
         },
     )
 
 
+@login_required
+@permission_required(**permissions.EDIT)
 def applicant_update(request, pk):
     """
     Update Applicant.
@@ -110,19 +134,31 @@ def applicant_update(request, pk):
 
         if form.is_valid():
 
-            update_applicant(
-                form=form,
-            )
+            try:
 
-            return render_success(
-                request=request,
-                template="admissions/partials/applicant_table.html",
-                context={
-                    "applicants": get_applicants(
-                        tenant=request.tenant,
-                    ),
-                },
-            )
+                update_applicant(
+                    form=form,
+                )
+
+            except ValidationError as e:
+
+                form.add_error(
+                    None,
+                    e.message,
+                )
+
+            else:
+
+                return render_success(
+                    request=request,
+                    template="admissions/partials/applicant_table.html",
+                    context={
+                        "applicants": get_applicants(
+                            tenant=request.tenant,
+                        ),
+                    },
+                    event="modal:close",
+                )
 
     else:
 
@@ -139,10 +175,13 @@ def applicant_update(request, pk):
             "title": "Edit Applicant",
             "submit_label": "Save Changes",
             "applicant": applicant,
+            "target": "#applicant-table",
         },
     )
 
 
+@login_required
+@permission_required(**permissions.DELETE)
 def applicant_delete(request, pk):
     """
     Delete Applicant.
@@ -155,9 +194,22 @@ def applicant_delete(request, pk):
 
     if request.method == "POST":
 
-        delete_applicant(
-            instance=applicant,
-        )
+        try:
+
+            delete_applicant(
+                instance=applicant,
+            )
+
+        except ValidationError as e:
+
+            return render_modal(
+                request=request,
+                template="admissions/modals/delete_applicant.html",
+                context={
+                    "applicant": applicant,
+                    "error": e.message,
+                },
+            )
 
         return render_success(
             request=request,
@@ -167,6 +219,7 @@ def applicant_delete(request, pk):
                     tenant=request.tenant,
                 ),
             },
+            event="modal:close",
         )
 
     return render_modal(
@@ -174,5 +227,6 @@ def applicant_delete(request, pk):
         template="admissions/modals/delete_applicant.html",
         context={
             "applicant": applicant,
+            "target": "#applicant-table",
         },
     )
