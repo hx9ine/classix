@@ -1,0 +1,38 @@
+{% load components %}
+
+{% component "layout/modal" title=title %}
+
+<form
+    method="post"
+    hx-post="{{ post_url }}"
+    hx-target="#staff-table"
+    hx-swap="innerHTML"
+>
+
+    {% csrf_token %}
+
+    {% if action == "deactivate" %}
+
+        <p>
+            Are you sure you want to deactivate
+            <strong>{{ staff.full_name }}</strong>?
+        </p>
+
+        <p class="cx-text-muted">
+            The staff member will remain in the system but will no longer be active.
+        </p>
+
+    {% else %}
+
+        <p>
+            Are you sure you want to activate
+            <strong>{{ staff.full_name }}</strong>?
+        </p>
+
+    {% endif %}
+
+    {% include "components/forms/actions.html" with submit_label=submit_label cancel_label="Cancel" %}
+
+</form>
+
+{% endcomponent %}

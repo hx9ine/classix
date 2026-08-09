@@ -1,19 +1,26 @@
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 
-from apps.core.crud import render_success, render_redirect
+from apps.core.crud import (
+    render_redirect,
+    render_success,
+)
 from apps.core.htmx import (
     render_modal,
     render_partial,
 )
+from apps.rbac.decorators import permission_required
 
 from ..forms import StaffForm
+from ..permissions import staff as permissions
 from ..selectors import (
     get_staff,
     get_staff_members,
 )
 from ..services import (
+    activate_staff,
     create_staff,
-    delete_staff,
+    deactivate_staff,
     update_staff,
 )
 
@@ -22,6 +29,8 @@ from ..services import (
 # Staff Views
 # ============================================================================
 
+@login_required
+@permission_required(**permissions.VIEW)
 def staff_list(request):
     """
     Staff listing.
@@ -46,6 +55,8 @@ def staff_list(request):
     )
 
 
+@login_required
+@permission_required(**permissions.CREATE)
 def staff_create(request):
     """
     Create a staff member.
@@ -74,6 +85,7 @@ def staff_create(request):
                         tenant=request.tenant,
                     ),
                 },
+                event="modal:close",
             )
 
     else:
@@ -97,9 +109,11 @@ def staff_create(request):
     )
 
 
+@login_required
+@permission_required(**permissions.EDIT)
 def staff_update(request, pk):
     """
-    Update a staff member.
+    Update a staff member from the Staff list.
     """
 
     staff = get_staff(
@@ -130,6 +144,7 @@ def staff_update(request, pk):
                         tenant=request.tenant,
                     ),
                 },
+                event="modal:close",
             )
 
     else:
@@ -149,16 +164,20 @@ def staff_update(request, pk):
             "submit_label": "Save Changes",
             "post_url": reverse(
                 "staff:staff_update",
-                args=[staff.pk],
+                kwargs={
+                    "pk": staff.pk,
+                },
             ),
             "target": "#staff-table",
         },
     )
 
 
-def staff_delete(request, pk):
+@login_required
+@permission_required(**permissions.DELETE)
+def staff_deactivate(request, pk):
     """
-    Delete a staff member.
+    Deactivate a staff member.
     """
 
     staff = get_staff(
@@ -168,7 +187,7 @@ def staff_delete(request, pk):
 
     if request.method == "POST":
 
-        delete_staff(
+        deactivate_staff(
             instance=staff,
         )
 
@@ -180,24 +199,76 @@ def staff_delete(request, pk):
                     tenant=request.tenant,
                 ),
             },
+            event="modal:close",
         )
 
     return render_modal(
         request=request,
-        template="staff/modals/delete_staff.html",
+        template="staff/modals/staff_status.html",
         context={
             "staff": staff,
-            "title": "Delete Staff",
-            "submit_label": "Delete",
+            "action": "deactivate",
+            "title": "Deactivate Staff",
+            "submit_label": "Deactivate",
             "post_url": reverse(
-                "staff:staff_delete",
-                args=[staff.pk],
+                "staff:staff_deactivate",
+                kwargs={
+                    "pk": staff.pk,
+                },
             ),
-            "target": "#staff-table",
         },
     )
 
 
+@login_required
+@permission_required(**permissions.DELETE)
+def staff_activate(request, pk):
+    """
+    Activate a staff member.
+    """
+
+    staff = get_staff(
+        tenant=request.tenant,
+        pk=pk,
+    )
+
+    if request.method == "POST":
+
+        activate_staff(
+            instance=staff,
+        )
+
+        return render_success(
+            request=request,
+            template="staff/partials/staff_table.html",
+            context={
+                "staff": get_staff_members(
+                    tenant=request.tenant,
+                ),
+            },
+            event="modal:close",
+        )
+
+    return render_modal(
+        request=request,
+        template="staff/modals/staff_status.html",
+        context={
+            "staff": staff,
+            "action": "activate",
+            "title": "Activate Staff",
+            "submit_label": "Activate",
+            "post_url": reverse(
+                "staff:staff_activate",
+                kwargs={
+                    "pk": staff.pk,
+                },
+            ),
+        },
+    )
+
+
+@login_required
+@permission_required(**permissions.EDIT)
 def staff_profile_update(request, pk):
     """
     Update a staff member from the Staff Profile.
@@ -226,7 +297,9 @@ def staff_profile_update(request, pk):
             return render_redirect(
                 url=reverse(
                     "staff:staff_detail",
-                    args=[staff.pk],
+                    kwargs={
+                        "pk": staff.pk,
+                    },
                 ),
             )
 
@@ -247,7 +320,9 @@ def staff_profile_update(request, pk):
             "submit_label": "Save Changes",
             "post_url": reverse(
                 "staff:staff_profile_update",
-                args=[staff.pk],
+                kwargs={
+                    "pk": staff.pk,
+                },
             ),
         },
     )

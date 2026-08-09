@@ -31,14 +31,6 @@ def update_staff(*, form):
     return form.save()
 
 
-@transaction.atomic
-def delete_staff(*, instance):
-    """
-    Delete a staff member.
-    """
-
-    instance.delete()
-
 
 # ============================================================================
 # Staff Lifecycle

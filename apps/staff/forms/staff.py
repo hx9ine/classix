@@ -6,13 +6,12 @@ from ..models import Staff
 
 
 class StaffForm(forms.ModelForm):
-
     joining_date = forms.DateField(
         widget=forms.DateInput(
             attrs={
                 "type": "date",
-            }
-        )
+            },
+        ),
     )
 
     class Meta:
@@ -27,16 +26,30 @@ class StaffForm(forms.ModelForm):
             "photo_url",
         ]
 
-    def __init__(self, *args, tenant, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(
+        self,
+        *args,
+        tenant,
+        **kwargs,
+    ):
+        super().__init__(
+            *args,
+            **kwargs,
+        )
 
         self.tenant = tenant
 
         self.fields["role"].queryset = (
-            Role.objects.filter(
-                tenant__in=[tenant, None],
+            Role.objects
+            .filter(
+                tenant__in=[
+                    tenant,
+                    None,
+                ],
             )
-            .order_by("name")
+            .order_by(
+                "name",
+            )
         )
 
     def clean_role(self):

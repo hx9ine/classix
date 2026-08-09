@@ -1,9 +1,10 @@
-from .profile import staff_detail
-
 from .staff import (
+    staff_activate,
     staff_create,
-    staff_delete,
+    staff_deactivate,
     staff_list,
-    staff_update,
     staff_profile_update,
+    staff_update,
 )
+
+from .staff_profile import staff_detail

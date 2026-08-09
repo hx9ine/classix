@@ -1,4 +1,4 @@
-{% extends "layouts/app.html" %}
+{% extends "layouts/page.html" %}
 
 {% load components %}
 
@@ -11,68 +11,64 @@
 {% component "navigation/page_header" title=staff.full_name subtitle=staff.role.name %}
 {% endcomponent %}
 
-<div class="cx-grid">
+<div class="cx-card">
 
-    <div class="cx-card">
+    <h3>Staff Information</h3>
 
-        <h3>Staff Information</h3>
+    <table class="cx-table">
 
-        <table class="cx-table">
+        <tbody>
 
-            <tbody>
+            <tr>
+                <th>First Name</th>
+                <td>{{ staff.first_name }}</td>
+            </tr>
 
-                <tr>
-                    <th>First Name</th>
-                    <td>{{ staff.first_name }}</td>
-                </tr>
+            <tr>
+                <th>Last Name</th>
+                <td>{{ staff.last_name }}</td>
+            </tr>
 
-                <tr>
-                    <th>Last Name</th>
-                    <td>{{ staff.last_name }}</td>
-                </tr>
+            <tr>
+                <th>Role</th>
+                <td>{{ staff.role.name }}</td>
+            </tr>
 
-                <tr>
-                    <th>Role</th>
-                    <td>{{ staff.role.name }}</td>
-                </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ staff.get_employment_status_display }}</td>
+            </tr>
 
-                <tr>
-                    <th>Status</th>
-                    <td>{{ staff.get_employment_status_display }}</td>
-                </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ staff.phone|default:"—" }}</td>
+            </tr>
 
-                <tr>
-                    <th>Phone</th>
-                    <td>{{ staff.phone|default:"—" }}</td>
-                </tr>
+            <tr>
+                <th>Joining Date</th>
+                <td>{{ staff.joining_date }}</td>
+            </tr>
 
-                <tr>
-                    <th>Joining Date</th>
-                    <td>{{ staff.joining_date }}</td>
-                </tr>
+            <tr>
+                <th>Portal User</th>
+                <td>
 
-                <tr>
-                    <th>Portal User</th>
-                    <td>
+                    {% if staff.user %}
 
-                        {% if staff.user %}
+                        {{ staff.user.email }}
 
-                            {{ staff.user.email }}
+                    {% else %}
 
-                        {% else %}
+                        —
 
-                            —
+                    {% endif %}
 
-                        {% endif %}
+                </td>
+            </tr>
 
-                    </td>
-                </tr>
+        </tbody>
 
-            </tbody>
-
-        </table>
-
-    </div>
+    </table>
 
 </div>
 
