@@ -8,6 +8,7 @@ from .views import (
     staff_list,
     staff_profile_update,
     staff_update,
+    staff_user_assign,
 )
 
 
@@ -37,6 +38,12 @@ urlpatterns = [
         "<uuid:pk>/edit/",
         staff_update,
         name="staff_update",
+    ),
+
+    path(
+        "<uuid:pk>/assign-user/",
+        staff_user_assign,
+        name="staff_user_assign",
     ),
 
     path(

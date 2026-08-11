@@ -1,10 +1,15 @@
+from .homework import (
+    homework_create,
+    homework_delete,
+    homework_list,
+    homework_update,
+)
 from .subject import (
     subject_create,
     subject_delete,
     subject_list,
     subject_update,
 )
-
 from .timetable import (
     timetable_create,
     timetable_delete,
@@ -14,6 +19,10 @@ from .timetable import (
 
 
 __all__ = [
+    "homework_create",
+    "homework_delete",
+    "homework_list",
+    "homework_update",
     "subject_create",
     "subject_delete",
     "subject_list",

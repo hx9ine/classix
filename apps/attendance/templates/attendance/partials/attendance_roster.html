@@ -1,0 +1,136 @@
+<form
+    method="post"
+    action="{% url 'attendance:attendance_mark' %}"
+    hx-post="{% url 'attendance:attendance_mark' %}"
+    hx-target="#attendance-roster"
+    hx-swap="innerHTML"
+>
+    {% csrf_token %}
+
+    <input
+        type="hidden"
+        name="section"
+        value="{{ section.pk }}"
+    >
+
+    {% if form.non_field_errors %}
+        <div class="cx-error">
+            {% for error in form.non_field_errors %}
+                <div>{{ error }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+    <div class="cx-form-row cx-form-row--3">
+
+        <div class="cx-form-group">
+            {% include "components/forms/field.html" with field=form.date %}
+        </div>
+
+        <div class="cx-form-group">
+            {% include "components/forms/field.html" with field=form.period %}
+        </div>
+
+    </div>
+
+
+    <div class="cx-table__toolbar">
+
+        <div>
+            <strong>{{ section }}</strong>
+
+            <span class="cx-help">
+                {{ students|length }}
+                student{{ students|length|pluralize }}
+            </span>
+        </div>
+
+    </div>
+
+
+    {% if students %}
+
+        <div class="cx-table__container">
+
+            <table class="cx-table">
+
+                <thead>
+                    <tr>
+                        <th>
+                            Student
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Note
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for item in attendance_students %}
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    {{ item.student.first_name }}
+                                    {{ item.student.last_name }}
+                                </strong>
+
+                                <div class="cx-help">
+                                    {{ item.student.student_code }}
+                                </div>
+                            </td>
+
+                            <td>
+                                {{ item.status_field }}
+                            </td>
+
+                            <td>
+                                {{ item.note_field }}
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <div class="cx-empty-state">
+
+            <h2 class="cx-empty-state__title">
+                No active students
+            </h2>
+
+            <p class="cx-empty-state__description">
+                There are no active students in this section.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    {% if students %}
+
+        <div class="cx-form-actions">
+
+            {% include "components/actions/button.html" with type="submit" label="Save Attendance" variant="primary" %}
+
+        </div>
+
+    {% endif %}
+
+</form>

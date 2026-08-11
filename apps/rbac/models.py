@@ -92,7 +92,7 @@ class RolePermission(BaseModel):
         FEES = "fees", "Fees"
         MESSAGES = "messages", "Messages"
         STAFF = "staff", "Staff"
-        CALENDAR = "calendar", "Calendar"
+        SCHEDULE = "schedule", "Schedule"
         LIBRARY = "library", "Library"
         TRANSPORT = "transport", "Transport"
         ADMISSIONS = "admissions", "Admissions"

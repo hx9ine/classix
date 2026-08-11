@@ -1,0 +1,32 @@
+{% load components %}
+
+{% component "layout/modal" title=title %}
+
+<form
+    hx-post="{{ post_url }}"
+    hx-target="{{ target|default:'#homework-table' }}"
+    hx-swap="innerHTML"
+>
+
+    {% csrf_token %}
+
+    <p>
+        Are you sure you want to delete this assignment?
+    </p>
+
+    <p class="cx-text-muted">
+        <strong>{{ assignment.title }}</strong>
+        —
+        {{ assignment.subject.name }}
+        —
+        {{ assignment.section }}
+        —
+        Due
+        {{ assignment.due_date|date:"M j, Y" }}
+    </p>
+
+    {% include "components/forms/actions.html" with submit_label=submit_label submit_variant="danger" cancel_label="Cancel" %}
+
+</form>
+
+{% endcomponent %}

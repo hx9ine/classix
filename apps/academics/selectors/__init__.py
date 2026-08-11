@@ -1,3 +1,9 @@
+from .homework import (
+    get_assignment,
+    get_assignments,
+    get_assignments_by_section,
+    get_assignments_by_staff,
+)
 from .subject import (
     count_subjects,
     get_subject,
@@ -6,7 +12,6 @@ from .subject import (
     subject_code_exists,
     subject_name_exists,
 )
-
 from .timetable import (
     get_timetable_period,
     get_timetable_periods,
@@ -17,6 +22,10 @@ from .timetable import (
 
 
 __all__ = [
+    "get_assignment",
+    "get_assignments",
+    "get_assignments_by_section",
+    "get_assignments_by_staff",
     "count_subjects",
     "get_subject",
     "get_subjects",

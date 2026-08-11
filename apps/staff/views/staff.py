@@ -11,7 +11,10 @@ from apps.core.htmx import (
 )
 from apps.rbac.decorators import permission_required
 
-from ..forms import StaffForm
+from ..forms import (
+    StaffForm,
+    StaffUserAssignmentForm,
+)
 from ..permissions import staff as permissions
 from ..selectors import (
     get_staff,
@@ -19,6 +22,7 @@ from ..selectors import (
 )
 from ..services import (
     activate_staff,
+    assign_user,
     create_staff,
     deactivate_staff,
     update_staff,
@@ -164,6 +168,71 @@ def staff_update(request, pk):
             "submit_label": "Save Changes",
             "post_url": reverse(
                 "staff:staff_update",
+                kwargs={
+                    "pk": staff.pk,
+                },
+            ),
+            "target": "#staff-table",
+        },
+    )
+
+
+
+@login_required
+@permission_required(**permissions.EDIT)
+def staff_user_assign(request, pk):
+    """
+    Assign an existing portal user to a staff member.
+    """
+
+    staff = get_staff(
+        tenant=request.tenant,
+        pk=pk,
+    )
+
+    if request.method == "POST":
+
+        form = StaffUserAssignmentForm(
+            request.POST,
+            tenant=request.tenant,
+            instance=staff,
+        )
+
+        if form.is_valid():
+
+            assign_user(
+                instance=staff,
+                user=form.cleaned_data["user"],
+            )
+
+            return render_success(
+                request=request,
+                template="staff/partials/staff_table.html",
+                context={
+                    "staff": get_staff_members(
+                        tenant=request.tenant,
+                    ),
+                },
+                event="modal:close",
+            )
+
+    else:
+
+        form = StaffUserAssignmentForm(
+            tenant=request.tenant,
+            instance=staff,
+        )
+
+    return render_modal(
+        request=request,
+        template="staff/modals/staff_user_assign.html",
+        context={
+            "form": form,
+            "staff": staff,
+            "title": "Assign Portal User",
+            "submit_label": "Assign User",
+            "post_url": reverse(
+                "staff:staff_user_assign",
                 kwargs={
                     "pk": staff.pk,
                 },

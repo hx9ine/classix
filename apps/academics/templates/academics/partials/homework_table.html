@@ -1,0 +1,109 @@
+{% if assignments %}
+
+    <div class="cx-table__container">
+
+        <table class="cx-table">
+
+            <thead>
+                <tr>
+                    <th>
+                        Assignment
+                    </th>
+
+                    <th>
+                        Subject
+                    </th>
+
+                    <th>
+                        Section
+                    </th>
+
+                    <th>
+                        Teacher
+                    </th>
+
+                    <th>
+                        Due Date
+                    </th>
+
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for assignment in assignments %}
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                {{ assignment.title }}
+                            </strong>
+
+                            {% if assignment.description %}
+                                <div class="cx-help">
+                                    {{ assignment.description|truncatewords:12 }}
+                                </div>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {{ assignment.subject }}
+                        </td>
+
+                        <td>
+                            {{ assignment.section }}
+                        </td>
+
+                        <td>
+                            {{ assignment.staff.full_name }}
+                        </td>
+
+                        <td>
+                            {{ assignment.due_date|date:"M j, Y" }}
+                        </td>
+
+                        <td>
+
+                            <div class="cx-table-actions">
+
+                                {% url "academics:homework_update" assignment.pk as edit_url %}
+
+                                {% include "components/actions/button.html" with label="Edit" variant="secondary" size="sm" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                                {% url "academics:homework_delete" assignment.pk as delete_url %}
+
+                                {% include "components/actions/button.html" with label="Delete" variant="danger" size="sm" hx_get=delete_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+{% else %}
+
+    <div class="cx-empty-state">
+
+        <h2 class="cx-empty-state__title">
+            No assignments
+        </h2>
+
+        <p class="cx-empty-state__description">
+            No homework assignments have been created yet.
+        </p>
+
+    </div>
+
+{% endif %}

@@ -1,6 +1,10 @@
 from django.urls import path
 
 from .views import (
+    homework_create,
+    homework_delete,
+    homework_list,
+    homework_update,
     subject_create,
     subject_delete,
     subject_list,
@@ -70,5 +74,33 @@ urlpatterns = [
         "timetable/<uuid:pk>/delete/",
         timetable_delete,
         name="timetable_delete",
+    ),
+
+    # =========================================================================
+    # Homework
+    # =========================================================================
+
+    path(
+        "homework/",
+        homework_list,
+        name="homework_list",
+    ),
+
+    path(
+        "homework/create/",
+        homework_create,
+        name="homework_create",
+    ),
+
+    path(
+        "homework/<uuid:pk>/update/",
+        homework_update,
+        name="homework_update",
+    ),
+
+    path(
+        "homework/<uuid:pk>/delete/",
+        homework_delete,
+        name="homework_delete",
     ),
 ]

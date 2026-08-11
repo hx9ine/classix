@@ -1,92 +1,108 @@
 {% load components %}
 
-<thead>
+<tr>
+
+    <th>Name</th>
+    <th>Role</th>
+    <th>Portal User</th>
+    <th>Phone</th>
+    <th>Joining Date</th>
+    <th>Status</th>
+    <th class="cx-actions-column">Actions</th>
+
+</tr>
+
+
+{% for staff_member in staff %}
 
     <tr>
 
-        <th>Name</th>
-        <th>Role</th>
-        <th>Phone</th>
-        <th>Joining Date</th>
-        <th>Status</th>
-        <th class="cx-actions-column">Actions</th>
+        <td>
+            <a href="{% url 'staff:staff_detail' staff_member.pk %}">
+                {{ staff_member.full_name }}
+            </a>
+        </td>
+
+        <td>
+            {{ staff_member.role.name }}
+        </td>
+
+        <td>
+
+            {% if staff_member.user %}
+
+                {{ staff_member.user.email }}
+
+            {% else %}
+
+                <span class="cx-help">
+                    Not assigned
+                </span>
+
+            {% endif %}
+
+        </td>
+
+        <td>
+            {{ staff_member.phone|default:"—" }}
+        </td>
+
+        <td>
+            {{ staff_member.joining_date }}
+        </td>
+
+        <td>
+
+            {% if staff_member.employment_status == "active" %}
+
+                {% include "components/data/badge.html" with label="Active" variant="success" %}
+
+            {% else %}
+
+                {% include "components/data/badge.html" with label="Inactive" variant="default" %}
+
+            {% endif %}
+
+        </td>
+
+        <td class="cx-actions">
+
+            {% url "staff:staff_update" staff_member.pk as edit_url %}
+
+            {% include "components/actions/button.html" with label="Edit" variant="secondary" size="sm" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+
+            {% url "staff:staff_user_assign" staff_member.pk as assign_user_url %}
+
+            {% include "components/actions/button.html" with label="Assign User" variant="secondary" size="sm" hx_get=assign_user_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+
+            {% if staff_member.employment_status == "active" %}
+
+                {% url "staff:staff_deactivate" staff_member.pk as lifecycle_url %}
+
+                {% include "components/actions/button.html" with label="Deactivate" variant="danger" size="sm" hx_get=lifecycle_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+            {% else %}
+
+                {% url "staff:staff_activate" staff_member.pk as lifecycle_url %}
+
+                {% include "components/actions/button.html" with label="Activate" variant="primary" size="sm" hx_get=lifecycle_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+            {% endif %}
+
+        </td>
 
     </tr>
 
-</thead>
+{% empty %}
 
-<tbody>
+    <tr>
 
-    {% for staff_member in staff %}
+        <td colspan="7" class="cx-empty-state">
+            No staff members found.
+        </td>
 
-        <tr>
+    </tr>
 
-            <td>
-                <a href="{% url 'staff:staff_detail' staff_member.pk %}">
-                    {{ staff_member.full_name }}
-                </a>
-            </td>
-
-            <td>
-                {{ staff_member.role.name }}
-            </td>
-
-            <td>
-                {{ staff_member.phone|default:"—" }}
-            </td>
-
-            <td>
-                {{ staff_member.joining_date }}
-            </td>
-
-            <td>
-
-                {% if staff_member.employment_status == "active" %}
-
-                    {% include "components/data/badge.html" with label="Active" variant="success" %}
-
-                {% else %}
-
-                    {% include "components/data/badge.html" with label="Inactive" variant="default" %}
-
-                {% endif %}
-
-            </td>
-
-            <td class="cx-actions">
-
-                {% url "staff:staff_update" staff_member.pk as edit_url %}
-
-                {% include "components/actions/button.html" with label="Edit" variant="secondary" size="sm" hx_get=edit_url hx_target="#modal-container" hx_swap="innerHTML" %}
-
-                {% if staff_member.employment_status == "active" %}
-
-                    {% url "staff:staff_deactivate" staff_member.pk as lifecycle_url %}
-
-                    {% include "components/actions/button.html" with label="Deactivate" variant="danger" size="sm" hx_get=lifecycle_url hx_target="#modal-container" hx_swap="innerHTML" %}
-
-                {% else %}
-
-                    {% url "staff:staff_activate" staff_member.pk as lifecycle_url %}
-
-                    {% include "components/actions/button.html" with label="Activate" variant="primary" size="sm" hx_get=lifecycle_url hx_target="#modal-container" hx_swap="innerHTML" %}
-
-                {% endif %}
-
-            </td>
-
-        </tr>
-
-    {% empty %}
-
-        <tr>
-
-            <td colspan="6" class="cx-empty-state">
-                No staff members found.
-            </td>
-
-        </tr>
-
-    {% endfor %}
-
-</tbody>
+{% endfor %}

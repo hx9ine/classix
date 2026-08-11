@@ -1,9 +1,11 @@
 from apps.rbac.models import RolePermission
 
 
+# ============================================================================
+# Attendance Permissions
+# ============================================================================
 
-MODULE = RolePermission.Module.ACADEMICS
-
+MODULE = RolePermission.Module.ATTENDANCE
 
 
 VIEW = {
@@ -12,19 +14,16 @@ VIEW = {
 }
 
 
-
 CREATE = {
     "module": MODULE,
     "action": RolePermission.Action.CREATE,
 }
 
 
-
 EDIT = {
     "module": MODULE,
     "action": RolePermission.Action.EDIT,
 }
-
 
 
 DELETE = {

@@ -1,0 +1,107 @@
+{% extends "layouts/page.html" %}
+
+{% block page_header %}
+
+<div class="cx-page__header">
+
+    <div class="cx-page__header-content">
+
+        <h1 class="cx-page__title">
+            Attendance
+        </h1>
+
+        <p class="cx-page__description">
+            Mark and manage student attendance.
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block page_filters %}
+
+<form
+    method="get"
+    class="cx-filters"
+    hx-get="{% url 'attendance:attendance_list' %}"
+    hx-target="#attendance-roster"
+    hx-swap="innerHTML"
+    hx-push-url="true"
+>
+
+    <div class="cx-filter">
+
+        <label
+            class="cx-form-field__label"
+            for="id_section"
+        >
+            Section
+        </label>
+
+        <select
+            name="section"
+            id="id_section"
+            class="cx-form-field__input"
+            required
+            hx-get="{% url 'attendance:attendance_list' %}"
+            hx-target="#attendance-roster"
+            hx-trigger="change"
+            hx-include="this"
+        >
+
+            <option value="">
+                Select section
+            </option>
+
+            {% for item in sections %}
+
+                <option
+                    value="{{ item.pk }}"
+                    {% if section and section.pk == item.pk %}
+                        selected
+                    {% endif %}
+                >
+                    {{ item }}
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+</form>
+
+{% endblock %}
+
+
+{% block page_content %}
+
+<div id="attendance-roster">
+
+    {% if section %}
+
+        {% include "attendance/partials/attendance_roster.html" %}
+
+    {% else %}
+
+        <div class="cx-empty-state">
+
+            <h2 class="cx-empty-state__title">
+                Select a section
+            </h2>
+
+            <p class="cx-empty-state__description">
+                Select a section to view its student roster and mark attendance.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

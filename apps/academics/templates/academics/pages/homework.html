@@ -1,0 +1,30 @@
+{% extends "layouts/page.html" %}
+
+{% load components %}
+
+{% block title %}
+Homework
+{% endblock %}
+
+{% block content %}
+
+{% component "navigation/page_header" title="Homework" subtitle="Manage assignments for your students." %}
+{% endcomponent %}
+
+{% url "academics:homework_create" as create_url %}
+
+{% include "components/actions/button.html" with label="New Assignment" variant="primary" hx_get=create_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+<div
+    id="homework-table"
+    hx-get="{% url 'academics:homework_list' %}"
+    hx-trigger="load"
+    hx-target="this"
+    hx-swap="innerHTML"
+>
+    <div class="cx-loading">
+        Loading homework...
+    </div>
+</div>
+
+{% endblock %}

@@ -5,6 +5,9 @@ from apps.accounts.models import (
     User,
 )
 from apps.tenants.models import Tenant
+from apps.rbac.models import Role
+from apps.rbac.services import provision_tenant_roles
+from apps.staff.models import Staff
 
 
 class Command(BaseCommand):
@@ -30,6 +33,10 @@ class Command(BaseCommand):
                     "student_license_limit": 1000,
                 },
             )
+        )
+
+        provision_tenant_roles(
+            tenant=tenant,
         )
 
         if tenant_created:
@@ -63,6 +70,41 @@ class Command(BaseCommand):
                 },
             )
         )
+
+        staff = (
+            Staff._base_manager
+            .filter(
+                tenant=tenant,
+                user=user,
+            )
+            .first()
+        )
+
+        if staff is not None:
+
+            admin_role = (
+                Role.objects
+                .filter(
+                    tenant=tenant,
+                    is_admin_role=True,
+                )
+                .first()
+            )
+
+            if admin_role is None:
+                raise RuntimeError(
+                    "Demo tenant Admin role was not provisioned."
+                )
+
+            if staff.role_id != admin_role.pk:
+
+                staff.role = admin_role
+
+                staff.save(
+                    update_fields=[
+                        "role",
+                    ],
+                )
 
         if user_created:
 

@@ -1,3 +1,4 @@
+from . import homework
 from . import timetable
 from .subject import (
     CREATE,
@@ -14,5 +15,6 @@ __all__ = [
     "CREATE",
     "EDIT",
     "DELETE",
+    "homework",
     "timetable",
 ]
