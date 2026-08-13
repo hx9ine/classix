@@ -6,14 +6,15 @@ It must not contain business logic, permission checks,
 or URL resolution.
 """
 
+
 NAVIGATION = [
     {
-        "title": "Home",
+        "title": "Students",
         "items": [
             {
-                "label": "Dashboard",
-                "url_name": "app_preview",
-                "icon": "dashboard",
+                "label": "Students",
+                "url_name": "students:student_list",
+                "icon": "students",
             },
         ],
     },
@@ -26,28 +27,40 @@ NAVIGATION = [
                 "icon": "subject",
             },
             {
-                "label": "Students",
-                "url_name": "students:student_list",
-                "icon": "students",
+                "label": "Timetable",
+                "url_name": "academics:timetable_list",
+                "icon": "schedule",
+            },
+            {
+                "label": "Homework",
+                "url_name": "academics:homework_list",
+                "icon": "homework",
             },
             {
                 "label": "Attendance",
-                "url_name": None,
+                "url_name": "attendance:attendance_list",
                 "icon": "attendance",
             },
+        ],
+    },
+    {
+        "title": "Staff",
+        "items": [
             {
-                "label": "Grades",
-                "icon": "grades",
-                "children": [
-                    {
-                        "label": "Exam Grades",
-                        "url_name": None,
-                    },
-                    {
-                        "label": "Report Cards",
-                        "url_name": None,
-                    },
-                ],
+                "label": "Staff",
+                "url_name": "staff:staff_list",
+                "icon": "staff",
+            },
+        ],
+    },
+    {
+        "title": "RBAC",
+        "items": [
+            {
+                "label": "Roles",
+                "url_name": "rbac:role_list",
+                "icon": "roles",
+                "admin_only": True,
             },
         ],
     },

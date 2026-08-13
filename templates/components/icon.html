@@ -1,0 +1,16 @@
+{% load static %}
+
+<svg
+    width="{{ size|default:'20' }}"
+    height="{{ size|default:'20' }}"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    {% if class %}class="{{ class }}"{% endif %}
+>
+    <use href="{% static 'icons/lucide.svg' %}#{{ name }}"></use>
+</svg>

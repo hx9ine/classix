@@ -5,10 +5,8 @@ from functools import wraps
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 
-from apps.accounts.models import AccountCategory
-
-from .models import RolePermission
-from .selectors import has_permission
+from apps.rbac.models import RolePermission
+from apps.rbac.selectors import has_permission
 
 
 def permission_required(
@@ -35,8 +33,12 @@ def permission_required(
             # Hardcoded Administrator Access
             # ==========================================================
 
-            if user.account_category == AccountCategory.ADMIN:
-                return view_func(request, *args, **kwargs)
+            if user.is_admin:
+                return view_func(
+                    request,
+                    *args,
+                    **kwargs,
+                )
 
             # ==========================================================
             # RBAC Permission Check
@@ -74,3 +76,29 @@ def permission_required(
         return wrapped_view
 
     return decorator
+
+
+def admin_required(view_func):
+    """
+    Restrict a view to Tenant Admin users.
+
+    Admin access is determined by the existing User.is_admin
+    property and is independent of configurable role permissions.
+    """
+
+    @login_required
+    @wraps(view_func)
+    def wrapped_view(request, *args, **kwargs):
+
+        if not request.user.is_admin:
+            raise PermissionDenied(
+                "You must be an administrator to access this resource."
+            )
+
+        return view_func(
+            request,
+            *args,
+            **kwargs,
+        )
+
+    return wrapped_view

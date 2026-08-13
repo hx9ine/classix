@@ -1,14 +1,15 @@
 {% if item.children %}
 
-<div class="cx-sidebar__menu">
+<div class="cx-sidebar__menu{% if item.expanded %} is-expanded{% endif %}">
 
     <button
         type="button"
-        class="cx-sidebar__item"
-        aria-expanded="false">
+        class="cx-sidebar__item{% if item.active %} is-active{% endif %}"
+        aria-expanded="{% if item.expanded %}true{% else %}false{% endif %}"
+    >
 
         <span class="cx-sidebar__item-icon">
-            {{ item.icon|safe }}
+            {% include "components/icon.html" with name=item.icon %}
         </span>
 
         <span class="cx-sidebar__item-label">
@@ -37,10 +38,12 @@
 
 <a
     href="{{ item.url }}"
-    class="cx-sidebar__item">
+    class="cx-sidebar__item{% if item.active %} is-active{% endif %}"
+    {% if item.active %}aria-current="page"{% endif %}
+>
 
     <span class="cx-sidebar__item-icon">
-        {{ item.icon|safe }}
+        {% include "components/icon.html" with name=item.icon %}
     </span>
 
     <span class="cx-sidebar__item-label">

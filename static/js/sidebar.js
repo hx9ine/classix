@@ -11,11 +11,20 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        const isExpanded = menu.classList.contains("is-expanded");
+
+        if (isExpanded) {
+            button.setAttribute("aria-expanded", "true");
+            submenu.style.maxHeight = submenu.scrollHeight + "px";
+        } else {
+            button.setAttribute("aria-expanded", "false");
+            submenu.style.maxHeight = null;
+        }
+
         button.addEventListener("click", () => {
 
             const expanded = menu.classList.contains("is-expanded");
 
-            // Close every other menu
             menus.forEach((otherMenu) => {
 
                 if (otherMenu === menu) {

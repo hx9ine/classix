@@ -18,12 +18,14 @@ from ..services import (
     create_role,
     update_role,
 )
+from ..decorators import admin_required
 
 
 # ============================================================================
 # Role Views
 # ============================================================================
 
+@admin_required
 def role_list(request):
     """
     List all roles available to the tenant.
@@ -48,6 +50,7 @@ def role_list(request):
     )
 
 
+@admin_required
 def role_create(request):
     """
     Create a new role.
@@ -98,6 +101,7 @@ def role_create(request):
     )
 
 
+@admin_required
 def role_update(request, pk):
     """
     Update a role.
