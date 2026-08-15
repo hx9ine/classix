@@ -1,11 +1,169 @@
+{% load static %}
+
 <header class="cx-topbar">
 
-    <h1 class="cx-topbar__title">
-        {{ title }}
-    </h1>
+    <div class="cx-topbar__search">
+
+        <div class="cx-topbar__search-box">
+
+            {% include "components/icon.html" with name="search" size="19" class="cx-topbar__search-icon" %}
+
+            <input
+                type="search"
+                class="cx-topbar__search-input"
+                placeholder="Search students, staff, exams..."
+                aria-label="Global search"
+                autocomplete="off"
+            >
+
+            <span class="cx-topbar__search-shortcut">
+                ⌘ K
+            </span>
+
+        </div>
+
+    </div>
 
     <div class="cx-topbar__actions">
-        {{ actions|default:"" }}
+
+        <button
+            type="button"
+            class="cx-topbar__icon-button"
+            aria-label="Notifications"
+            title="Notifications"
+        >
+            {% include "components/icon.html" with name="bell" size="20" %}
+        </button>
+
+        <div class="cx-topbar__profile">
+
+            <button
+                type="button"
+                class="cx-topbar__profile-button"
+                aria-label="Open profile menu"
+                aria-expanded="false"
+                onclick="
+                    const menu = this.nextElementSibling;
+                    const expanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', String(!expanded));
+                    menu.hidden = expanded;
+                "
+            >
+
+                {% if request.user.staff_profile.photo_url %}
+
+                    <img
+                        src="{{ request.user.staff_profile.photo_url.url }}"
+                        alt="{{ request.user.full_name }}"
+                        class="cx-topbar__avatar"
+                    >
+
+                {% else %}
+
+                    <span class="cx-topbar__avatar cx-topbar__avatar--initials">
+                        {{ request.user.first_name|first|upper }}{{ request.user.last_name|first|upper }}
+                    </span>
+
+                {% endif %}
+
+                <span class="cx-topbar__profile-text">
+
+                    <strong>
+                        {{ request.user.full_name }}
+                    </strong>
+
+                    <span>
+                        {% if request.user.is_admin %}
+                            Admin
+                        {% elif request.user.staff_profile %}
+                            {{ request.user.staff_profile.role.name }}
+                        {% else %}
+                            {{ request.user.get_account_category_display }}
+                        {% endif %}
+                    </span>
+
+                </span>
+
+                {% include "components/icon.html" with name="chevron-down" size="16" class="cx-topbar__profile-chevron" %}
+
+            </button>
+
+            <div
+                class="cx-profile-menu"
+                hidden
+            >
+
+                <div class="cx-profile-menu__identity">
+
+                    {% if request.user.staff_profile.photo_url %}
+
+                        <img
+                            src="{{ request.user.staff_profile.photo_url.url }}"
+                            alt="{{ request.user.full_name }}"
+                            class="cx-profile-menu__avatar"
+                        >
+
+                    {% else %}
+
+                        <span class="cx-profile-menu__avatar cx-profile-menu__avatar--initials">
+                            {{ request.user.first_name|first|upper }}{{ request.user.last_name|first|upper }}
+                        </span>
+
+                    {% endif %}
+
+                    <div class="cx-profile-menu__details">
+
+                        <strong>
+                            {{ request.user.full_name }}
+                        </strong>
+
+                        <span>
+                            {% if request.user.is_admin %}
+                                Admin
+                            {% elif request.user.staff_profile %}
+                                {{ request.user.staff_profile.role.name }}
+                            {% else %}
+                                {{ request.user.get_account_category_display }}
+                            {% endif %}
+                        </span>
+
+                        <small>
+                            {{ request.user.email }}
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <div class="cx-profile-menu__divider"></div>
+
+                <form
+                    method="post"
+                    action="{% url 'accounts:logout' %}"
+                    class="cx-profile-menu__logout-form"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="cx-profile-menu__logout"
+                    >
+
+                        {% include "components/icon.html" with name="log-out" size="18" %}
+
+                        <span>
+                            Sign out
+                        </span>
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
     </div>
 
 </header>
