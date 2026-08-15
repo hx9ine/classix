@@ -1,0 +1,79 @@
+{% load components %}
+
+<div class="cx-table-container">
+
+    <table class="cx-table">
+
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Exam</th>
+                <th>Subject</th>
+                <th>Marks</th>
+                <th>Grade</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for grade_entry in grade_entries %}
+
+                <tr>
+
+                    <td>
+                        {{ grade_entry.student }}
+                    </td>
+
+                    <td>
+                        {{ grade_entry.exam }}
+                    </td>
+
+                    <td>
+                        {{ grade_entry.subject }}
+                    </td>
+
+                    <td>
+                        {{ grade_entry.marks_obtained }}
+                        /
+                        {{ grade_entry.max_marks }}
+                    </td>
+
+                    <td>
+                        {{ grade_entry.grade_letter }}
+                    </td>
+
+                    <td>
+                        <div class="cx-table__actions">
+
+                            {% if can_edit %}
+                                <a
+                                    href="{% url 'grades:grade_entry_update' grade_entry.pk %}"
+                                    hx-get="{% url 'grades:grade_entry_update' grade_entry.pk %}"
+                                    hx-target="#modal-container"
+                                    hx-swap="innerHTML"
+                                >
+                                    Edit
+                                </a>
+                            {% endif %}
+
+                        </div>
+                    </td>
+
+                </tr>
+
+            {% empty %}
+
+                <tr>
+                    <td colspan="6">
+                        No grade entries found.
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>

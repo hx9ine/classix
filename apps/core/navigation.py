@@ -44,6 +44,16 @@ NAVIGATION = [
         ],
     },
     {
+        "title": "Grades",
+        "items": [
+            {
+                "label": "Grades",
+                "url_name": "grades:grade_entry_list",
+                "icon": "grades",
+            },
+        ],
+    },
+    {
         "title": "Staff",
         "items": [
             {

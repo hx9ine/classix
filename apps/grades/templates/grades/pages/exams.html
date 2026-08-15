@@ -1,0 +1,30 @@
+{% extends "layouts/page.html" %}
+
+{% load components %}
+
+{% block title %}
+Exams
+{% endblock %}
+
+{% block content %}
+
+{% component "navigation/page_header" title="Exams" subtitle="Manage examinations for your school." %}
+{% endcomponent %}
+
+{% url "grades:exam_create" as create_url %}
+
+{% include "components/actions/button.html" with label="Add Exam" variant="primary" hx_get=create_url hx_target="#modal-container" hx_swap="innerHTML" %}
+
+<div
+    id="exam-table"
+    hx-get="{% url 'grades:exam_list' %}"
+    hx-trigger="load"
+    hx-target="this"
+    hx-swap="innerHTML"
+>
+    <div class="cx-loading">
+        Loading exams...
+    </div>
+</div>
+
+{% endblock %}

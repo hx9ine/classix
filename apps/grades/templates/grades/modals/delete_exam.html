@@ -1,0 +1,24 @@
+{% load components %}
+
+{% component "layout/modal" title=title %}
+
+    <form
+        method="post"
+        action="{{ post_url }}"
+        hx-post="{{ post_url }}"
+        hx-target="{{ target|default:'#modal-container' }}"
+        hx-swap="innerHTML"
+    >
+
+        {% csrf_token %}
+
+        <p>
+            Are you sure you want to delete
+            <strong>{{ exam.name }}</strong>?
+        </p>
+
+        {% include "components/forms/actions.html" with submit_label=submit_label %}
+
+    </form>
+
+{% endcomponent %}

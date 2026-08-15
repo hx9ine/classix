@@ -1,0 +1,23 @@
+{% load components %}
+
+{% component "layout/modal" title=title %}
+
+    <form
+        method="post"
+        action="{{ post_url }}"
+        hx-post="{{ post_url }}"
+        hx-target="{{ target|default:'#modal-container' }}"
+        hx-swap="innerHTML"
+    >
+
+        {% csrf_token %}
+
+        {% for field in form %}
+            {% include "components/forms/field.html" with field=field %}
+        {% endfor %}
+
+        {% include "components/forms/actions.html" with submit_label=submit_label %}
+
+    </form>
+
+{% endcomponent %}

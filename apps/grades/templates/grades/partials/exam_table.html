@@ -1,0 +1,83 @@
+{% load components %}
+
+<div class="cx-table-container">
+
+    <table class="cx-table">
+
+        <thead>
+            <tr>
+                <th>Exam</th>
+                <th>Academic Session</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for exam in exams %}
+
+                <tr>
+
+                    <td>
+                        {{ exam.name }}
+                    </td>
+
+                    <td>
+                        {{ exam.academic_session }}
+                    </td>
+
+                    <td>
+                        {{ exam.start_date }}
+                    </td>
+
+                    <td>
+                        {{ exam.end_date }}
+                    </td>
+
+                    <td>
+                        <div class="cx-table__actions">
+
+                            {% if can_edit %}
+                                <a
+                                    href="{% url 'grades:exam_update' exam.pk %}"
+                                    hx-get="{% url 'grades:exam_update' exam.pk %}"
+                                    hx-target="#modal-container"
+                                    hx-swap="innerHTML"
+                                >
+                                    Edit
+                                </a>
+                            {% endif %}
+
+                            {% if can_delete %}
+                                <a
+                                    href="{% url 'grades:exam_delete' exam.pk %}"
+                                    hx-get="{% url 'grades:exam_delete' exam.pk %}"
+                                    hx-target="#modal-container"
+                                    hx-swap="innerHTML"
+                                >
+                                    Delete
+                                </a>
+                            {% endif %}
+
+                        </div>
+                    </td>
+
+                </tr>
+
+            {% empty %}
+
+                <tr>
+                    <td colspan="5">
+                        No exams found.
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>

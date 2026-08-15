@@ -119,4 +119,18 @@
         <path d="M20 13c0 5-3.5 7.5-8 8.5-4.5-1-8-3.5-8-8.5V6l8-3 8 3v7z"/>
         <path d="m9 12 2 2 4-4"/>
     </symbol>
+        <symbol
+        id="grades"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+    >
+        <rect width="16" height="18" x="4" y="3" rx="2"/>
+        <path d="M9 3h6"/>
+        <path d="m8 13 2 2 4-4"/>
+        <path d="M8 18h8"/>
+    </symbol>
 </svg>

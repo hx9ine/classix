@@ -1,0 +1,29 @@
+from .exam import (
+    CREATE as EXAM_CREATE,
+    DELETE as EXAM_DELETE,
+    EDIT as EXAM_EDIT,
+    MODULE as EXAM_MODULE,
+    VIEW as EXAM_VIEW,
+)
+
+from .grade_entry import (
+    CREATE as GRADE_ENTRY_CREATE,
+    DELETE as GRADE_ENTRY_DELETE,
+    EDIT as GRADE_ENTRY_EDIT,
+    MODULE as GRADE_ENTRY_MODULE,
+    VIEW as GRADE_ENTRY_VIEW,
+)
+
+
+__all__ = [
+    "EXAM_MODULE",
+    "EXAM_VIEW",
+    "EXAM_CREATE",
+    "EXAM_EDIT",
+    "EXAM_DELETE",
+    "GRADE_ENTRY_MODULE",
+    "GRADE_ENTRY_VIEW",
+    "GRADE_ENTRY_CREATE",
+    "GRADE_ENTRY_EDIT",
+    "GRADE_ENTRY_DELETE",
+]
