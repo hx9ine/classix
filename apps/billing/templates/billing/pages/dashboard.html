@@ -1,0 +1,22 @@
+{% extends "layouts/page.html" %}
+
+{% load components %}
+
+{% block title %}
+Billing
+{% endblock %}
+
+{% block page_header %}
+
+{% component "navigation/page_header" title="Billing" subtitle="Manage your school's subscription and license usage." %}
+{% endcomponent %}
+
+{% endblock %}
+
+{% block page_content %}
+
+{% include "billing/partials/subscription_card.html" %}
+
+{% include "billing/partials/license_usage.html" %}
+
+{% endblock %}

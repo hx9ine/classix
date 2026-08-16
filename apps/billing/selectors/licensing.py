@@ -1,6 +1,7 @@
 from apps.rbac.models import Role
 from apps.staff.models import EmploymentStatus, Staff
 from apps.students.models import Student, StudentStatus
+from .license_addon import get_license_addon_quantities
 
 
 # ============================================================================
@@ -112,17 +113,44 @@ def get_license_usage(*, tenant):
 
 def get_license_limits(*, tenant):
     """
-    Return the tenant's current base license limits.
+    Return the tenant's current license limits.
 
-    Add-on quantities will be incorporated here once the
-    LicenseAddon model is implemented.
+    Current limits consist of:
+    - the tenant's base license allocation
+    - all purchased license add-ons for that tenant
+
+    Add-on quantities are calculated live from LicenseAddon records.
     """
 
+    addon_quantities = get_license_addon_quantities(
+        tenant=tenant,
+    )
+
     return {
-        Role.LicenseCategory.ADMIN: tenant.admin_license_limit,
-        Role.LicenseCategory.FACULTY: tenant.faculty_license_limit,
-        Role.LicenseCategory.STAFF: tenant.staff_license_limit,
-        "student": tenant.student_license_limit,
+        Role.LicenseCategory.ADMIN: (
+            tenant.admin_license_limit
+            + addon_quantities[
+                Role.LicenseCategory.ADMIN
+            ]
+        ),
+        Role.LicenseCategory.FACULTY: (
+            tenant.faculty_license_limit
+            + addon_quantities[
+                Role.LicenseCategory.FACULTY
+            ]
+        ),
+        Role.LicenseCategory.STAFF: (
+            tenant.staff_license_limit
+            + addon_quantities[
+                Role.LicenseCategory.STAFF
+            ]
+        ),
+        "student": (
+            tenant.student_license_limit
+            + addon_quantities[
+                "student"
+            ]
+        ),
     }
 
 

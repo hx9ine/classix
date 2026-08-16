@@ -1,5 +1,6 @@
 from datetime import date
 
+from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
@@ -13,12 +14,17 @@ from apps.billing.selectors.licensing import (
     count_active_faculty,
     count_active_staff,
     count_active_students,
+    get_license_limits,
     get_license_status,
 )
 from apps.billing.services.licensing import (
     ensure_staff_license_available,
     ensure_staff_role_change_available,
     ensure_student_license_available,
+)
+from apps.billing.models import (
+    LicenseAddon,
+    LicenseAddonType,
 )
 from apps.rbac.models import Role
 from apps.staff.models import EmploymentStatus, Staff
@@ -495,3 +501,82 @@ class LicensingTestCase(TestCase):
                 tenant=self.tenant,
                 role=self.other_teacher_role,
             )
+
+    def test_license_limits_include_addons(self):
+        LicenseAddon.objects.create(
+            tenant=self.tenant,
+            license_type=LicenseAddonType.FACULTY,
+            quantity=10,
+            stripe_line_item_id="li_faculty_123",
+            purchased_at=timezone.now(),
+        )
+
+        limits = get_license_limits(
+            tenant=self.tenant,
+        )
+
+        self.assertEqual(
+            limits["admin"],
+            self.tenant.admin_license_limit,
+        )
+
+        self.assertEqual(
+            limits["faculty"],
+            self.tenant.faculty_license_limit + 10,
+        )
+
+        self.assertEqual(
+            limits["staff"],
+            self.tenant.staff_license_limit,
+        )
+
+        self.assertEqual(
+            limits["student"],
+            self.tenant.student_license_limit,
+        )
+
+
+    def test_license_limits_include_addons_only_for_current_tenant(self):
+        LicenseAddon.objects.create(
+            tenant=self.tenant,
+            license_type=LicenseAddonType.STUDENT,
+            quantity=25,
+            stripe_line_item_id="li_demo_123",
+            purchased_at=timezone.now(),
+        )
+
+        LicenseAddon.objects.create(
+            tenant=self.other_tenant,
+            license_type=LicenseAddonType.STUDENT,
+            quantity=100,
+            stripe_line_item_id="li_other_123",
+            purchased_at=timezone.now(),
+        )
+
+        limits = get_license_limits(
+            tenant=self.tenant,
+        )
+
+        self.assertEqual(
+            limits["student"],
+            self.tenant.student_license_limit + 25,
+        )
+
+
+    def test_license_status_uses_addon_adjusted_limits(self):
+        LicenseAddon.objects.create(
+            tenant=self.tenant,
+            license_type=LicenseAddonType.STUDENT,
+            quantity=25,
+            stripe_line_item_id="li_student_123",
+            purchased_at=timezone.now(),
+        )
+
+        status = get_license_status(
+            tenant=self.tenant,
+        )
+
+        self.assertEqual(
+            status["student"]["limit"],
+            self.tenant.student_license_limit + 25,
+        )

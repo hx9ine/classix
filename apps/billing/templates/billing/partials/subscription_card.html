@@ -1,0 +1,38 @@
+{% load components %}
+
+{% component "layout/card" %}
+
+    <div class="cx-card__content">
+
+        <div>
+            <span class="cx-label">
+                Current Plan
+            </span>
+
+            <h2>
+                {{ subscription.get_tier_display }}
+            </h2>
+        </div>
+
+        <div>
+            <span class="cx-label">
+                Status
+            </span>
+
+            {% component "data/badge" label=subscription.get_status_display variant=subscription.status %}
+            {% endcomponent %}
+        </div>
+
+        <div>
+            <span class="cx-label">
+                Current Period Ends
+            </span>
+
+            <span>
+                {{ subscription.current_period_end|date:"M j, Y" }}
+            </span>
+        </div>
+
+    </div>
+
+{% endcomponent %}

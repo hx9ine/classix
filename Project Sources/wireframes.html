@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ClassiX — Wireframes (Low-Fidelity)</title>
+<style>
+  :root{
+    --gray-50:#fafafa; --gray-100:#f0f0f0; --gray-200:#e0e0e0; --gray-300:#c7c7c7;
+    --gray-400:#a3a3a3; --gray-500:#787878; --gray-600:#565656; --gray-700:#3c3c3c;
+    --gray-900:#1a1a1a; --accent:#8a8a8a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:"Courier New", monospace; background:var(--gray-100); color:var(--gray-900);
+  }
+  .topbar{
+    background:var(--gray-900); color:#fff; padding:10px 16px; display:flex; align-items:center;
+    justify-content:space-between; position:sticky; top:0; z-index:100;
+  }
+  .topbar .label{font-size:13px; letter-spacing:1px; text-transform:uppercase; color:var(--gray-300);}
+  .topbar .badge{font-size:11px; background:var(--gray-700); padding:3px 8px; border-radius:3px; color:var(--gray-200);}
+  .nav{
+    display:flex; gap:6px; padding:10px 16px; background:#fff; border-bottom:2px dashed var(--gray-300);
+    flex-wrap:wrap; position:sticky; top:41px; z-index:99;
+  }
+  .nav button{
+    font-family:inherit; font-size:12px; padding:6px 10px; border:1px solid var(--gray-400);
+    background:var(--gray-50); cursor:pointer; color:var(--gray-700);
+  }
+  .nav button.active{background:var(--gray-900); color:#fff; border-color:var(--gray-900);}
+  .stage{padding:24px; display:flex; justify-content:center;}
+  .frame{
+    background:#fff; border:2px solid var(--gray-900); width:100%; max-width:1100px;
+    min-height:640px; position:relative; overflow:hidden;
+  }
+  .frame.mobile{max-width:390px; min-height:760px;}
+  .note{
+    font-size:11px; color:var(--gray-500); text-align:center; margin-top:10px; max-width:1100px;
+  }
+  .screen{display:none;}
+  .screen.active{display:block;}
+
+  /* ---- generic wireframe primitives ---- */
+  .box{border:1px dashed var(--gray-400); background:var(--gray-50);}
+  .box-solid{border:1px solid var(--gray-600); background:#fff;}
+  .ph{color:var(--gray-500); font-size:12px;}
+  .btn{
+    display:inline-block; border:1px solid var(--gray-700); background:var(--gray-900); color:#fff;
+    font-size:12px; padding:8px 14px; cursor:pointer; font-family:inherit;
+  }
+  .btn.secondary{background:#fff; color:var(--gray-700);}
+  .row{display:flex; gap:12px;}
+  .col{flex:1;}
+  .tag{font-size:10px; border:1px solid var(--gray-400); padding:2px 6px; color:var(--gray-600);}
+
+  /* ---- app shell (admin) ---- */
+  .app-shell{display:flex; height:640px;}
+  .sidebar{width:180px; background:var(--gray-900); color:var(--gray-200); padding:16px 0; flex-shrink:0;}
+  .sidebar .school{padding:0 16px 16px; font-size:13px; border-bottom:1px solid var(--gray-700); margin-bottom:8px; color:#fff;}
+  .sidebar .item{padding:9px 16px; font-size:12px; cursor:pointer; border-left:3px solid transparent;}
+  .sidebar .item.on{background:var(--gray-700); border-left-color:#fff; color:#fff;}
+  .sidebar .item.locked{color:var(--gray-500);}
+  .main{flex:1; padding:20px; overflow-y:auto;}
+  .pagehead{display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;}
+  .pagehead h2{font-size:16px; margin:0; text-transform:uppercase; letter-spacing:.5px;}
+  .license-strip{display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;}
+  .license-chip{border:1px solid var(--gray-400); padding:6px 10px; font-size:11px;}
+  .license-chip b{color:var(--gray-900);}
+
+  table{width:100%; border-collapse:collapse; font-size:12px;}
+  th,td{border:1px solid var(--gray-300); padding:8px; text-align:left;}
+  th{background:var(--gray-100); font-weight:normal; text-transform:uppercase; font-size:10px; letter-spacing:.5px; color:var(--gray-600);}
+  tr:hover td{background:var(--gray-50);}
+
+  /* modal */
+  .overlay{
+    display:none; position:absolute; inset:0; background:rgba(0,0,0,.35); z-index:50;
+    align-items:flex-start; justify-content:center; padding-top:60px;
+  }
+  .overlay.show{display:flex;}
+  .modal{
+    background:#fff; border:2px solid var(--gray-900); width:420px; max-width:90%; padding:0;
+  }
+  .modal-head{display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border-bottom:1px solid var(--gray-300); background:var(--gray-100);}
+  .modal-head h3{margin:0; font-size:13px; text-transform:uppercase;}
+  .modal-body{padding:16px; display:flex; flex-direction:column; gap:10px;}
+  .field label{display:block; font-size:10px; text-transform:uppercase; color:var(--gray-500); margin-bottom:3px;}
+  .field .input{border:1px solid var(--gray-400); padding:8px; font-size:12px; background:var(--gray-50); color:var(--gray-500);}
+  .modal-foot{padding:12px 16px; border-top:1px solid var(--gray-300); display:flex; justify-content:flex-end; gap:8px;}
+  .x{cursor:pointer; font-size:14px; color:var(--gray-500);}
+
+  /* attendance grid */
+  .roster-row{display:flex; align-items:center; justify-content:space-between; padding:8px; border-bottom:1px solid var(--gray-200); font-size:12px;}
+  .toggle{display:flex; gap:4px;}
+  .toggle span{padding:4px 8px; border:1px solid var(--gray-400); font-size:10px; cursor:pointer;}
+  .toggle span.selP{background:#2e7d32; color:#fff; border-color:#2e7d32;}
+  .toggle span.selA{background:#b02a2a; color:#fff; border-color:#b02a2a;}
+
+  /* mobile parent view */
+  .mobile-head{background:var(--gray-900); color:#fff; padding:16px; font-size:13px;}
+  .mobile-card{margin:12px; border:1px solid var(--gray-300); padding:12px; font-size:12px;}
+  .mobile-card h4{margin:0 0 8px; font-size:11px; text-transform:uppercase; color:var(--gray-600);}
+  .tabbar{position:absolute; bottom:0; left:0; right:0; display:flex; border-top:1px solid var(--gray-300); background:#fff;}
+  .tabbar div{flex:1; text-align:center; padding:10px 0; font-size:10px; color:var(--gray-500);}
+  .tabbar div.on{color:var(--gray-900); font-weight:bold;}
+
+  /* permission matrix */
+  .perm-table td, .perm-table th{text-align:center;}
+  .perm-cell{cursor:pointer;}
+  .perm-yes{color:#2e7d32; font-weight:bold;}
+  .perm-no{color:var(--gray-300);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="label">ClassiX — Wireframe Kit (Low-Fidelity)</div>
+  <div class="badge">school-name.classix.com</div>
+</div>
+
+<div class="nav" id="nav"></div>
+
+<div class="stage">
+  <div>
+    <div class="frame" id="frame">
+
+      <!-- 1. LOGIN -->
+      <div class="screen" data-screen="login" style="padding:60px 40px; text-align:center;">
+        <div class="box" style="width:200px; height:60px; margin:0 auto 30px; display:flex; align-items:center; justify-content:center;"><span class="ph">[ ClassiX logo ]</span></div>
+        <div class="box-solid" style="max-width:320px; margin:0 auto; padding:24px; text-align:left;">
+          <div class="field"><label>Email</label><div class="input">jane@springfield.classix.com</div></div>
+          <div class="field" style="margin-top:10px;"><label>Password</label><div class="input">••••••••</div></div>
+          <div style="margin-top:16px;"><button class="btn" style="width:100%;" onclick="go('admin-dash')">Log in</button></div>
+          <div class="ph" style="margin-top:10px; text-align:center;">Forgot password?</div>
+        </div>
+        <p class="ph" style="margin-top:24px;">Subdomain already resolved this tenant to "Springfield Academy" — no school picker needed.</p>
+      </div>
+
+      <!-- 2. ADMIN DASHBOARD -->
+      <div class="screen" data-screen="admin-dash">
+        <div class="app-shell">
+          <div class="sidebar">
+            <div class="school">Springfield Academy</div>
+            <div class="item on">Dashboard</div>
+            <div class="item" onclick="go('students-list')">Students</div>
+            <div class="item" onclick="go('attendance')">Attendance</div>
+            <div class="item">Academics</div>
+            <div class="item" onclick="go('grades')">Grades</div>
+            <div class="item" onclick="go('fees')">Fees</div>
+            <div class="item" onclick="go('messages')">Messages</div>
+            <div class="item" onclick="go('roles')">Staff &amp; Roles</div>
+            <div class="item">Calendar</div>
+            <div class="item locked">Library 🔒 Ultra</div>
+          </div>
+          <div class="main">
+            <div class="pagehead"><h2>Dashboard</h2><span class="tag">Admin — full access</span></div>
+            <div class="license-strip">
+              <div class="license-chip">Students <b>612/700</b></div>
+              <div class="license-chip">Faculty <b>18/20</b></div>
+              <div class="license-chip">Staff <b>7/10</b></div>
+              <div class="license-chip">Admin <b>2/2</b></div>
+              <div class="license-chip" style="border-color:#b02a2a; color:#b02a2a;">+ Buy more licenses</div>
+            </div>
+            <div class="row">
+              <div class="col box" style="padding:16px;"><span class="ph">Today's attendance snapshot — 94% present</span></div>
+              <div class="col box" style="padding:16px;"><span class="ph">Fee collection this month — $42,000 / $50,000</span></div>
+            </div>
+            <div class="box" style="margin-top:12px; padding:16px;"><span class="ph">Recent announcements feed…</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. STUDENTS LIST -->
+      <div class="screen" data-screen="students-list">
+        <div class="app-shell">
+          <div class="sidebar">
+            <div class="school">Springfield Academy</div>
+            <div class="item" onclick="go('admin-dash')">Dashboard</div>
+            <div class="item on">Students</div>
+            <div class="item" onclick="go('attendance')">Attendance</div>
+            <div class="item">Academics</div>
+            <div class="item" onclick="go('grades')">Grades</div>
+            <div class="item" onclick="go('fees')">Fees</div>
+            <div class="item" onclick="go('messages')">Messages</div>
+            <div class="item" onclick="go('roles')">Staff &amp; Roles</div>
+          </div>
+          <div class="main">
+            <div class="pagehead">
+              <h2>Students</h2>
+              <div><button class="btn secondary" style="margin-right:8px;">Promote to Next Class</button><button class="btn" onclick="openModal('addStudent')">+ Add Student</button></div>
+            </div>
+            <div class="box" style="padding:8px; margin-bottom:12px;"><span class="ph">🔍 Search students…   [Class ▾]  [Section ▾]  [Status ▾]</span></div>
+            <table>
+              <tr><th>Name</th><th>Class</th><th>Section</th><th>Roll No.</th><th>Status</th><th></th></tr>
+              <tr><td>Aarav Mehta</td><td>Grade 6</td><td>A</td><td>14</td><td>Active</td><td class="ph">View →</td></tr>
+              <tr><td>Priya Nair</td><td>Grade 6</td><td>A</td><td>15</td><td>Active</td><td class="ph">View →</td></tr>
+              <tr><td>Rohan Iyer</td><td>Grade 6</td><td>B</td><td>03</td><td>Active</td><td class="ph">View →</td></tr>
+              <tr><td>Sara Thomas</td><td>Grade 6</td><td>B</td><td>04</td><td>Inactive</td><td class="ph">View →</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="overlay" id="modal-addStudent">
+          <div class="modal">
+            <div class="modal-head"><h3>Add Student</h3><span class="x" onclick="closeModal('addStudent')">✕</span></div>
+            <div class="modal-body">
+              <div class="field"><label>Full name</label><div class="input">e.g. Aarav Mehta</div></div>
+              <div class="row">
+                <div class="field col"><label>Class</label><div class="input" style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="toggleDrop('class')">Grade 6 ▾</div>
+                  <div class="box" id="drop-class" style="display:none; position:relative; z-index:5; background:#fff; border:1px solid var(--gray-400); margin-top:2px;">
+                    <div style="padding:6px 8px; font-size:11px; cursor:pointer;">Grade 5</div>
+                    <div style="padding:6px 8px; font-size:11px; cursor:pointer; background:var(--gray-100);">Grade 6</div>
+                    <div style="padding:6px 8px; font-size:11px; cursor:pointer; border-top:1px dashed var(--gray-400); color:var(--gray-700);" onclick="openModal('newClass')">+ Create new class…</div>
+                  </div>
+                </div>
+                <div class="field col"><label>Section</label><div class="input">A ▾</div></div>
+              </div>
+              <div class="field"><label>Guardian phone</label><div class="input">+91 ...</div></div>
+              <span class="ph">Blocked automatically if Student license (612/700) is at capacity — never a silent failure.</span>
+            </div>
+            <div class="modal-foot"><button class="btn secondary" onclick="closeModal('addStudent')">Cancel</button><button class="btn">Save Student</button></div>
+          </div>
+        </div>
+
+        <!-- nested modal: demonstrates inline "create new" pattern without losing the Add Student form -->
+        <div class="overlay" id="modal-newClass" style="z-index:60; background:rgba(0,0,0,.15);">
+          <div class="modal" style="width:320px;">
+            <div class="modal-head"><h3>Create New Class</h3><span class="x" onclick="closeModal('newClass')">✕</span></div>
+            <div class="modal-body">
+              <div class="field"><label>Class name</label><div class="input">e.g. Grade 7</div></div>
+              <span class="ph">Add Student form underneath keeps everything you already typed — this is a nested modal, not a new page.</span>
+            </div>
+            <div class="modal-foot"><button class="btn secondary" onclick="closeModal('newClass')">Cancel</button><button class="btn" onclick="closeModal('newClass')">Create &amp; Select</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. ATTENDANCE -->
+      <div class="screen" data-screen="attendance">
+        <div class="app-shell">
+          <div class="sidebar">
+            <div class="school">Springfield Academy</div>
+            <div class="item" onclick="go('admin-dash')">Dashboard</div>
+            <div class="item" onclick="go('students-list')">Students</div>
+            <div class="item on">Attendance</div>
+            <div class="item">Academics</div>
+            <div class="item" onclick="go('grades')">Grades</div>
+          </div>
+          <div class="main">
+            <div class="pagehead"><h2>Mark Attendance</h2><span class="tag">Grade 6 · Section A · Today, pre-filled Present</span></div>
+            <div class="box-solid">
+              <div class="roster-row"><span>Aarav Mehta</span><div class="toggle"><span class="selP">Present</span><span>Absent</span><span>Late</span></div></div>
+              <div class="roster-row"><span>Priya Nair</span><div class="toggle"><span class="selP">Present</span><span>Absent</span><span>Late</span></div></div>
+              <div class="roster-row"><span>Rohan Iyer</span><div class="toggle"><span>Present</span><span class="selA">Absent</span><span>Late</span></div></div>
+              <div class="roster-row"><span>Sara Thomas</span><div class="toggle"><span class="selP">Present</span><span>Absent</span><span>Late</span></div></div>
+            </div>
+            <p class="ph" style="margin-top:10px;">One tap changes status — no per-student form, no page reload (htmx partial update). Default is Present; admin only touches exceptions.</p>
+            <button class="btn" style="margin-top:10px;">Save Attendance</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. GRADES -->
+      <div class="screen" data-screen="grades">
+        <div class="app-shell">
+          <div class="sidebar">
+            <div class="school">Springfield Academy</div>
+            <div class="item" onclick="go('admin-dash')">Dashboard</div>
+            <div class="item" onclick="go('students-list')">Students</div>
+            <div class="item" onclick="go('attendance')">Attendance</div>
+            <div class="item">Academics</div>
+            <div class="item on">Grades</div>
+            <div class="item" onclick="go('fees')">Fees</div>
+          </div>
+          <div class="main">
+            <div class="pagehead"><h2>Gradebook</h2><span class="tag">Term 1 Final · Mathematics · Grade 6-A</span></div>
+            <table>
+              <tr><th>Student</th><th>Marks (/100)</th><th>Grade</th><th>Remarks</th></tr>
+              <tr><td>Aarav Mehta</td><td class="input" style="display:table-cell;">88</td><td>A</td><td class="ph">—</td></tr>
+              <tr><td>Priya Nair</td><td class="input" style="display:table-cell;">76</td><td>B</td><td class="ph">—</td></tr>
+              <tr><td>Rohan Iyer</td><td class="input" style="display:table-cell;">54</td><td>C</td><td class="ph">Needs support</td></tr>
+            </table>
+            <button class="btn" style="margin-top:10px;">Save Marks</button>
+            <button class="btn secondary" style="margin-top:10px;">Generate Report Cards (PDF)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. FEES -->
+      <div class="screen" data-screen="fees">
+        <div class="app-shell">
+          <div class="sidebar">
+            <div class="school">Springfield Academy</div>
+            <div class="item" onclick="go('admin-dash')">Dashboard</div>
+            <div class="item" onclick="go('students-list')">Students</div>
+            <div class="item">Academics</div>
+            <div class="item on">Fees</div>
+            <div class="item" onclick="go('messages')">Messages</div>
+          </div>
+          <div class="main">
+            <div class="pagehead"><h2>Fees</h2><span class="tag">Role: Accountant — full access to this module</span></div>
+            <table>
+              <tr><th>Student</th><th>Invoice</th><th>Due</th><th>Status</th><th></th></tr>
+              <tr><td>Aarav Mehta</td><td>$1,200</td><td>Aug 1</td><td>Unpaid</td><td><button class="btn" style="padding:4px 8px;" onclick="openModal('recordPayment')">Record Payment</button></td></tr>
+              <tr><td>Priya Nair</td><td>$1,200</td><td>Aug 1</td><td>Paid</td><td class="ph">Receipt →</td></tr>
+              <tr><td>Rohan Iyer</td><td>$1,200</td><td>Jul 1</td><td>Overdue</td><td><button class="btn" style="padding:4px 8px;" onclick="openModal('recordPayment')">Record Payment</button></td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="overlay" id="modal-recordPayment">
+          <div class="modal">
+            <div class="modal-head"><h3>Record Payment</h3><span class="x" onclick="closeModal('recordPayment')">✕</span></div>
+            <div class="modal-body">
+              <div class="field"><label>Amount</label><div class="input">$1,200.00</div></div>
+              <div class="field"><label>Method</label><div class="input">Bank Transfer ▾</div></div>
+              <div class="field"><label>Date</label><div class="input">Today (pre-filled)</div></div>
+            </div>
+            <div class="modal-foot"><button class="btn secondary" onclick="closeModal('recordPayment')">Cancel</button><button class="btn">Save &amp; Generate Receipt</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. MESSAGES -->
+      <div class="screen" data-screen="messages">
+        <div class="app-shell">
+          <div class="sidebar">
+            <div class="school">Springfield Academy</div>
+            <div class="item" onclick="go('admin-dash')">Dashboard</div>
+            <div class="item" onclick="go('fees')">Fees</div>
+            <div class="item on">Messages</div>
+            <div class="item" onclick="go('roles')">Staff &amp; Roles</div>
+          </div>
+          <div class="main">
+            <div class="pagehead"><h2>Messages</h2><button class="btn" onclick="openModal('compose')">+ New Announcement</button></div>
+            <div class="box-solid" style="padding:12px; margin-bottom:8px;"><b class="ph">School-wide</b><div class="ph">Reminder: Term 1 report cards go out Friday.</div></div>
+            <div class="box-solid" style="padding:12px; margin-bottom:8px;"><b class="ph">Grade 6-A</b><div class="ph">Field trip permission slips due Monday.</div></div>
+          </div>
+        </div>
+        <div class="overlay" id="modal-compose">
+          <div class="modal">
+            <div class="modal-head"><h3>New Announcement</h3><span class="x" onclick="closeModal('compose')">✕</span></div>
+            <div class="modal-body">
+              <div class="field"><label>Audience</label><div class="input">School-wide ▾</div></div>
+              <div class="field"><label>Title</label><div class="input">…</div></div>
+              <div class="field"><label>Message</label><div class="input" style="height:60px;">…</div></div>
+            </div>
+            <div class="modal-foot"><button class="btn secondary" onclick="closeModal('compose')">Cancel</button><button class="btn">Post</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. ROLES & PERMISSIONS -->
+      <div class="screen" data-screen="roles">
+        <div class="app-shell">
+          <div class="sidebar">
+            <div class="school">Springfield Academy</div>
+            <div class="item" onclick="go('admin-dash')">Dashboard</div>
+            <div class="item" onclick="go('fees')">Fees</div>
+            <div class="item on">Staff &amp; Roles</div>
+          </div>
+          <div class="main">
+            <div class="pagehead"><h2>Staff &amp; Roles</h2><button class="btn">+ Add Staff</button></div>
+            <table style="margin-bottom:16px;">
+              <tr><th>Name</th><th>Role</th><th>License Pool</th><th>Status</th></tr>
+              <tr><td>Meera Krishnan</td><td>Accountant</td><td>Staff</td><td>Active</td></tr>
+              <tr><td>Dev Sharma</td><td>Teacher</td><td>Faculty</td><td>Active</td></tr>
+              <tr><td>Anjali Roy</td><td>Custom: "Fee Manager" (cloned from Accountant)</td><td>Staff</td><td>Active</td></tr>
+            </table>
+            <div class="pagehead"><h2 style="font-size:13px;">Role Permission Matrix — editing "Fee Manager" (clone of Accountant)</h2><span class="tag">Deny-by-default: blank = no access</span></div>
+            <table class="perm-table">
+              <tr><th>Module</th><th>View</th><th>Create</th><th>Edit</th><th>Delete</th></tr>
+              <tr><td>Fees</td><td class="perm-cell perm-yes">✓</td><td class="perm-cell perm-yes">✓</td><td class="perm-cell perm-yes">✓</td><td class="perm-cell perm-yes">✓</td></tr>
+              <tr><td>Students</td><td class="perm-cell perm-yes">✓</td><td class="perm-cell perm-no">·</td><td class="perm-cell perm-no">·</td><td class="perm-cell perm-no">·</td></tr>
+              <tr><td>Cafeteria <span class="ph">(added by admin — gap in default templates)</span></td><td class="perm-cell perm-yes">✓</td><td class="perm-cell perm-yes">✓</td><td class="perm-cell perm-no">·</td><td class="perm-cell perm-no">·</td></tr>
+              <tr><td>Grades</td><td class="perm-cell perm-no">·</td><td class="perm-cell perm-no">·</td><td class="perm-cell perm-no">·</td><td class="perm-cell perm-no">·</td></tr>
+            </table>
+            <p class="ph" style="margin-top:8px;">Tap a cell to toggle. Admin role itself never appears here — its access is hardcoded, not editable.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. PARENT MOBILE VIEW -->
+      <div class="screen" data-screen="parent">
+        <div class="mobile-head">
+          <div class="ph" style="color:#ccc;">Springfield Academy</div>
+          <div style="font-size:16px; margin-top:4px;">Hi, Anita 👋</div>
+          <div class="ph" style="color:#ccc; font-size:11px;">Viewing: Aarav Mehta (Grade 6-A)</div>
+        </div>
+        <div class="mobile-card"><h4>Attendance</h4><span class="ph">Present today · 96% this month</span></div>
+        <div class="mobile-card"><h4>Latest Grade</h4><span class="ph">Mathematics — 88/100 (A) · Term 1</span></div>
+        <div class="mobile-card"><h4>Fees</h4><span class="ph">$1,200 due Aug 1 — <b style="color:var(--gray-900);">Pay now →</b></span></div>
+        <div class="mobile-card"><h4>Messages</h4><span class="ph">2 new announcements</span></div>
+        <div class="tabbar">
+          <div class="on">Home</div><div>Attendance</div><div>Grades</div><div>Fees</div><div>Messages</div>
+        </div>
+      </div>
+
+    </div>
+    <p class="note">These are low-fidelity structural wireframes — grayscale, no branding/visual design applied yet. Purpose: validate layout, click-depth, and the modal-based interaction pattern from PRD Section 1 before real UI design or code.</p>
+  </div>
+</div>
+
+<script>
+  const screens = [
+    {id:'login', label:'1. Login'},
+    {id:'admin-dash', label:'2. Admin Dashboard'},
+    {id:'students-list', label:'3. Students + Add (modal)'},
+    {id:'attendance', label:'4. Attendance'},
+    {id:'grades', label:'5. Gradebook'},
+    {id:'fees', label:'6. Fees + Payment (modal)'},
+    {id:'messages', label:'7. Messages + Compose (modal)'},
+    {id:'roles', label:'8. Staff & Roles / Permission Matrix'},
+    {id:'parent', label:'9. Parent (Mobile)'},
+  ];
+  const nav = document.getElementById('nav');
+  screens.forEach(s=>{
+    const b = document.createElement('button');
+    b.textContent = s.label;
+    b.onclick = ()=>go(s.id);
+    b.dataset.id = s.id;
+    nav.appendChild(b);
+  });
+
+  function go(id){
+    document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
+    document.querySelector(`[data-screen="${id}"]`).classList.add('active');
+    document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active', b.dataset.id===id));
+    const frame = document.getElementById('frame');
+    frame.classList.toggle('mobile', id==='parent');
+  }
+  function openModal(name){ document.getElementById('modal-'+name).classList.add('show'); }
+  function closeModal(name){ document.getElementById('modal-'+name).classList.remove('show'); }
+  function toggleDrop(name){
+    const el = document.getElementById('drop-'+name);
+    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  }
+
+  go('login');
+</script>
+
+</body>
+</html>

@@ -1,3 +1,8 @@
+from .license_addon import (
+    get_license_addon_quantities,
+    get_license_addons,
+)
+
 from .licensing import (
     count_active_admins,
     count_active_faculty,
@@ -21,6 +26,8 @@ __all__ = [
     "count_active_staff",
     "count_active_staff_by_category",
     "count_active_students",
+    "get_license_addon_quantities",
+    "get_license_addons",
     "get_license_limits",
     "get_license_status",
     "get_license_usage",

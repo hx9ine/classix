@@ -1,0 +1,32 @@
+{% load components %}
+
+<div class="cx-grid">
+
+    {% for category, data in license_status.items %}
+
+        {% component "layout/card" %}
+
+            <div class="cx-card__content">
+
+                <div>
+                    <span class="cx-label">
+                        {{ category|title }}
+                    </span>
+
+                    {% component "license_chip" used=data.used total=data.limit %}
+                    {% endcomponent %}
+                </div>
+
+                <div>
+                    <span>
+                        {{ data.available }} available
+                    </span>
+                </div>
+
+            </div>
+
+        {% endcomponent %}
+
+    {% endfor %}
+
+</div>

@@ -1,3 +1,8 @@
+from .license_addon import (
+    LicenseAddon,
+    LicenseAddonType,
+)
+
 from .subscription import (
     Subscription,
     SubscriptionStatus,
@@ -5,6 +10,8 @@ from .subscription import (
 
 
 __all__ = [
+    "LicenseAddon",
+    "LicenseAddonType",
     "Subscription",
     "SubscriptionStatus",
 ]
